@@ -1,0 +1,10 @@
+.hg
+.hgignore
+*.bin
+*.elf
+*.hex
+*.map
+*.o
+*.d
+*.swp
+*.swo
