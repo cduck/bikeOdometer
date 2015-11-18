@@ -167,7 +167,7 @@ class LSM303
 
     // uint8_t last_status; // status of last I2C transmission
 
-    LSM303(I2C *i2c);
+    LSM303(I2C *i2c, Serial *pc);
 
     bool init(deviceType device = device_auto, sa0State sa0 = sa0_auto);
     deviceType getDeviceType(void) { return _device; }
@@ -203,6 +203,7 @@ class LSM303
     uint8_t acc_address;
     uint8_t mag_address;
     I2C *_i2c; //i2c instance
+    Serial *_pc;
 
     static const int dummy_reg_count = 6;
     regAddr translated_regs[dummy_reg_count + 1]; // index 0 not used
@@ -210,7 +211,7 @@ class LSM303
     unsigned int io_timeout;
     bool did_timeout;
 
-    int testReg(uint8_t address, regAddr reg);
+    int testReg(int address, regAddr reg);
 };
 
 /*

@@ -1,6 +1,6 @@
 #include <LSM303.h>
 #include <mbed.h> // for i2c
-// #include <math.h>
+#include <math.h>
 
 // Defines ////////////////////////////////////////////////////////////////
 
@@ -19,7 +19,7 @@
 
 // Constructors ////////////////////////////////////////////////////////////////
 
-LSM303::LSM303(I2C *i2c)
+LSM303::LSM303(I2C *i2c, Serial *pc)
 {
   /*
   These values lead to an assumed magnetometer bias of 0.
@@ -35,6 +35,7 @@ LSM303::LSM303(I2C *i2c)
   io_timeout = 0;  // 0 = no timeout
   did_timeout = false;
   _i2c = i2c;
+  _pc = pc;
 }
 
 // Public Methods //////////////////////////////////////////////////////////////
@@ -59,18 +60,22 @@ unsigned int LSM303::getTimeout()
 
 bool LSM303::init(deviceType device, sa0State sa0)
 {
+  _pc->printf("Initializing ACC\r\n");
   // perform auto-detection unless device type and SA0 state were both specified
   if (device == device_auto || sa0 == sa0_auto)
   {
     // check for LSM303D if device is unidentified or was specified to be this type
     if (device == device_auto || device == device_D)
     {
+      // _pc->printf("SA0: %d\r\n",sa0 != sa0_low);
+      // _pc->printf("TEST REG: %d\r\n",testReg(D_SA0_HIGH_ADDRESS, WHO_AM_I));
       // check SA0 high address unless SA0 was specified to be low
       if (sa0 != sa0_low && testReg(D_SA0_HIGH_ADDRESS, WHO_AM_I) == D_WHO_ID)
       {
         // device responds to address 0011101 with D ID; it's a D with SA0 high
         device = device_D;
         sa0 = sa0_high;
+        // _pc->printf("HIGH\r\n");
       }
       // check SA0 low address unless SA0 was specified to be high
       else if (sa0 != sa0_high && testReg(D_SA0_LOW_ADDRESS, WHO_AM_I) == D_WHO_ID)
@@ -78,6 +83,7 @@ bool LSM303::init(deviceType device, sa0State sa0)
         // device responds to address 0011110 with D ID; it's a D with SA0 low
         device = device_D;
         sa0 = sa0_low;
+        // _pc->printf("LOW\r\n");
       }
     }
     
@@ -120,9 +126,8 @@ bool LSM303::init(deviceType device, sa0State sa0)
       return false;
     }
   }
-  
   _device = device;
-  
+
   // set device addresses and translated register addresses
   switch (device)
   {
@@ -172,6 +177,8 @@ bool LSM303::init(deviceType device, sa0State sa0)
       break;
   }
   
+  _pc->printf("device: %d address: %d\r\n",device,sa0);
+
   return true;
 }
 
@@ -476,15 +483,15 @@ void LSM303::readMag(void)
   // m.x = (int16_t)(xhm << 8 | xlm);
   // m.y = (int16_t)(yhm << 8 | ylm);
   // m.z = (int16_t)(zhm << 8 | zlm);
-  if (_device == device_D){
+  // if (_device == device_D){
     m.x = readingInt[0];
     m.y = readingInt[1];
     m.z = readingInt[2];
-  }
-  else{
-    //todo later, but not going to support other devices except device_D
-    return;
-  }
+  // }
+  // else{
+  //   //todo later, but not going to support other devices except device_D
+  //   return;
+  // }
 }
 
 // Reads all 6 channels of the LSM303 and stores them in the object variables
@@ -525,7 +532,7 @@ void LSM303::vector_normalize(vector<float> *a)
 
 // Private Methods //////////////////////////////////////////////////////////////
 
-int LSM303::testReg(uint8_t address, regAddr reg)
+int LSM303::testReg(int address, regAddr reg)
 {
   // Wire.beginTransmission(address);
   // Wire.write((uint8_t)reg);
@@ -545,16 +552,22 @@ int LSM303::testReg(uint8_t address, regAddr reg)
   // }
 
   char cmd[1];
-  cmd[0] = reg;
-  if( _i2c->write(address,cmd,1) != 0){
-    return TEST_REG_ERROR;
-  }
+  cmd[0] = WHO_AM_I;
+  _pc->printf("ADDRESS: %d\r\n",address);
+  _pc->printf("REG: %d\r\n",cmd[0]);
+  // if( _i2c->write(address,cmd,1) != 0){
+    // _pc->printf("Error1\r\n");
+    // return TEST_REG_ERROR;
+  // }
 
-  char reply[1];
-  if( _i2c->read(address,reply,1) == 0){
-    return (int)reply[0];
+  char reading[1];
+  _i2c->write(address,cmd,1);
+  if( _i2c->read(address,reading,1) == 0){
+    _pc->printf("Replied: %d\r\n",reading[0]);
+    return *reading;
   }
   else {
+    _pc->printf("Error2\r\n");
     return TEST_REG_ERROR;
   }
 }

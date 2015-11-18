@@ -13,7 +13,7 @@ FILE *fp;
 
 I2C i2c(PTE25, PTE24);
 LPS ps(&i2c);
-LSM303 acc(&i2c);
+LSM303 acc(&i2c, &pc);
 
 int main() {
     pc.printf("Starting \r\n");
@@ -55,7 +55,7 @@ int main() {
         fprintf(fp, "%f, %f, %d, %d, %d, %d, %d, %d",
             pressure,altitude,acc.a.x,acc.a.y,acc.a.z,
             acc.m.x,acc.m.y,acc.m.z);
-        // wait_ms(50);
+        wait_ms(50);
     }
     fclose(fp);
     pc.printf("File successfully written! \r\n");
