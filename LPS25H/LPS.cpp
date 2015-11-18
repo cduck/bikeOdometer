@@ -155,7 +155,7 @@ int16_t LPS::readTemperatureRaw()
   int16_t readingInt[1];
   char *reading = (char*)readingInt;
   _i2c->write(address, cmd, 1);
-  _i2c->read(address, reading, 2);
+  _i2c->read(address, reading, 2);  
   
   return readingInt[0];  
 }

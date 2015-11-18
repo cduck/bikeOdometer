@@ -3,7 +3,7 @@
 #include "AutoSDLogger.h"
 #include "LPS.h"
 #include "L3G.h"
-#include "FXOS8700Q.h"
+#include "LSM303.h"
 
 
 // Sensor and Serial objects
@@ -19,7 +19,7 @@ Timer t;
 I2C i2c(PTC11, PTC10);
 LPS ps(&i2c);
 L3G gyr(&i2c);
-FXOS8700Q acc(&i2c);
+LSM303 acc(&i2c);
 
 // Helper Variables
 int timeLastPoll = 0;
@@ -42,15 +42,16 @@ int main() {
 
         float altitude = ps.pressureToAltitudeMeters(ps.readPressureMillibars());
         gyr.read();
-        // acc.read();
+        acc.read();
 
         fprintf(fp, "%f, %d, %d, %d \r\n",
             altitude,gyr.g.x,gyr.g.y,gyr.g.z);
 
-        pc.printf("%d Att: %2.2f \tGyr: %d %d %d \tT: %d\r\n",
+        pc.printf("%d Att: %2.2f \tGyr: %d %d %d \tAcc: %d %d %d \tT: %d\r\n",
             iter,
             altitude,
             gyr.g.x,gyr.g.y,gyr.g.z,
+            acc.a.x,acc.a.y,acc.a.z,
             t.read_ms()-timeLastPoll);
 
         // pc.printf("%d \tAcc: %2.2f %2.2f %2.2f \tT: %d\r\n",
@@ -92,14 +93,14 @@ void setup(){
         gyr.enableDefault();
     }
 
-    // if(!acc.init()){
-    //     pc.printf("Unable to talk to Accelerometer\r\n");
-    //     while(1);
-    // }
-    // else{
-    //     pc.printf("Success in talking to Accelerometer! \r\n");
-    //     acc.enableDefault();
-    // }
+    if(!acc.init()){
+        pc.printf("Unable to talk to Accelerometer\r\n");
+        while(1);
+    }
+    else{
+        pc.printf("Success in talking to Accelerometer! \r\n");
+        acc.enableDefault();
+    }
 
     fp = fopen(autoSD.filepath, "w");
     if (fp == NULL) {

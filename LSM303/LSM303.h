@@ -165,19 +165,12 @@ class LSM303
     vector<int16_t> m_max; // maximum magnetometer values, used for calibration
     vector<int16_t> m_min; // minimum magnetometer values, used for calibration
 
-    // uint8_t last_status; // status of last I2C transmission
-
     LSM303(I2C *i2c);
 
     bool init(deviceType device = device_auto, sa0State sa0 = sa0_auto);
     deviceType getDeviceType(void) { return _device; }
 
     void enableDefault(void);
-
-    void writeAccReg(uint8_t reg, uint8_t value);
-    uint8_t readAccReg(uint8_t reg);
-    void writeMagReg(uint8_t reg, uint8_t value);
-    uint8_t readMagReg(int reg);
 
     void writeReg(uint8_t reg, uint8_t value);
     uint8_t readReg(int reg);
@@ -200,9 +193,10 @@ class LSM303
 
   private:
     deviceType _device; // chip type (D, DLHC, DLM, or DLH)
-    uint8_t acc_address;
-    uint8_t mag_address;
+    int acc_address;
+    int mag_address;
     I2C *_i2c; //i2c instance
+    Serial *_pc;
 
     static const int dummy_reg_count = 6;
     regAddr translated_regs[dummy_reg_count + 1]; // index 0 not used
@@ -210,7 +204,7 @@ class LSM303
     unsigned int io_timeout;
     bool did_timeout;
 
-    int testReg(uint8_t address, regAddr reg);
+    int testReg(int address, regAddr reg);
 };
 
 /*
