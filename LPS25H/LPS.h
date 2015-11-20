@@ -1,7 +1,7 @@
 #ifndef LPS_h
 #define LPS_h
 
-#include "mbed.h" // for uint32_t data type as well as i2c stuff
+#include <mbed.h> // for uint32_t data type as well as i2c stuff
 
 class LPS
 {

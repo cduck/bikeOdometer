@@ -1,5 +1,5 @@
 #include <LPS.h>
-#include "mbed.h" //to use mbed i2c library
+#include <mbed.h> //to use mbed i2c library
 
 // Defines ///////////////////////////////////////////////////////////
 
