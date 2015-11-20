@@ -1,5 +1,5 @@
-#include "L3G.h"
-#include "mbed.h"
+#include <L3G.h>
+#include <mbed.h>
 
 //#include "math.h"
 
@@ -127,6 +127,9 @@ bool L3G::init(deviceType device, sa0State sa0)
     case device_4200D:
       address = (sa0 == sa0_high) ? L3G4200D_SA0_HIGH_ADDRESS : L3G4200D_SA0_LOW_ADDRESS;
       break;
+
+    default:
+      break;  
   }
   
   return true;
@@ -162,8 +165,10 @@ void L3G::enableDefault(void)
 // Writes a gyro register
 void L3G::writeReg(char reg, char value)
 {
-  _i2c->write(address, &reg, 1);
-  _i2c->write(address, &value, 1);
+  char cmd[2];
+  cmd[0] = reg;
+  cmd[1] = value;
+  _i2c->write(address, cmd, 2);
 
 }
 
@@ -182,45 +187,16 @@ char L3G::readReg(char reg)
 void L3G::read()
 {
 
-  // Wire.beginTransmission(address);
-  // // assert the MSB of the address to get the gyro
-  // // to do slave-transmit subaddress updating.
-  // Wire.write(OUT_X_L | (1 << 7));
-  // Wire.endTransmission();
-  // Wire.requestFrom(address, (byte)6);
-  
-  //unsigned int millis_start = millis();
-  // while (Wire.available() < 6)
-  // {
-  //   if (io_timeout > 0 && ((unsigned int)millis() - millis_start) > io_timeout)
-  //   {
-  //     did_timeout = true;
-  //     return;
-  //   }
-  // }
-
   char c = OUT_X_L | (1 << 7);
-  _i2c->write(address, &c, 1);
+  _i2c->write(address, &c, 1,true);
 
-   char xlg;
-   char xhg;
-   char ylg;
-   char yhg;
-   char zlg;
-   char zhg;
-
-  _i2c->read(address, &xlg, 1);
-  _i2c->read(address, &xhg, 1);
-  _i2c->read(address, &ylg, 1);
-  _i2c->read(address, &yhg, 1);
-  _i2c->read(address, &zlg, 1);
-  _i2c->read(address, &zhg, 1);
+  char reading[6];
+  _i2c->read(address, reading, 6);
   
-
   // combine high and low bytes
-  g.x = (int16_t)(xhg << 8 | xlg);
-  g.y = (int16_t)(yhg << 8 | ylg);
-  g.z = (int16_t)(zhg << 8 | zlg);
+  g.x = (int16_t)((int16_t)reading[1] << 8 | reading[0]);
+  g.y = (int16_t)((int16_t)reading[3] << 8 | reading[2]);
+  g.z = (int16_t)((int16_t)reading[5] << 8 | reading[4]);
 
 }
 
@@ -236,27 +212,9 @@ void L3G::vector_normalize(vector<float> *a)
 
 int L3G::testReg(char address, char reg)
 {
-  // Wire.beginTransmission(address);
-  // Wire.write((byte)reg);
-  // if (Wire.endTransmission() != 0)
-  // {
-  //   return TEST_REG_ERROR;
-  // }
-
-  // Wire.requestFrom(address, (byte)1);
-  // if (Wire.available())
-  // {
-  //   return Wire.read();
-  // }
-  // else
-  // {
-  //   return TEST_REG_ERROR;
-  // }
-  int status;
   char d = 1;
-  
 
-  if (_i2c->write(address, &reg, 1)!= 0 ) {
+  if (_i2c->write(address, &reg, 1,true)!= 0 ) {
       return TEST_REG_ERROR;
   }
   

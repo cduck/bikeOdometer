@@ -2,8 +2,7 @@
 #define L3G_h
 
 
-#include "mbed.h"
-#include "I2C.h"
+#include <mbed.h>
 
 // Code updated to work for mbed. Not sure whether to include mbed header or I2C, need to test if it works w/o mbed.h
 
@@ -81,7 +80,7 @@ class L3G
     L3G(I2C *i2c);
     
 
-    bool init(deviceType device = device_auto, sa0State sa0 = sa0_auto);
+    bool init(deviceType device = device_D20H, sa0State sa0 = sa0_high);
     deviceType getDeviceType(void) { return _device; }
 
     void enableDefault(void);
