@@ -160,6 +160,11 @@ void L3G::enableDefault(void)
   // 0x6F = 0b01101111
   // DR = 01 (200 Hz ODR); BW = 10 (50 Hz bandwidth); PD = 1 (normal mode); Zen = Yen = Xen = 1 (all axes enabled)
   writeReg(CTRL_REG1, 0x6F);
+
+  // Bypass mode by default
+  // Consider FIFO mode to queue 32 data
+  // writeReg(CTRL_REG5, 0x40);
+  // writeReg(FIFO_CTRL, 0x20);
 }
 
 // Writes a gyro register

@@ -63,9 +63,21 @@ void LPS::enableDefault(void)
 {
   if (_device == device_25H)
   {
-    // 0xB0 = 0b10110000
-    // PD = 1 (active mode);  ODR = 011 (12.5 Hz pressure & temperature output data rate)
-    writeReg(CTRL_REG1, 0xB0);
+    // // 0xB0 = 0b10110000
+    // // PD = 1 (active mode);  ODR = 011 (12.5 Hz pressure & temperature output data rate)
+    // writeReg(CTRL_REG1, 0xB0);
+    
+    // 0xC0 = 0b11000000
+    // PD = 1 (active mode);  ODR = 100 (25 Hz pressure & temperature output data rate)
+    writeReg(CTRL_REG1, 0xC0);  
+    
+    // 0x40 = 0b01000000
+    // FIFO_EN = 1 (enable FIFO)
+    // writeReg(CTRL_REG2, 0xC0); 
+
+    // 0x40 = 0b00100000
+    // F_MODE = 001 (FIFO mode)
+    // writeReg(FIFO_CTRL, 0x20);    
   }
   else if (_device == device_331AP)
   {
