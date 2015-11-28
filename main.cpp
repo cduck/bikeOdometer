@@ -27,11 +27,25 @@ LSM303 acc(&i2c, &pc);
 int timeLastPoll = 0;
 int iter = 0;
 float altitude = 0.0;
-float MBED_POLLING_PERIOD =  1/25.0*1000; // units of ms 
+float altitude_prev = 0.0;
+
+// Motion Data Variables
+float incline = 0.0;
+float tot_dist = 0.0;
+float speed = 0.0;
+float tot_dist_prev = 0.0; //placeholder
+float speed_prev = 0.0;
+
+// Constants
+float MBED_POLLING_PERIOD_MS =  1/25.0*1000; // units of ms 
+float MBED_POLLING_PERIOD_S =  1/25.0; // units of ms 
+float R = 0.2794; //11 inches in meters
+
 
 // Helper Functions
 void setup();
-
+void calcMotionData();
+void saveLastData();
 
 int main() {
     pc.printf("Starting \r\n");
@@ -45,22 +59,30 @@ int main() {
         acc.readFIFO();
         gyr.readFIFO();
 
-        pc.printf("%d Att: %2.2f \tGyr: %2.2f %2.2f %2.2f \tAcc: %2.2f %2.2f %2.2f \tT: %d\r\n",
-            iter,
+        // pc.printf("%d Att: %2.2f \tGyr: %2.2f %2.2f %2.2f \tAcc: %2.2f %2.2f %2.2f \tT: %d\r\n",
+        //     iter,
+        //     altitude,
+        //     gyr.g.x,gyr.g.y,gyr.g.z,
+        //     acc.a.x,acc.a.y,acc.a.z,
+        //     t.read_ms()-timeLastPoll);
+
+        calcMotionData();
+
+        pc.printf("%f \t%f \t%f \r\n",incline,tot_dist,speed);
+
+        fprintf(fp, "%d, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f \r\n",
+            (t.read_ms() - timeLastPoll),
             altitude,
             gyr.g.x,gyr.g.y,gyr.g.z,
             acc.a.x,acc.a.y,acc.a.z,
-            t.read_ms()-timeLastPoll);
-
-        // fprintf(fp, "%d %f, %f, %f, %f, %f, %f, %f \r\n",
-        //     (t.read_ms() - timeLastPoll),
-        //     altitude,
-        //     gyr.g.x,gyr.g.y,gyr.g.z,
-        //     acc.a.x,acc.a.y,acc.a.z);
-        while( (t.read_ms() - timeLastPoll) < MBED_POLLING_PERIOD){
+            incline,
+            tot_dist,
+            speed);
+        while( (t.read_ms() - timeLastPoll) < MBED_POLLING_PERIOD_MS){
             gled = 0;
         }
         // pc.printf("LT: %d\r\n",t.read_ms()-timeLastPoll);
+        saveLastData();
         gled = 1; // iter++; 
     }
     fclose(fp);
@@ -107,4 +129,16 @@ void setup(){
 
     pc.printf("Success in Set Up\r\n");
 
+}
+
+void calcMotionData(){
+    incline = asin((altitude-altitude_prev)/(speed_prev*MBED_POLLING_PERIOD_S));
+    tot_dist = tot_dist_prev + speed_prev*MBED_POLLING_PERIOD_S;
+    speed = gyr.g.z*R;
+}
+
+void saveLastData(){
+    altitude_prev = altitude;
+    tot_dist_prev = tot_dist;
+    speed_prev = speed;
 }
