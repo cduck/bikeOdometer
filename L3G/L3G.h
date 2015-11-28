@@ -71,24 +71,27 @@ class L3G
        LOW_ODR        = 0x39  // D20H
     };
 
-    vector<int16_t> g; // gyro angular velocity readings
+    vector<float> g; // gyro angular velocity readings
 
     char last_status; // status of last I2C transmission
     
     I2C *_i2c;
+    Serial *_pc;
 
-    L3G(I2C *i2c);
+    L3G(I2C *i2c, Serial *pc);
     
 
     bool init(deviceType device = device_D20H, sa0State sa0 = sa0_high);
     deviceType getDeviceType(void) { return _device; }
 
     void enableDefault(void);
+    void enableFIFO(void); //configs sensor to use FIFO
 
     void writeReg(char reg, char value);
     char readReg(char reg);
 
     void read(void);
+    void readFIFO(void); //readings X amount of data, depending on how many are in FIFO
 
     void setTimeout(unsigned int timeout);
     unsigned int getTimeout(void);

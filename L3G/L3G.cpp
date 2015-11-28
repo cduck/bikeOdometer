@@ -25,11 +25,12 @@
 
 // Constructors ////////////////////////////////////////////////////////////////
 
-L3G::L3G(I2C *i2c)
+L3G::L3G(I2C *i2c, Serial *pc)
 {
   _device = device_auto;
 
   _i2c = i2c;
+  _pc = pc;
 
   io_timeout = 0;  // 0 = no timeout
   did_timeout = false;
@@ -135,15 +136,8 @@ bool L3G::init(deviceType device, sa0State sa0)
   return true;
 }
 
-/*
-Enables the L3G's gyro. Also:
-- Sets gyro full scale (gain) to default power-on value of +/- 250 dps
-  (specified as +/- 245 dps for L3GD20H).
-- Selects 200 Hz ODR (output data rate). (Exact rate is specified as 189.4 Hz
-  for L3GD20H and 190 Hz for L3GD20.)
-Note that this function will also reset other settings controlled by
-the registers it writes to.
-*/
+
+//Enables the L3G's gyro
 void L3G::enableDefault(void)
 {
   if (_device == device_D20H)
@@ -161,10 +155,38 @@ void L3G::enableDefault(void)
   // DR = 01 (200 Hz ODR); BW = 10 (50 Hz bandwidth); PD = 1 (normal mode); Zen = Yen = Xen = 1 (all axes enabled)
   writeReg(CTRL_REG1, 0x6F);
 
-  // Bypass mode by default
-  // Consider FIFO mode to queue 32 data
-  // writeReg(CTRL_REG5, 0x40);
-  // writeReg(FIFO_CTRL, 0x20);
+  // 0x20 = 0b00100000
+  // FM = 000 for bypass mode
+  writeReg(FIFO_CTRL, 0x00);
+
+}
+
+//Enables the L3G's gyro to use the FIFO
+void L3G::enableFIFO(void)
+{
+  enableDefault(); //flushes buffer by turning on bypass mode
+  if (_device == device_D20H)
+  {
+    // 0x00 = 0b00000000
+    // Low_ODR = 0 (low speed ODR disabled)
+    writeReg(LOW_ODR, 0x00);
+  }
+  
+  // 0x30 = 0b00110000
+  // FS = 11 (+/- 2000 dps full scale)
+  writeReg(CTRL_REG4, 0x30);
+  
+  // 0x6F = 0b01101111
+  // DR = 01 (200 Hz ODR); BW = 10 (50 Hz bandwidth); PD = 1 (normal mode); Zen = Yen = Xen = 1 (all axes enabled)
+  writeReg(CTRL_REG1, 0x6F);
+
+  // Bypass mode by default, FIFO mode to queue upto 32 data
+  // 0x40 = 0b01000000
+  // FIFO_EN = 1 to turn on FIFO
+  writeReg(CTRL_REG5, 0x40);
+  // 0xC0 = 0b11000000
+  // FM = 110 for Dynamic STREAM mode
+  writeReg(FIFO_CTRL, 0xC0);
 }
 
 // Writes a gyro register
@@ -182,7 +204,7 @@ char L3G::readReg(char reg)
 {
   char value;
 
-  _i2c->write(address, &reg, 1);
+  _i2c->write(address, &reg, 1, true);
   _i2c->read(address, &value, 1);
 
   return value;
@@ -202,6 +224,31 @@ void L3G::read()
   g.x = (int16_t)((int16_t)reading[1] << 8 | reading[0]);
   g.y = (int16_t)((int16_t)reading[3] << 8 | reading[2]);
   g.z = (int16_t)((int16_t)reading[5] << 8 | reading[4]);
+
+}
+
+// Readings X amount of data, depending on how many are in FIFO (32 elements large)
+void L3G::readFIFO()
+{
+  char FIFO_SRC_status = readReg(FIFO_SRC);
+  int FSS = (FIFO_SRC_status & 0x1F); //number of elements in FIFO stack, max(FSS) = 31
+
+  char c = OUT_X_L | (1 << 7);
+  _i2c->write(address, &c, 1,true);
+  
+  char reading[6*(FSS+1)]; // 6 bytes per row in FIFO, 2 bytes per axis
+  _i2c->read(address, reading, 6*(FSS+1));
+  
+  g.x = 0.0; g.y = 0.0; g.z = 0.0;
+  for (int i=0; i <= FSS; i++){
+    // combine high and low bytes and take an average
+    g.x += (int16_t)((int16_t)reading[6*i+1] << 8 | reading[6*i]);
+    g.y += (int16_t)((int16_t)reading[6*i+3] << 8 | reading[6*i+2]);
+    g.z += (int16_t)((int16_t)reading[6*i+5] << 8 | reading[6*i+4]);
+  }
+  g.x = g.x/(float)(FSS+1);
+  g.y = g.y/(float)(FSS+1);
+  g.z = g.z/(float)(FSS+1);
 
 }
 

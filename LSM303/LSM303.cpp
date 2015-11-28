@@ -19,7 +19,7 @@
 
 // Constructors ////////////////////////////////////////////////////////////////
 
-LSM303::LSM303(I2C *i2c)
+LSM303::LSM303(I2C *i2c, Serial *pc)
 {
   /*
   These values lead to an assumed magnetometer bias of 0.
@@ -35,6 +35,7 @@ LSM303::LSM303(I2C *i2c)
   io_timeout = 0;  // 0 = no timeout
   did_timeout = false;
   _i2c = i2c;
+  _pc = pc;
 }
 
 // Public Methods //////////////////////////////////////////////////////////////
@@ -118,33 +119,61 @@ void LSM303::enableDefault(void)
 {
   // Accelerometer
   // 0x57 = 0b01010111
-  // AODR = 0101 (50 Hz ODR); AZEN = AYEN = AXEN = 1 (all axes enabled)
-  writeReg(CTRL1, 0x57);
+  // AODR = 0101 (200 Hz ODR); AZEN = AYEN = AXEN = 1 (all axes enabled)
+  writeReg(CTRL1, 0x77);
 
   // 0x00 = 0b00000000
   // AFS = 0 (+/- 2 g full scale)
   writeReg(CTRL2, 0x00);
 
-  // Magnetometer
+  // // Magnetometer, which is not used
 
-  // 0x64 = 0b01100100
-  // M_RES = 11 (high resolution mode); M_ODR = 001 (6.25 Hz ODR)
-  writeReg(CTRL5, 0x64);
+  // // 0x64 = 0b01100100
+  // // M_RES = 11 (high resolution mode); M_ODR = 001 (6.25 Hz ODR)
+  // writeReg(CTRL5, 0x64);
 
-  // 0x20 = 0b00100000
-  // MFS = 01 (+/- 4 gauss full scale)
-  writeReg(CTRL6, 0x20);
+  // // 0x20 = 0b00100000
+  // // MFS = 01 (+/- 4 gauss full scale)
+  // writeReg(CTRL6, 0x20);
+
+  // // 0x00 = 0b00000000
+  // // MLP = 0 (low power mode off); MD = 00 (continuous-conversion mode)
+  // writeReg(CTRL7, 0x00);
+}
+
+void LSM303::enableFIFO(void) //only FIFO for accelerometer now
+{
+  // Accelerometer
+  // 0x57 = 0b01110111
+  // AODR = 0101 (200 Hz ODR); AZEN = AYEN = AXEN = 1 (all axes enabled)
+  writeReg(CTRL1, 0x77);
 
   // 0x00 = 0b00000000
-  // MLP = 0 (low power mode off); MD = 00 (continuous-conversion mode)
-  writeReg(CTRL7, 0x00);
+  // AFS = 0 (+/- 2 g full scale)
+  writeReg(CTRL2, 0x00);
+
+  // 0x40 = 0b01000000
+  // FIFO_EN = 1 (enable FIFO)
+  writeReg(CTRL0, 0x40);
+
+  // 0x40 = 0b01000000
+  // FM = 010 (STREAM mode)
+  writeReg(FIFO_CTRL, 0x40);  
+}
+
+char LSM303::readReg(char reg)
+{
+  char value;
+
+  _i2c->write(acc_address, &reg, 1, true);
+  _i2c->read(acc_address, &value, 1);
+
+  return value;
 }
 
 void LSM303::writeReg(uint8_t reg, uint8_t value)
 {
-  char cmd[2];
-  cmd[0] = reg;
-  cmd[1] = value;
+  char cmd[2] = {reg,value};
   _i2c->write(acc_address,cmd,2);
 }
 
@@ -163,6 +192,31 @@ void LSM303::readAcc(void)
   a.x = (int16_t)(reading[1] << 8 | reading[0]);
   a.y = (int16_t)(reading[3] << 8 | reading[2]);
   a.z = (int16_t)(reading[5] << 8 | reading[4]); 
+}
+
+// Reads the 3 accelerometer channels stored in FIFO and stores them in vector a
+void LSM303::readAccFIFO(void)
+{
+  char FIFO_SRC_status = readReg(FIFO_SRC);
+  int FSS = (FIFO_SRC_status & 0x1F); //number of elements in FIFO stack, max(FSS) = 31
+  
+  // assert the MSB of the address to get the accelerometer to do slave-transmit subaddress updating.
+  char cmd = (OUT_X_L_A | (1 << 7));
+  _i2c->write(acc_address,&cmd,1);
+  
+  char reading[6*(FSS+1)];
+  _i2c->read(acc_address,reading,6*(FSS+1));
+
+  // combine high and low bytes and take an average
+  a.x = 0.0; a.y = 0.0; a.z = 0.0;
+  for (int i=0; i <= FSS; i++){
+    a.x += (int16_t)((int16_t)reading[6*i+1] << 8 | reading[6*i]);
+    a.y += (int16_t)((int16_t)reading[6*i+3] << 8 | reading[6*i+2]);
+    a.z += (int16_t)((int16_t)reading[6*i+5] << 8 | reading[6*i+4]);
+  }
+  a.x = a.x/(float)(FSS+1);
+  a.y = a.y/(float)(FSS+1);
+  a.z = a.z/(float)(FSS+1);
 }
 
 // Reads the 3 magnetometer channels and stores them in vector m
@@ -184,7 +238,14 @@ void LSM303::readMag(void)
 void LSM303::read(void)
 {
   readAcc();
-  readMag();
+  // readMag(); //Don't really need this
+}
+
+// Reads all 6 channels of the LSM303 from FIFO and stores them in the object variables
+void LSM303::readFIFO(void)
+{
+  readAccFIFO();
+  // readMagFIFO(); //Don't really need this
 }
 
 /*

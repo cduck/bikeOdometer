@@ -81,6 +81,7 @@ class LPS
     uint32_t getAddress(void) { return address; }
 
     void enableDefault(void);
+    void enableFIFO(void);
 
     void writeReg(int reg, uint8_t value);
 

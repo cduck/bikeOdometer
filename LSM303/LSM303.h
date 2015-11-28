@@ -160,24 +160,27 @@ class LSM303
       D_OUT_Z_H_M       = 0x0D
     };
 
-    vector<int16_t> a; // accelerometer readings
+    vector<float> a; // accelerometer readings
     vector<int16_t> m; // magnetometer readings
     vector<int16_t> m_max; // maximum magnetometer values, used for calibration
     vector<int16_t> m_min; // minimum magnetometer values, used for calibration
 
-    LSM303(I2C *i2c);
+    LSM303(I2C *i2c, Serial *pc);
 
     bool init(deviceType device = device_auto, sa0State sa0 = sa0_auto);
     deviceType getDeviceType(void) { return _device; }
 
     void enableDefault(void);
+    void enableFIFO(void);
 
     void writeReg(uint8_t reg, uint8_t value);
-    uint8_t readReg(int reg);
+    char readReg(char reg);
 
     void readAcc(void);
+    void readAccFIFO(void);
     void readMag(void);
     void read(void);
+    void readFIFO(void); //reads the FIFO stack of data and average them
 
     void setTimeout(unsigned int timeout);
     unsigned int getTimeout(void);
@@ -196,7 +199,7 @@ class LSM303
     int acc_address;
     int mag_address;
     I2C *_i2c; //i2c instance
-    Serial *_pc;
+    Serial *_pc; //debug instances
 
     static const int dummy_reg_count = 6;
     regAddr translated_regs[dummy_reg_count + 1]; // index 0 not used
