@@ -5,9 +5,6 @@
 
 //Code updated to work for mbed. Not fully working yet, need to mess around with values
 
-
-
-
 // Defines ////////////////////////////////////////////////////////////////
 
 // The Arduino two-wire interface uses a 7-bit number for the address,
@@ -250,6 +247,16 @@ void L3G::readFIFO()
   g.y = g.y/(float)(FSS+1);
   g.z = g.z/(float)(FSS+1);
 
+  convertReadings();
+}
+
+void L3G::convertReadings()
+{
+  float DEG_2_RAD = 3.14159265358979323846/180.0;
+  float LSB_2_DPS = 70/1000.0;
+  g.x = g.x*LSB_2_DPS*DEG_2_RAD;
+  g.y = g.y*LSB_2_DPS*DEG_2_RAD;
+  g.z = g.z*LSB_2_DPS*DEG_2_RAD;
 }
 
 void L3G::vector_normalize(vector<float> *a)

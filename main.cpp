@@ -45,17 +45,18 @@ int main() {
         acc.readFIFO();
         gyr.readFIFO();
 
-        fprintf(fp, "%f, %f, %f, %f, %f, %f, %f \r\n",
+        pc.printf("%d Att: %2.2f \tGyr: %2.2f %2.2f %2.2f \tAcc: %2.2f %2.2f %2.2f \tT: %d\r\n",
+            iter,
             altitude,
             gyr.g.x,gyr.g.y,gyr.g.z,
-            acc.a.x,acc.a.y,acc.a.z);
+            acc.a.x,acc.a.y,acc.a.z,
+            t.read_ms()-timeLastPoll);
 
-        // pc.printf("%d Att: %2.2f \tGyr: %2.2f %2.2f %2.2f \tAcc: %2.2f %2.2f %2.2f \tT: %d\r\n",
-        //     iter,
+        // fprintf(fp, "%d %f, %f, %f, %f, %f, %f, %f \r\n",
+        //     (t.read_ms() - timeLastPoll),
         //     altitude,
         //     gyr.g.x,gyr.g.y,gyr.g.z,
-        //     acc.a.x,acc.a.y,acc.a.z,
-        //     t.read_ms()-timeLastPoll);
+        //     acc.a.x,acc.a.y,acc.a.z);
         while( (t.read_ms() - timeLastPoll) < MBED_POLLING_PERIOD){
             gled = 0;
         }

@@ -245,7 +245,16 @@ void LSM303::read(void)
 void LSM303::readFIFO(void)
 {
   readAccFIFO();
+  convertReadings();
   // readMagFIFO(); //Don't really need this
+}
+
+void LSM303::convertReadings(void)
+{
+  float LSB_2_G = .061/1000.0;
+  a.x = a.x*LSB_2_G;
+  a.y = a.y*LSB_2_G;
+  a.z = a.z*LSB_2_G;
 }
 
 /*

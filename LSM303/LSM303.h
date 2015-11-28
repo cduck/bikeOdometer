@@ -182,6 +182,8 @@ class LSM303
     void read(void);
     void readFIFO(void); //reads the FIFO stack of data and average them
 
+    void convertReadings(void); //converts raw sensor readings to real units
+
     void setTimeout(unsigned int timeout);
     unsigned int getTimeout(void);
     bool timeoutOccurred(void);

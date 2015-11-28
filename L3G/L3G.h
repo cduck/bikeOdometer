@@ -93,6 +93,8 @@ class L3G
     void read(void);
     void readFIFO(void); //readings X amount of data, depending on how many are in FIFO
 
+    void convertReadings(void); //convert sensor raw readings to actual units
+
     void setTimeout(unsigned int timeout);
     unsigned int getTimeout(void);
     bool timeoutOccurred(void);
