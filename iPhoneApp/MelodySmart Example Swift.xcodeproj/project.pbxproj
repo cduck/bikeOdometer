@@ -1,0 +1,476 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		48B7660E1A716161008AE21B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B7660D1A716161008AE21B /* AppDelegate.swift */; };
+		48B766171A716161008AE21B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 48B766161A716161008AE21B /* Images.xcassets */; };
+		48B7661A1A716161008AE21B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 48B766181A716161008AE21B /* LaunchScreen.xib */; };
+		48B766261A716161008AE21B /* MelodySmart_Example_SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B766251A716161008AE21B /* MelodySmart_Example_SwiftTests.swift */; };
+		48B766321A716184008AE21B /* OtauImageSelectionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B7662F1A716184008AE21B /* OtauImageSelectionTableViewController.swift */; };
+		48B766331A716184008AE21B /* OtauViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B766301A716184008AE21B /* OtauViewController.swift */; };
+		48B766341A716184008AE21B /* RemoteCommandsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B766311A716184008AE21B /* RemoteCommandsViewController.swift */; };
+		48B7663B1A71619A008AE21B /* I2cCommandsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B766371A71619A008AE21B /* I2cCommandsViewController.swift */; };
+		48B7663E1A7161AA008AE21B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 48B7663D1A7161AA008AE21B /* Main.storyboard */; };
+		48B766401A7161E2008AE21B /* DeviceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B7663F1A7161E2008AE21B /* DeviceViewController.swift */; };
+		48B766421A7161FE008AE21B /* DeviceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B766411A7161FE008AE21B /* DeviceListViewController.swift */; };
+		48B766481A716221008AE21B /* libMelodySmart.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 48B766441A716221008AE21B /* libMelodySmart.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		48B766201A716161008AE21B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 48B766001A716161008AE21B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 48B766071A716161008AE21B;
+			remoteInfo = "MelodySmart Example Swift";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		48B766081A716161008AE21B /* MelodySmart Example Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MelodySmart Example Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		48B7660C1A716161008AE21B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		48B7660D1A716161008AE21B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		48B766161A716161008AE21B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		48B766191A716161008AE21B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		48B7661F1A716161008AE21B /* MelodySmart Example SwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MelodySmart Example SwiftTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		48B766241A716161008AE21B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		48B766251A716161008AE21B /* MelodySmart_Example_SwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MelodySmart_Example_SwiftTests.swift; sourceTree = "<group>"; };
+		48B7662F1A716184008AE21B /* OtauImageSelectionTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtauImageSelectionTableViewController.swift; sourceTree = "<group>"; };
+		48B766301A716184008AE21B /* OtauViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtauViewController.swift; sourceTree = "<group>"; };
+		48B766311A716184008AE21B /* RemoteCommandsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteCommandsViewController.swift; sourceTree = "<group>"; };
+		48B766371A71619A008AE21B /* I2cCommandsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = I2cCommandsViewController.swift; sourceTree = "<group>"; };
+		48B7663D1A7161AA008AE21B /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		48B7663F1A7161E2008AE21B /* DeviceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceViewController.swift; sourceTree = "<group>"; };
+		48B766411A7161FE008AE21B /* DeviceListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceListViewController.swift; sourceTree = "<group>"; };
+		48B766441A716221008AE21B /* libMelodySmart.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMelodySmart.a; sourceTree = "<group>"; };
+		48B766451A716221008AE21B /* MelodyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MelodyManager.h; sourceTree = "<group>"; };
+		48B766461A716221008AE21B /* MelodySmart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MelodySmart.h; sourceTree = "<group>"; };
+		48B766471A716221008AE21B /* OtaStructs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OtaStructs.h; sourceTree = "<group>"; };
+		48B766491A716356008AE21B /* MelodySmart Example Swift-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MelodySmart Example Swift-Header.h"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		48B766051A716161008AE21B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				48B766481A716221008AE21B /* libMelodySmart.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48B7661C1A716161008AE21B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		48B765FF1A716160008AE21B = {
+			isa = PBXGroup;
+			children = (
+				48B766491A716356008AE21B /* MelodySmart Example Swift-Header.h */,
+				48B766431A716221008AE21B /* libMelodySmart */,
+				48B7660A1A716161008AE21B /* MelodySmart Example Swift */,
+				48B766221A716161008AE21B /* MelodySmart Example SwiftTests */,
+				48B766091A716161008AE21B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		48B766091A716161008AE21B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				48B766081A716161008AE21B /* MelodySmart Example Swift.app */,
+				48B7661F1A716161008AE21B /* MelodySmart Example SwiftTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		48B7660A1A716161008AE21B /* MelodySmart Example Swift */ = {
+			isa = PBXGroup;
+			children = (
+				48B7663D1A7161AA008AE21B /* Main.storyboard */,
+				48B7660D1A716161008AE21B /* AppDelegate.swift */,
+				48B7663F1A7161E2008AE21B /* DeviceViewController.swift */,
+				48B766411A7161FE008AE21B /* DeviceListViewController.swift */,
+				48B7662F1A716184008AE21B /* OtauImageSelectionTableViewController.swift */,
+				48B766301A716184008AE21B /* OtauViewController.swift */,
+				48B766311A716184008AE21B /* RemoteCommandsViewController.swift */,
+				48B766371A71619A008AE21B /* I2cCommandsViewController.swift */,
+				48B766161A716161008AE21B /* Images.xcassets */,
+				48B766181A716161008AE21B /* LaunchScreen.xib */,
+				48B7660B1A716161008AE21B /* Supporting Files */,
+			);
+			path = "MelodySmart Example Swift";
+			sourceTree = "<group>";
+		};
+		48B7660B1A716161008AE21B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				48B7660C1A716161008AE21B /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		48B766221A716161008AE21B /* MelodySmart Example SwiftTests */ = {
+			isa = PBXGroup;
+			children = (
+				48B766251A716161008AE21B /* MelodySmart_Example_SwiftTests.swift */,
+				48B766231A716161008AE21B /* Supporting Files */,
+			);
+			path = "MelodySmart Example SwiftTests";
+			sourceTree = "<group>";
+		};
+		48B766231A716161008AE21B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				48B766241A716161008AE21B /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		48B766431A716221008AE21B /* libMelodySmart */ = {
+			isa = PBXGroup;
+			children = (
+				48B766441A716221008AE21B /* libMelodySmart.a */,
+				48B766451A716221008AE21B /* MelodyManager.h */,
+				48B766461A716221008AE21B /* MelodySmart.h */,
+				48B766471A716221008AE21B /* OtaStructs.h */,
+			);
+			path = libMelodySmart;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		48B766071A716161008AE21B /* MelodySmart Example Swift */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 48B766291A716161008AE21B /* Build configuration list for PBXNativeTarget "MelodySmart Example Swift" */;
+			buildPhases = (
+				48B766041A716161008AE21B /* Sources */,
+				48B766051A716161008AE21B /* Frameworks */,
+				48B766061A716161008AE21B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "MelodySmart Example Swift";
+			productName = "MelodySmart Example Swift";
+			productReference = 48B766081A716161008AE21B /* MelodySmart Example Swift.app */;
+			productType = "com.apple.product-type.application";
+		};
+		48B7661E1A716161008AE21B /* MelodySmart Example SwiftTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 48B7662C1A716161008AE21B /* Build configuration list for PBXNativeTarget "MelodySmart Example SwiftTests" */;
+			buildPhases = (
+				48B7661B1A716161008AE21B /* Sources */,
+				48B7661C1A716161008AE21B /* Frameworks */,
+				48B7661D1A716161008AE21B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				48B766211A716161008AE21B /* PBXTargetDependency */,
+			);
+			name = "MelodySmart Example SwiftTests";
+			productName = "MelodySmart Example SwiftTests";
+			productReference = 48B7661F1A716161008AE21B /* MelodySmart Example SwiftTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		48B766001A716161008AE21B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = BlueCreation;
+				TargetAttributes = {
+					48B766071A716161008AE21B = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+					48B7661E1A716161008AE21B = {
+						CreatedOnToolsVersion = 6.1.1;
+						TestTargetID = 48B766071A716161008AE21B;
+					};
+				};
+			};
+			buildConfigurationList = 48B766031A716161008AE21B /* Build configuration list for PBXProject "MelodySmart Example Swift" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 48B765FF1A716160008AE21B;
+			productRefGroup = 48B766091A716161008AE21B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				48B766071A716161008AE21B /* MelodySmart Example Swift */,
+				48B7661E1A716161008AE21B /* MelodySmart Example SwiftTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		48B766061A716161008AE21B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				48B7663E1A7161AA008AE21B /* Main.storyboard in Resources */,
+				48B7661A1A716161008AE21B /* LaunchScreen.xib in Resources */,
+				48B766171A716161008AE21B /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48B7661D1A716161008AE21B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		48B766041A716161008AE21B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				48B766401A7161E2008AE21B /* DeviceViewController.swift in Sources */,
+				48B7663B1A71619A008AE21B /* I2cCommandsViewController.swift in Sources */,
+				48B766341A716184008AE21B /* RemoteCommandsViewController.swift in Sources */,
+				48B766421A7161FE008AE21B /* DeviceListViewController.swift in Sources */,
+				48B766321A716184008AE21B /* OtauImageSelectionTableViewController.swift in Sources */,
+				48B766331A716184008AE21B /* OtauViewController.swift in Sources */,
+				48B7660E1A716161008AE21B /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		48B7661B1A716161008AE21B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				48B766261A716161008AE21B /* MelodySmart_Example_SwiftTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		48B766211A716161008AE21B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 48B766071A716161008AE21B /* MelodySmart Example Swift */;
+			targetProxy = 48B766201A716161008AE21B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		48B766181A716161008AE21B /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				48B766191A716161008AE21B /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		48B766271A716161008AE21B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		48B766281A716161008AE21B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		48B7662A1A716161008AE21B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				INFOPLIST_FILE = "MelodySmart Example Swift/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/libMelodySmart",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bluecreation.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MelodySmart Example Swift-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		48B7662B1A716161008AE21B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				INFOPLIST_FILE = "MelodySmart Example Swift/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/libMelodySmart",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bluecreation.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MelodySmart Example Swift-Header.h";
+			};
+			name = Release;
+		};
+		48B7662D1A716161008AE21B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "MelodySmart Example SwiftTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bluecreation.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MelodySmart Example Swift.app/MelodySmart Example Swift";
+			};
+			name = Debug;
+		};
+		48B7662E1A716161008AE21B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "MelodySmart Example SwiftTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bluecreation.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MelodySmart Example Swift.app/MelodySmart Example Swift";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		48B766031A716161008AE21B /* Build configuration list for PBXProject "MelodySmart Example Swift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				48B766271A716161008AE21B /* Debug */,
+				48B766281A716161008AE21B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		48B766291A716161008AE21B /* Build configuration list for PBXNativeTarget "MelodySmart Example Swift" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				48B7662A1A716161008AE21B /* Debug */,
+				48B7662B1A716161008AE21B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		48B7662C1A716161008AE21B /* Build configuration list for PBXNativeTarget "MelodySmart Example SwiftTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				48B7662D1A716161008AE21B /* Debug */,
+				48B7662E1A716161008AE21B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 48B766001A716161008AE21B /* Project object */;
+}
