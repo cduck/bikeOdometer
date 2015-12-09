@@ -1,0 +1,667 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html>
+<head>
+<title>MelodySmartDelegate</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="HeaderDoc">
+<meta name="xcode-display" content="render">
+<style type="text/css"><!--body {border: 0px; margin: 0px;}div {font-size: 10pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000;}td {font-size: 10pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000;}span.hd_tocAccessSpace { display: block; font-size: 1px; height: 3px; min-height: 3px; }span.hd_tocGroupSpace { display: block; font-size: 1px; height: 3px; min-height: 3px; }span.hd_tocGroup { display: block; font-weight: bold; font-size: 10pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000; margin-left: 0px; padding-left: 40px; }span.hd_tocGroup + span.hd_tocAccess { padding-top: 5px; }td.toc_contents_text {font-size: 11pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000; }li.tocSubEntry {font-size: 11pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000;}p {font-size: 10pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000;}a:link {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}a:visited {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}a:visited:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}a:active {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}a:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}h2.h2tight { margin-top: 0px; padding-top: 0px; }h1 { margin-top: 13px; padding-top: 0px; }h4 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: tiny; font-weight: bold;}h5 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: 10.1pt; font-weight: bold;}pre {text-decoration: none; font-family: Courier, Consolas, monospace; color: #666; font-size: 10pt;}pre a { font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}pre a:link { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}pre a:visited { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}pre a:visited:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}pre a:active { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}pre a:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code {text-decoration: none; font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}code a { font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}code a:link { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code a:visited { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code a:visited:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code a:active { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code a:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt {text-decoration: none; font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}tt a { font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}tt a:link { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt a:visited { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt a:visited:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt a:active { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt a:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}body  {text-decoration: none; font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt; padding-left: 0px; padding-top: 0px; margin-left: 0px; margin-top: 0px; border: none; }#hd_outermost_table { margin-left: 0px; border-spacing: 0px; margin-top: 0px; padding-left: 0px; padding-top: 0px; border: none; }#hd_outermost_table > tr { border-spacing: 0px; margin-left: 0px; margin-top: 0px; padding-left: 0px; padding-top: 0px; border: none; }#hd_outermost_table > tr > td { border-spacing: 0px; margin-left: 0px; margin-top: 0px; }#hd_outermost_table > tbody > tr { border-spacing: 0px; margin-left: 0px; margin-top: 0px; padding-left: 0px; padding-top: 0px; border: none; }#hd_outermost_table > tbody > tr > td { border-spacing: 0px; margin-left: 0px; margin-top: 0px; padding-top: 3px; }.afterName { display: none; }.list_indent { margin-left: 40px; }.declaration_indent { margin-left: 40px; margin-top: 0px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px; min-height: 12px; vertical-align: middle; }.declaration_indent pre { margin-top: 20px; padding-top: 0px; margin-bottom: 20px; padding-bottom: 0px; }.gapBeforeFooter { display: none; }hr { height: 0px; min-height: 0px; border-top: none; border-left: none; border-right: none; border-bottom: 1px solid #909090;}hr.afterHeader { display: none }.param_group_indent { margin-left: 25px; }.param_indent { margin-left: 40px; margin-top: 0px; padding-top: 0px; }.param_indent dl { margin-top: 4px; padding-top: 0px; }dl dd > p:first-child { margin-top: 2px; padding-top: 0px; }.param_indent dl dd > p:first-child { margin-top: 2px; padding-top: 0px; }.group_indent { margin-left: 40px; }.group_desc_indent { margin-left: 20px; }.warning_indent { margin-left: 40px; }.important_indent { margin-left: 40px; }.note_indent { margin-left: 40px; }h3 {       color: #3C4C6C;}.tight {       margin-top: 2px; margin-bottom: 0px;       padding-top: 0px; padding-bottom: 0px;}h3 a {       color: #3C4C6C;	font-size: 16px;	font-style: normal;	font-variant: normal;	font-weight: bold;	height: 0px;	line-height: normal;}.hd_tocAccess { display: block; margin-left: 40px; font-style: italic; font-size: 10px; font-weight: normal; color: #303030; }.tocSubheading { margin-bottom: 4px; }--></style>
+<style><!--
+body {
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+}
+.toc_contents_text {
+    padding-left: 1em;
+    text-indent: -1em;
+}
+
+ul.tocSubEntryList li.tocSubEntry {
+    list-style: none;
+}
+
+#colorbox {
+		display: none;
+}
+.spec_sheet_line {
+		margin-bottom: 1px;
+}
+.collapsible {
+		display: none;
+}
+.toc_leadspace {
+		width: 10; min-width: 10;
+}
+.disclosure_triangle_td {
+		width: 14; min-width: 14;
+		font-size: 10px;
+		vertical-align: middle;
+}
+.specbox td {
+		font-size: 13px;
+}
+.specbox td a {
+		font-size: 13px;
+}
+.specbox td code {
+		font-size: 13px;
+}
+.specbox td tt {
+		font-size: 13px;
+}
+.specbox td pre {
+		font-size: 13px;
+}
+.specbox a {
+		font-size: 12px;
+}
+.disclosure_triangle_td a {
+		text-decoration: none;
+}
+.disclosure_triangle_td a:link {
+		text-decoration: none;
+}
+.disclosure_triangle_td a:active {
+		text-decoration: none;
+}
+.disclosure_triangle_td a:visited:hover {
+		text-decoration: none;
+}
+.disclosure_triangle_td a:hover {
+		text-decoration: none;
+}
+.hd_toc_box {
+		padding-top: 10px;
+		padding-right: 15px;
+}.tocSeparator {
+		margin-top: 15px;
+		padding-bottom: 0px;
+		margin-bottom: 0px;
+}
+.tocSubEntryList {
+		margin-left: 0px;
+		padding-left: 40px;
+		padding-top: 0px;
+		margin-top: 2px;
+		padding-bottom: 0px;
+		margin-bottom: 8px;
+}
+.hd_toc_heading_table {
+		margin-top: 2px;
+		margin-bottom: 2px;
+}
+.hd_toc_entry_table {
+		margin-top: 2px;
+		margin-bottom: 2px;
+}
+.tocSubEntry {
+		margin-left: 0px;
+		padding-left: 0px;
+		margin-top: 0px;
+		margin-bottom: 1px;
+}
+.tocSubEntry a {
+		font-size: 10pt;
+}
+.tocSubheading {
+		padding-left: 14px;
+		margin-left: 0px;
+		margin-top: 5px;
+		padding-top: 0px;
+		font-size: 16px;
+		color: #808080;
+}
+
+#hd_outermost_table { margin-left: 0px; border-spacing: 0px; margin-top: 0px; padding-left: 0px; padding-top: 0px; border: none; }
+#hd_outermost_table > tr { border-spacing: 0px; margin-left: 0px; margin-top: 0px; padding-left: 0px; padding-top: 0px; border: none; }
+#hd_outermost_table > tr > td { border-spacing: 0px; margin-left: 0px; margin-top: 0px; }
+#hd_outermost_table > tbody > tr { border-spacing: 0px; margin-left: 0px; margin-top: 0px; padding-left: 0px; padding-top: 0px; border: none; }
+#hd_outermost_table > tbody > tr > td { border-spacing: 0px; margin-left: 0px; margin-top: 0px; padding-top: 3px; }
+
+#tocMenu {
+		border-right: 1px solid #c0c0c0;
+		background-color: #f4f4ff;
+		top:0px;
+		left:0px;
+		width:230px;
+		height:100%;
+}
+#bodyContents {
+		width: auto;
+		padding-left: 15px;
+}
+--></style>
+<style id="disable_before_iOS_5"><!--
+#tocMenu {
+		position: fixed;
+		height: 100%;
+		overflow: auto;
+}
+#bodyContents {
+		width: auto;
+		left: 235px;
+		right: 0;
+		padding-left: 15px;
+		position: fixed;
+		height: 100%;
+		overflow-y: scroll;
+}
+--></style>
+<script language="JavaScript" type="text/javascript"><!--
+    if (navigator.platform && (navigator.platform.match(/iPad/) || navigator.platform.match(/iPhone/) || navigator.platform.match(/iPod/))) {
+        if (navigator.userAgent.match(/OS 1(_\d)+/) ||
+            navigator.userAgent.match(/OS 2(_\d)+/) ||
+            navigator.userAgent.match(/OS 3(_\d)+/) ||
+            navigator.userAgent.match(/OS 4(_\d)+/)) {
+                /* Earlier iOS versions require different scrolling gestures with position: fixed. */
+                var del_style_elt = document.getElementById("disable_before_iOS_5");
+                if (del_style_elt) del_style_elt.parentNode.removeChild(del_style_elt);
+        }
+    }
+// --></script><script language="JavaScript" type="text/javascript"><!--
+function getNewHTTPObject()
+{
+        var xmlhttp;
+
+        /** Special IE only code ... */
+        /*@cc_on
+          @if (@_jscript_version >= 5)
+              try
+              {
+                  xmlhttp = new ActiveXObject('Msxml2.XMLHTTP');
+              }
+              catch (e)
+              {
+                  try
+                  {
+                      xmlhttp = new ActiveXObject('Microsoft.XMLHTTP');
+                  }
+                  catch (E)
+                  {
+                      xmlhttp = false;
+                  }
+             }
+          @else
+             xmlhttp = false;
+        @end @*/
+
+        /** Every other browser on the planet */
+        if (!xmlhttp && typeof XMLHttpRequest != 'undefined')
+        {
+            try
+            {
+                xmlhttp = new XMLHttpRequest();
+            }
+            catch (e)
+            {
+                xmlhttp = false;
+            }
+        }
+
+        return xmlhttp;
+}
+
+function hidetoc() {
+	var toc = document.getElementById('tocMenu');
+	var src = toc.getAttribute('src');
+	var xhr = getNewHTTPObject();
+	xhr.open('GET', src, true);
+	xhr.onreadystatechange = function() {
+		if(xhr.readyState == 4) {
+			var toc = document.getElementById('tocMenu');
+			toc.innerHTML = xhr.responseText;
+		}
+	}
+	xhr.send(null);
+	var origURL = parent.document.URL;
+	var contentURL = origURL.substring(origURL.indexOf('?')+1, origURL.length);
+	if (contentURL.length == origURL.length) {
+		jumpPos = origURL.substring(origURL.indexOf('#')+1, origURL.length);
+	}
+	if (contentURL == "hidetoc") {
+		var body = document.getElementById('bodyContents');
+		if (toc && body) {
+			toc.style.display = 'none';
+			body.style.marginLeft = '0px';
+		}
+	}
+}
+
+function disclosure_triangle(elt) {
+   var linkelt = elt;
+   while (elt && elt.tagName != 'TABLE') { elt = elt.parentNode;}
+   if (!elt) { return; }
+   while (elt && elt.tagName != 'DIV') { elt = elt.nextSibling;}
+   if (!elt) { return; }
+   if (parseInt(linkelt.getAttribute('state'))) {
+      // It's open.  Close it
+      linkelt.innerHTML = '&#x25B7;';
+      linkelt.setAttribute('state', 0);
+      linkelt.setAttribute('class', 'closed_disclosure_triangle');
+      elt.style.display = 'none';
+   } else {
+      // It's closed.  Open it
+      linkelt.innerHTML = '&#x25BC;';
+      linkelt.setAttribute('state', 1);
+      linkelt.setAttribute('class', 'open_disclosure_triangle');
+      elt.style.display = 'block';
+   }
+}
+--></script><style type="text/css"><!--body {border: 0px; margin: 0px;}div {font-size: 10pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000;}td {font-size: 10pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000;}span.hd_tocAccessSpace { display: block; font-size: 1px; height: 3px; min-height: 3px; }span.hd_tocGroupSpace { display: block; font-size: 1px; height: 3px; min-height: 3px; }span.hd_tocGroup { display: block; font-weight: bold; font-size: 10pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000; margin-left: 0px; padding-left: 40px; }span.hd_tocGroup + span.hd_tocAccess { padding-top: 5px; }td.toc_contents_text {font-size: 11pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000; }li.tocSubEntry {font-size: 11pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000;}p {font-size: 10pt; text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #000000;}a:link {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}a:visited {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}a:visited:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}a:active {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}a:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; color: #36c;}h2.h2tight { margin-top: 0px; padding-top: 0px; }h1 { margin-top: 13px; padding-top: 0px; }h4 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: tiny; font-weight: bold;}h5 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: 10.1pt; font-weight: bold;}pre {text-decoration: none; font-family: Courier, Consolas, monospace; color: #666; font-size: 10pt;}pre a { font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}pre a:link { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}pre a:visited { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}pre a:visited:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}pre a:active { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}pre a:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code {text-decoration: none; font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}code a { font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}code a:link { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code a:visited { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code a:visited:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code a:active { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}code a:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt {text-decoration: none; font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}tt a { font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt;}tt a:link { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt a:visited { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt a:visited:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt a:active { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}tt a:hover { font-family: Courier, Consolas, monospace; color: #36c;font-size: 10pt;}body  {text-decoration: none; font-family: Courier, Consolas, monospace; color: #666;font-size: 10pt; padding-left: 0px; padding-top: 0px; margin-left: 0px; margin-top: 0px; border: none; }#hd_outermost_table { margin-left: 0px; border-spacing: 0px; margin-top: 0px; padding-left: 0px; padding-top: 0px; border: none; }#hd_outermost_table > tr { border-spacing: 0px; margin-left: 0px; margin-top: 0px; padding-left: 0px; padding-top: 0px; border: none; }#hd_outermost_table > tr > td { border-spacing: 0px; margin-left: 0px; margin-top: 0px; }#hd_outermost_table > tbody > tr { border-spacing: 0px; margin-left: 0px; margin-top: 0px; padding-left: 0px; padding-top: 0px; border: none; }#hd_outermost_table > tbody > tr > td { border-spacing: 0px; margin-left: 0px; margin-top: 0px; padding-top: 3px; }.afterName { display: none; }.list_indent { margin-left: 40px; }.declaration_indent { margin-left: 40px; margin-top: 0px; margin-bottom: 0px; padding-top: 0px; padding-bottom: 0px; min-height: 12px; vertical-align: middle; }.declaration_indent pre { margin-top: 20px; padding-top: 0px; margin-bottom: 20px; padding-bottom: 0px; }.gapBeforeFooter { display: none; }hr { height: 0px; min-height: 0px; border-top: none; border-left: none; border-right: none; border-bottom: 1px solid #909090;}hr.afterHeader { display: none }.param_group_indent { margin-left: 25px; }.param_indent { margin-left: 40px; margin-top: 0px; padding-top: 0px; }.param_indent dl { margin-top: 4px; padding-top: 0px; }dl dd > p:first-child { margin-top: 2px; padding-top: 0px; }.param_indent dl dd > p:first-child { margin-top: 2px; padding-top: 0px; }.group_indent { margin-left: 40px; }.group_desc_indent { margin-left: 20px; }.warning_indent { margin-left: 40px; }.important_indent { margin-left: 40px; }.note_indent { margin-left: 40px; }h3 {       color: #3C4C6C;}.tight {       margin-top: 2px; margin-bottom: 0px;       padding-top: 0px; padding-bottom: 0px;}h3 a {       color: #3C4C6C;	font-size: 16px;	font-style: normal;	font-variant: normal;	font-weight: bold;	height: 0px;	line-height: normal;}.hd_tocAccess { display: block; margin-left: 40px; font-style: italic; font-size: 10px; font-weight: normal; color: #303030; }.tocSubheading { margin-bottom: 4px; }--></style>
+</head>
+<body bgcolor="#ffffff" onload="hidetoc();">
+<!-- headerDoc=intf; uid=//MelodySmart/occ/intf/MelodySmartDelegate;  name=MelodySmartDelegate-->
+<a name="//MelodySmart/occ/intf/MelodySmartDelegate"></a><table id="hd_outermost_table" height="100%" width="100%"><tr>
+<td valign="top" id="tocMenu" src="toc.html"></td>
+<!-- start of header -->
+MelodySmart iOS library
+<!-- end of header -->
+<td id="bodyContents" valign="top">
+<a name="top"></a>
+<hr class="afterHeader">
+<h1><a name="MelodySmartDelegate">MelodySmartDelegate</a></h1>
+<div class="spec_sheet_info_box"><table cellspacing="0" class="specbox">
+<tr>
+<td scope="row"><b>Extends&nbsp;Protocol:</b></td>
+<td><div style="margin-bottom:1px"><div class="content_text">
+<!-- a logicalPath="//MelodySmart/occ/intf/NSObject" machineGenerated="true" -->NSObject<!-- /a -->
+</div></div></td>
+</tr>
+<tr>
+<td scope="row"><b>Declared In:</b></td>
+<td><div style="margin-bottom:1px"><div class="content_text"><a logicalpath="//MelodySmart/doc/header/MelodySmart.h" target="_top" machinegenerated="true" href="../../index.html#//MelodySmart/doc/header/MelodySmart.h">MelodySmart.h</a></div></div></td>
+</tr>
+</table></div>
+<h2>Introduction</h2>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//MelodySmart/occ/intf/MelodySmartDelegate;name=start --><p>The delegate of a MelodySmart object must adopt the <code>MelodySmartDelegate</code> protocol. The requirement of methods are 
+dependent on the implementation.
+</p>
+<!-- headerDoc=discussion;uid=//MelodySmart/occ/intf/MelodySmartDelegate;name=end --><!-- end discussion -->
+<hr class="afterClassOrHeaderInfo">
+<br><a name="HeaderDoc_methods"></a>
+<h2 class="h2tight">Methods</h2>
+<dl>
+<dt><tt><a href="index.html#//MelodySmart/doc/title:intfm/MelodySmartDelegate/didConnectToMelody:" target="_top">-didConnectToMelody:</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//MelodySmart/doc/title:intfm/MelodySmartDelegate/didPopulateMelodyService:" target="_top">-didPopulateMelodyService:</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//MelodySmart/doc/title:intfm/MelodySmartDelegate/didReceiveData:" target="_top">-didReceiveData:</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//MelodySmart/doc/title:intfm/MelodySmartDelegate/didReceiveData:_DONTLINK_1" target="_top">-didReceiveData:</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//MelodySmart/doc/title:intfm/MelodySmartDelegate/didReceivePioChange:" target="_top">-didReceiveTxPower:</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didConnectToMelody:" target="_top">-melodySmart:didConnectToMelody:</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didReceiveData:" target="_top">-melodySmart:didReceiveData:</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didReceivePioChange:WithLocation:" target="_top">-melodySmart:didReceivePioChange:WithLocation:</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didSendData:" target="_top">-melodySmart:didSendData:</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmartDidPopulateMelodyService:" target="_top">-melodySmartDidPopulateMelodyService:</a></tt></dt>
+<dd></dd>
+</dl>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=title:intfm;  uid=//MelodySmart/doc/title:intfm/MelodySmartDelegate/didConnectToMelody:;   name=MelodySmartDelegate::didConnectToMelody: --><a name="//MelodySmart/doc/title:intfm/MelodySmartDelegate/didConnectToMelody:"></a>
+<h3><a name="didConnectToMelody:">didConnectToMelody:</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//MelodySmart/doc/title:intfm/MelodySmartDelegate/didConnectToMelody:;name=start -->- (<!-- a logicalPath="//MelodySmart/occ/cl/void //MelodySmart/occ/tdef/void //MelodySmart/occ/tag/void //MelodySmart/occ/struct/void //MelodySmart/occ/intf/void //MelodySmart/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a -->) <a machinegenerated="true" href="index.html#//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didReceiveData:" logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/melodySmart //MelodySmart/occ/clm/MelodySmartDelegate/melodySmart //MelodySmart/occ/intfcm/MelodySmartDelegate/melodySmart //MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart" target="_top"><span class="function">melodySmart</span></a>:(<a machinegenerated="true" href="../../Classes/MelodySmart/index.html#//MelodySmart/occ/cl/MelodySmart" logicalPath="//MelodySmart/occ/cl/MelodySmart" target="_top"><span class="type">MelodySmart</span></a><span class="type">*</span>)<span class="param">melody</span> <!-- a logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/didConnectToMelody //MelodySmart/occ/clm/MelodySmartDelegate/didConnectToMelody //MelodySmart/occ/intfcm/MelodySmartDelegate/didConnectToMelody //MelodySmart/occ/intfm/MelodySmartDelegate/didConnectToMelody //MelodySmart/occ/func/didConnectToMelody //MelodySmart/occ/ftmplt/MelodySmartDelegate/didConnectToMelody //MelodySmart/occ/defn/didConnectToMelody //MelodySmart/occ/macro/didConnectToMelody //MelodySmart/doc/anysymbol/didConnectToMelody" machineGenerated="true" --><span class="function">didConnectToMelody</span><!-- /a -->:(<!-- a logicalPath="//MelodySmart/occ/cl/BOOL //MelodySmart/occ/tdef/BOOL //MelodySmart/occ/tag/BOOL //MelodySmart/occ/struct/BOOL //MelodySmart/occ/intf/BOOL //MelodySmart/doc/anysymbol/BOOL" machineGenerated="true" --><span class="type">BOOL</span><!-- /a -->)<!-- a logicalPath="//MelodySmart/occ/econst/result //MelodySmart/occ/data/MelodySmartDelegate/result //MelodySmart/occ/data/result //MelodySmart/occ/clconst/MelodySmartDelegate/result " machineGenerated="true" --><span class="var">result</span><!-- /a -->; <!-- headerDoc=declaration;uid=//MelodySmart/doc/title:intfm/MelodySmartDelegate/didConnectToMelody:;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=methodparam;  uid=//MelodySmart/doc/methodparam/MelodySmartDelegate/didConnectToMelody:/melody;   name=didConnectToMelody:::melody -->
+<a name="//MelodySmart/doc/methodparam/MelodySmartDelegate/didConnectToMelody:/melody"></a>
+<code>melody</code>
+</dt>
+<dd><p>The MelodySmart instance which corresponds to the connected device.</p></dd>
+<dt>
+<!-- headerDoc=methodparam;  uid=//MelodySmart/doc/methodparam/MelodySmartDelegate/didConnectToMelody:/result;   name=didConnectToMelody:::result -->
+<a name="//MelodySmart/doc/methodparam/MelodySmartDelegate/didConnectToMelody:/result"></a>
+<code>result</code>
+</dt>
+<dd><p>The result of the connection. YES if connection is successful and NO
+otherwise.</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//MelodySmart/doc/title:intfm/MelodySmartDelegate/didConnectToMelody:;name=start --><p>Invoked when a connection to a melody peripheral has finished.
+</p>
+<!-- headerDoc=discussion;uid=//MelodySmart/doc/title:intfm/MelodySmartDelegate/didConnectToMelody:;name=end --><!-- end discussion -->
+<p><b>See Also</b></p>
+<div class="list_indent"><dl>
+<dt><p><a href="index.html#//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didConnectToMelody:" logicalPath="//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didConnectToMelody:" target="_top">melodySmart:didConnectToMelody:</a></p></dt>
+<dd></dd>
+</dl></div>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=title:intfm;  uid=//MelodySmart/doc/title:intfm/MelodySmartDelegate/didPopulateMelodyService:;   name=MelodySmartDelegate::didPopulateMelodyService: --><a name="//MelodySmart/doc/title:intfm/MelodySmartDelegate/didPopulateMelodyService:"></a>
+<h3><a name="didPopulateMelodyService:">didPopulateMelodyService:</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//MelodySmart/doc/title:intfm/MelodySmartDelegate/didPopulateMelodyService:;name=start -->-(<!-- a logicalPath="//MelodySmart/occ/cl/void //MelodySmart/occ/tdef/void //MelodySmart/occ/tag/void //MelodySmart/occ/struct/void //MelodySmart/occ/intf/void //MelodySmart/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a -->) <a machinegenerated="true" href="index.html#//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmartDidPopulateMelodyService:" logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/melodySmartDidPopulateMelodyService //MelodySmart/occ/clm/MelodySmartDelegate/melodySmartDidPopulateMelodyService //MelodySmart/occ/intfcm/MelodySmartDelegate/melodySmartDidPopulateMelodyService //MelodySmart/occ/intfm/MelodySmartDelegate/melodySmartDidPopulateMelodyService" target="_top"><span class="function">melodySmartDidPopulateMelodyService</span></a>:(<a machinegenerated="true" href="../../Classes/MelodySmart/index.html#//MelodySmart/occ/cl/MelodySmart" logicalPath="//MelodySmart/occ/cl/MelodySmart" target="_top"><span class="type">MelodySmart</span></a><span class="type">*</span>)<!-- a logicalPath="//MelodySmart/occ/econst/melody //MelodySmart/occ/data/MelodySmartDelegate/melody //MelodySmart/occ/data/melody //MelodySmart/occ/clconst/MelodySmartDelegate/melody " machineGenerated="true" --><span class="var">melody</span><!-- /a -->; <!-- headerDoc=declaration;uid=//MelodySmart/doc/title:intfm/MelodySmartDelegate/didPopulateMelodyService:;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=methodparam;  uid=//MelodySmart/doc/methodparam/MelodySmartDelegate/didPopulateMelodyService:/melody;   name=didPopulateMelodyService:::melody -->
+<a name="//MelodySmart/doc/methodparam/MelodySmartDelegate/didPopulateMelodyService:/melody"></a>
+<code>melody</code>
+</dt>
+<dd><p>The MelodySmart instance which corresponds to the connected device.</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//MelodySmart/doc/title:intfm/MelodySmartDelegate/didPopulateMelodyService:;name=start --><p>Invoked when the melody service has been populated after a connection
+</p>
+<!-- headerDoc=discussion;uid=//MelodySmart/doc/title:intfm/MelodySmartDelegate/didPopulateMelodyService:;name=end --><!-- end discussion -->
+<p><b>See Also</b></p>
+<div class="list_indent"><dl>
+<dt><p><a href="index.html#//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmartDidPopulateMelodyService:" logicalPath="//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmartDidPopulateMelodyService:" target="_top">melodySmartDidPopulateMelodyService:</a></p></dt>
+<dd></dd>
+</dl></div>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=title:intfm;  uid=//MelodySmart/doc/title:intfm/MelodySmartDelegate/didReceiveData:;   name=MelodySmartDelegate::didReceiveData: --><a name="//MelodySmart/doc/title:intfm/MelodySmartDelegate/didReceiveData:"></a>
+<h3><a name="didReceiveData:">didReceiveData:</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//MelodySmart/doc/title:intfm/MelodySmartDelegate/didReceiveData:;name=start -->- (<!-- a logicalPath="//MelodySmart/occ/cl/void //MelodySmart/occ/tdef/void //MelodySmart/occ/tag/void //MelodySmart/occ/struct/void //MelodySmart/occ/intf/void //MelodySmart/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a -->) <a machinegenerated="true" href="index.html#//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didReceiveData:" logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/melodySmart //MelodySmart/occ/clm/MelodySmartDelegate/melodySmart //MelodySmart/occ/intfcm/MelodySmartDelegate/melodySmart //MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart" target="_top"><span class="function">melodySmart</span></a>:(<a machinegenerated="true" href="../../Classes/MelodySmart/index.html#//MelodySmart/occ/cl/MelodySmart" logicalPath="//MelodySmart/occ/cl/MelodySmart" target="_top"><span class="type">MelodySmart</span></a><span class="type">*</span>)<span class="param">melody</span> <!-- a logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/didSendData //MelodySmart/occ/clm/MelodySmartDelegate/didSendData //MelodySmart/occ/intfcm/MelodySmartDelegate/didSendData //MelodySmart/occ/intfm/MelodySmartDelegate/didSendData //MelodySmart/occ/func/didSendData //MelodySmart/occ/ftmplt/MelodySmartDelegate/didSendData //MelodySmart/occ/defn/didSendData //MelodySmart/occ/macro/didSendData //MelodySmart/doc/anysymbol/didSendData" machineGenerated="true" --><span class="function">didSendData</span><!-- /a -->:(<!-- a logicalPath="//MelodySmart/occ/cl/NSError //MelodySmart/occ/tdef/NSError //MelodySmart/occ/tag/NSError //MelodySmart/occ/struct/NSError //MelodySmart/occ/intf/NSError //MelodySmart/doc/anysymbol/NSError" machineGenerated="true" --><span class="type">NSError</span><!-- /a --><span class="type">*</span>)<!-- a logicalPath="//MelodySmart/occ/econst/error //MelodySmart/occ/data/MelodySmartDelegate/error //MelodySmart/occ/data/error //MelodySmart/occ/clconst/MelodySmartDelegate/error " machineGenerated="true" --><span class="var">error</span><!-- /a -->; <!-- headerDoc=declaration;uid=//MelodySmart/doc/title:intfm/MelodySmartDelegate/didReceiveData:;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=methodparam;  uid=//MelodySmart/doc/methodparam/MelodySmartDelegate/didReceiveData:/data;   name=didReceiveData:::data -->
+<a name="//MelodySmart/doc/methodparam/MelodySmartDelegate/didReceiveData:/data"></a>
+<code>data</code>
+</dt>
+<dd><p>The data received from Melody peripheral device.</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//MelodySmart/doc/title:intfm/MelodySmartDelegate/didReceiveData:;name=start --><p>Invoked when data has arrived from the Data service from
+the peripheral
+</p>
+<!-- headerDoc=discussion;uid=//MelodySmart/doc/title:intfm/MelodySmartDelegate/didReceiveData:;name=end --><!-- end discussion -->
+<p><b>See Also</b></p>
+<div class="list_indent"><dl>
+<dt><p><a href="index.html#//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didSendData:" logicalPath="//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didSendData:" target="_top">melodySmart:didSendData:</a></p></dt>
+<dd></dd>
+</dl></div>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=title:intfm;  uid=//MelodySmart/doc/title:intfm/MelodySmartDelegate/didReceiveData:_DONTLINK_1;   name=MelodySmartDelegate::didReceiveData: --><a name="//MelodySmart/doc/title:intfm/MelodySmartDelegate/didReceiveData:_DONTLINK_1"></a>
+<h3><a name="didReceiveData:">didReceiveData:</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//MelodySmart/doc/title:intfm/MelodySmartDelegate/didReceiveData:_DONTLINK_1;name=start -->- (<!-- a logicalPath="//MelodySmart/occ/cl/void //MelodySmart/occ/tdef/void //MelodySmart/occ/tag/void //MelodySmart/occ/struct/void //MelodySmart/occ/intf/void //MelodySmart/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a -->) <a machinegenerated="true" href="index.html#//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didReceiveData:" logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/melodySmart //MelodySmart/occ/clm/MelodySmartDelegate/melodySmart //MelodySmart/occ/intfcm/MelodySmartDelegate/melodySmart //MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart" target="_top"><span class="function">melodySmart</span></a>:(<a machinegenerated="true" href="../../Classes/MelodySmart/index.html#//MelodySmart/occ/cl/MelodySmart" logicalPath="//MelodySmart/occ/cl/MelodySmart" target="_top"><span class="type">MelodySmart</span></a><span class="type">*</span>)<span class="param">melody</span> <!-- a logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/didReceiveData //MelodySmart/occ/clm/MelodySmartDelegate/didReceiveData //MelodySmart/occ/intfcm/MelodySmartDelegate/didReceiveData //MelodySmart/occ/intfm/MelodySmartDelegate/didReceiveData //MelodySmart/occ/func/didReceiveData //MelodySmart/occ/ftmplt/MelodySmartDelegate/didReceiveData //MelodySmart/occ/defn/didReceiveData //MelodySmart/occ/macro/didReceiveData //MelodySmart/doc/anysymbol/didReceiveData" machineGenerated="true" --><span class="function">didReceiveData</span><!-- /a -->:(<!-- a logicalPath="//MelodySmart/occ/cl/NSData //MelodySmart/occ/tdef/NSData //MelodySmart/occ/tag/NSData //MelodySmart/occ/struct/NSData //MelodySmart/occ/intf/NSData //MelodySmart/doc/anysymbol/NSData" machineGenerated="true" --><span class="type">NSData</span><!-- /a --><span class="type">*</span>)<!-- a logicalPath="//MelodySmart/occ/econst/data //MelodySmart/occ/data/MelodySmartDelegate/data //MelodySmart/occ/data/data //MelodySmart/occ/clconst/MelodySmartDelegate/data " machineGenerated="true" --><span class="var">data</span><!-- /a -->; <!-- headerDoc=declaration;uid=//MelodySmart/doc/title:intfm/MelodySmartDelegate/didReceiveData:_DONTLINK_1;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=methodparam;  uid=//MelodySmart/doc/methodparam/MelodySmartDelegate/didReceiveData:/data;   name=didReceiveData:::data -->
+<a name="//MelodySmart/doc/methodparam/MelodySmartDelegate/didReceiveData:/data"></a>
+<code>data</code>
+</dt>
+<dd><p>The data received from Melody peripheral device.</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//MelodySmart/doc/title:intfm/MelodySmartDelegate/didReceiveData:_DONTLINK_1;name=start --><p>Invoked when data has arrived from the Data service from
+the peripheral
+</p>
+<!-- headerDoc=discussion;uid=//MelodySmart/doc/title:intfm/MelodySmartDelegate/didReceiveData:_DONTLINK_1;name=end --><!-- end discussion -->
+<p><b>See Also</b></p>
+<div class="list_indent"><dl>
+<dt><p><a href="index.html#//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didReceiveData:" logicalPath="//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didReceiveData:" target="_top">melodySmart:didReceiveData:</a></p></dt>
+<dd></dd>
+</dl></div>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=title:intfm;  uid=//MelodySmart/doc/title:intfm/MelodySmartDelegate/didReceivePioChange:;   name=MelodySmartDelegate::didReceivePioChange: --><a name="//MelodySmart/doc/title:intfm/MelodySmartDelegate/didReceivePioChange:"></a>
+<h3><a name="didReceiveTxPower:">didReceiveTxPower:</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><tt>@optional</tt>
+<br>@optional - (<!-- a logicalPath="//MelodySmart/occ/cl/void //MelodySmart/occ/tdef/void //MelodySmart/occ/tag/void //MelodySmart/occ/struct/void //MelodySmart/occ/intf/void //MelodySmart/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a -->) <a machinegenerated="true" href="index.html#//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didReceiveData:" logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/melodySmart //MelodySmart/occ/clm/MelodySmartDelegate/melodySmart //MelodySmart/occ/intfcm/MelodySmartDelegate/melodySmart //MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart" target="_top"><span class="function">melodySmart</span></a>:(<a machinegenerated="true" href="../../Classes/MelodySmart/index.html#//MelodySmart/occ/cl/MelodySmart" logicalPath="//MelodySmart/occ/cl/MelodySmart" target="_top"><span class="type">MelodySmart</span></a><span class="type">*</span>)<span class="param">melody</span> 
+        <!-- a logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/didReceivePioChange //MelodySmart/occ/clm/MelodySmartDelegate/didReceivePioChange //MelodySmart/occ/intfcm/MelodySmartDelegate/didReceivePioChange //MelodySmart/occ/intfm/MelodySmartDelegate/didReceivePioChange //MelodySmart/occ/func/didReceivePioChange //MelodySmart/occ/ftmplt/MelodySmartDelegate/didReceivePioChange //MelodySmart/occ/defn/didReceivePioChange //MelodySmart/occ/macro/didReceivePioChange //MelodySmart/doc/anysymbol/didReceivePioChange" machineGenerated="true" --><span class="function">didReceivePioChange</span><!-- /a -->:(<span class="keyword">unsigned</span> <!-- a logicalPath="//MelodySmart/occ/cl/char //MelodySmart/occ/tdef/char //MelodySmart/occ/tag/char //MelodySmart/occ/struct/char //MelodySmart/occ/intf/char //MelodySmart/doc/anysymbol/char" machineGenerated="true" --><span class="type">char</span><!-- /a -->)<span class="param">state</span> <!-- a logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/WithLocation //MelodySmart/occ/clm/MelodySmartDelegate/WithLocation //MelodySmart/occ/intfcm/MelodySmartDelegate/WithLocation //MelodySmart/occ/intfm/MelodySmartDelegate/WithLocation //MelodySmart/occ/func/WithLocation //MelodySmart/occ/ftmplt/MelodySmartDelegate/WithLocation //MelodySmart/occ/defn/WithLocation //MelodySmart/occ/macro/WithLocation //MelodySmart/doc/anysymbol/WithLocation" machineGenerated="true" --><span class="function">WithLocation</span><!-- /a -->:(<a machinegenerated="true" href="../../index.html#//MelodySmart/c/tdef/BcSmartPioLocation" logicalPath="//MelodySmart/occ/cl/BcSmartPioLocation //MelodySmart/occ/tdef/BcSmartPioLocation" target="_top"><span class="type">BcSmartPioLocation</span></a>)<!-- a logicalPath="//MelodySmart/occ/econst/location //MelodySmart/occ/data/MelodySmartDelegate/location //MelodySmart/occ/data/location //MelodySmart/occ/clconst/MelodySmartDelegate/location " machineGenerated="true" --><span class="var">location</span><!-- /a -->;    @optional - (<!-- a logicalPath="//MelodySmart/occ/cl/void //MelodySmart/occ/tdef/void //MelodySmart/occ/tag/void //MelodySmart/occ/struct/void //MelodySmart/occ/intf/void //MelodySmart/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a -->) 
+        <a machinegenerated="true" href="index.html#//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didReceiveData:" logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/melodySmart //MelodySmart/occ/clm/MelodySmartDelegate/melodySmart //MelodySmart/occ/intfcm/MelodySmartDelegate/melodySmart //MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart" target="_top"><span class="function">melodySmart</span></a>:(<a machinegenerated="true" href="../../Classes/MelodySmart/index.html#//MelodySmart/occ/cl/MelodySmart" logicalPath="//MelodySmart/occ/cl/MelodySmart" target="_top"><span class="type">MelodySmart</span></a><span class="type">*</span>)<span class="param">melody</span> <!-- a logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/didReceivePioSettingChange //MelodySmart/occ/clm/MelodySmartDelegate/didReceivePioSettingChange //MelodySmart/occ/intfcm/MelodySmartDelegate/didReceivePioSettingChange //MelodySmart/occ/intfm/MelodySmartDelegate/didReceivePioSettingChange //MelodySmart/occ/func/didReceivePioSettingChange //MelodySmart/occ/ftmplt/MelodySmartDelegate/didReceivePioSettingChange //MelodySmart/occ/defn/didReceivePioSettingChange //MelodySmart/occ/macro/didReceivePioSettingChange //MelodySmart/doc/anysymbol/didReceivePioSettingChange" machineGenerated="true" --><span class="function">didReceivePioSettingChange</span><!-- /a -->:(<span class="keyword">unsigned</span> <!-- a logicalPath="//MelodySmart/occ/cl/char //MelodySmart/occ/tdef/char //MelodySmart/occ/tag/char //MelodySmart/occ/struct/char //MelodySmart/occ/intf/char //MelodySmart/doc/anysymbol/char" machineGenerated="true" --><span class="type">char</span><!-- /a -->)<span class="param">state</span> 
+        <!-- a logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/WithLocation //MelodySmart/occ/clm/MelodySmartDelegate/WithLocation //MelodySmart/occ/intfcm/MelodySmartDelegate/WithLocation //MelodySmart/occ/intfm/MelodySmartDelegate/WithLocation //MelodySmart/occ/func/WithLocation //MelodySmart/occ/ftmplt/MelodySmartDelegate/WithLocation //MelodySmart/occ/defn/WithLocation //MelodySmart/occ/macro/WithLocation //MelodySmart/doc/anysymbol/WithLocation" machineGenerated="true" --><span class="function">WithLocation</span><!-- /a -->:(<a machinegenerated="true" href="../../index.html#//MelodySmart/c/tdef/BcSmartPioLocation" logicalPath="//MelodySmart/occ/cl/BcSmartPioLocation //MelodySmart/occ/tdef/BcSmartPioLocation" target="_top"><span class="type">BcSmartPioLocation</span></a>)<!-- a logicalPath="//MelodySmart/occ/econst/location //MelodySmart/occ/data/MelodySmartDelegate/location //MelodySmart/occ/data/location //MelodySmart/occ/clconst/MelodySmartDelegate/location " machineGenerated="true" --><span class="var">location</span><!-- /a -->;     - (<!-- a logicalPath="//MelodySmart/occ/cl/void //MelodySmart/occ/tdef/void //MelodySmart/occ/tag/void //MelodySmart/occ/struct/void //MelodySmart/occ/intf/void //MelodySmart/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a -->) 
+        <!-- a logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/meldodySmart //MelodySmart/occ/clm/MelodySmartDelegate/meldodySmart //MelodySmart/occ/intfcm/MelodySmartDelegate/meldodySmart //MelodySmart/occ/intfm/MelodySmartDelegate/meldodySmart //MelodySmart/occ/func/meldodySmart //MelodySmart/occ/ftmplt/MelodySmartDelegate/meldodySmart //MelodySmart/occ/defn/meldodySmart //MelodySmart/occ/macro/meldodySmart //MelodySmart/doc/anysymbol/meldodySmart" machineGenerated="true" --><span class="function">meldodySmart</span><!-- /a -->:(<a machinegenerated="true" href="../../Classes/MelodySmart/index.html#//MelodySmart/occ/cl/MelodySmart" logicalPath="//MelodySmart/occ/cl/MelodySmart" target="_top"><span class="type">MelodySmart</span></a><span class="type">*</span>)<span class="param">melody</span> <!-- a logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/didReceiveLinkLossLevel //MelodySmart/occ/clm/MelodySmartDelegate/didReceiveLinkLossLevel //MelodySmart/occ/intfcm/MelodySmartDelegate/didReceiveLinkLossLevel //MelodySmart/occ/intfm/MelodySmartDelegate/didReceiveLinkLossLevel //MelodySmart/occ/func/didReceiveLinkLossLevel //MelodySmart/occ/ftmplt/MelodySmartDelegate/didReceiveLinkLossLevel //MelodySmart/occ/defn/didReceiveLinkLossLevel //MelodySmart/occ/macro/didReceiveLinkLossLevel //MelodySmart/doc/anysymbol/didReceiveLinkLossLevel" machineGenerated="true" --><span class="function">didReceiveLinkLossLevel</span><!-- /a -->:(<!-- a logicalPath="//MelodySmart/occ/cl/BcSmartAlertLevel //MelodySmart/occ/tdef/BcSmartAlertLevel //MelodySmart/occ/tag/BcSmartAlertLevel //MelodySmart/occ/struct/BcSmartAlertLevel //MelodySmart/occ/intf/BcSmartAlertLevel //MelodySmart/doc/anysymbol/BcSmartAlertLevel" machineGenerated="true" --><span class="type">BcSmartAlertLevel</span><!-- /a -->)<!-- a logicalPath="//MelodySmart/occ/econst/level //MelodySmart/occ/data/MelodySmartDelegate/level //MelodySmart/occ/data/level //MelodySmart/occ/clconst/MelodySmartDelegate/level " machineGenerated="true" --><span class="var">level</span><!-- /a -->;    - (<!-- a logicalPath="//MelodySmart/occ/cl/void //MelodySmart/occ/tdef/void //MelodySmart/occ/tag/void //MelodySmart/occ/struct/void //MelodySmart/occ/intf/void //MelodySmart/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a -->) 
+        <!-- a logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/meldodySmart //MelodySmart/occ/clm/MelodySmartDelegate/meldodySmart //MelodySmart/occ/intfcm/MelodySmartDelegate/meldodySmart //MelodySmart/occ/intfm/MelodySmartDelegate/meldodySmart //MelodySmart/occ/func/meldodySmart //MelodySmart/occ/ftmplt/MelodySmartDelegate/meldodySmart //MelodySmart/occ/defn/meldodySmart //MelodySmart/occ/macro/meldodySmart //MelodySmart/doc/anysymbol/meldodySmart" machineGenerated="true" --><span class="function">meldodySmart</span><!-- /a -->:(<a machinegenerated="true" href="../../Classes/MelodySmart/index.html#//MelodySmart/occ/cl/MelodySmart" logicalPath="//MelodySmart/occ/cl/MelodySmart" target="_top"><span class="type">MelodySmart</span></a><span class="type">*</span>)<span class="param">melody</span> <!-- a logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/didReceiveTxPower //MelodySmart/occ/clm/MelodySmartDelegate/didReceiveTxPower //MelodySmart/occ/intfcm/MelodySmartDelegate/didReceiveTxPower //MelodySmart/occ/intfm/MelodySmartDelegate/didReceiveTxPower //MelodySmart/occ/func/didReceiveTxPower //MelodySmart/occ/ftmplt/MelodySmartDelegate/didReceiveTxPower //MelodySmart/occ/defn/didReceiveTxPower //MelodySmart/occ/macro/didReceiveTxPower //MelodySmart/doc/anysymbol/didReceiveTxPower" machineGenerated="true" --><span class="function">didReceiveTxPower</span><!-- /a -->:(<!-- a logicalPath="//MelodySmart/occ/cl/NSInteger //MelodySmart/occ/tdef/NSInteger //MelodySmart/occ/tag/NSInteger //MelodySmart/occ/struct/NSInteger //MelodySmart/occ/intf/NSInteger //MelodySmart/doc/anysymbol/NSInteger" machineGenerated="true" --><span class="type">NSInteger</span><!-- /a -->)<!-- a logicalPath="//MelodySmart/occ/econst/power //MelodySmart/occ/data/MelodySmartDelegate/power //MelodySmart/occ/data/power //MelodySmart/occ/clconst/MelodySmartDelegate/power " machineGenerated="true" --><span class="var">power</span><!-- /a -->;   @@end</pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=methodparam;  uid=//MelodySmart/doc/methodparam/MelodySmartDelegate/didReceivePioChange:/data;   name=didReceivePioChange:::data -->
+<a name="//MelodySmart/doc/methodparam/MelodySmartDelegate/didReceivePioChange:/data"></a>
+<code>data</code>
+</dt>
+<dd>
+<p>8 bits representing the new state of 1 or more pios.
+</p>
+<p>8 bits representing the new state of 1 or more pios.</p>
+</dd>
+<dt>
+<!-- headerDoc=methodparam;  uid=//MelodySmart/doc/methodparam/MelodySmartDelegate/didReceivePioChange:/location;   name=didReceivePioChange:::location -->
+<a name="//MelodySmart/doc/methodparam/MelodySmartDelegate/didReceivePioChange:/location"></a>
+<code>location</code>
+</dt>
+<dd>
+<p>the set of PIOs the state is representing PioLocation
+</p>
+<p>the set of PIOs the state is representing PioLocation</p>
+</dd>
+<dt>
+<!-- headerDoc=methodparam;  uid=//MelodySmart/doc/methodparam/MelodySmartDelegate/didReceivePioChange:/level;   name=didReceivePioChange:::level -->
+<a name="//MelodySmart/doc/methodparam/MelodySmartDelegate/didReceivePioChange:/level"></a>
+<code>level</code>
+</dt>
+<dd>
+<p>BC Smart Alert Level.
+</p>
+<p>BC Smart Alert Level.</p>
+</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//MelodySmart/doc/title:intfm/MelodySmartDelegate/didReceivePioChange:;name=start --><p>Invoked when a the remote device replies reading the TX Power level set on the remote device.
+</p>
+<!-- headerDoc=discussion;uid=//MelodySmart/doc/title:intfm/MelodySmartDelegate/didReceivePioChange:;name=end --><!-- end discussion -->
+<p><b>See Also</b></p>
+<div class="list_indent"><dl>
+<dt><p><a href="index.html#//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didReceivePioChange:WithLocation:" logicalPath="//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didReceivePioChange:WithLocation:" target="_top">melodySmart:didReceivePioChange:WithLocation:</a></p></dt>
+<dd></dd>
+</dl></div>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=intfm;  uid=//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didConnectToMelody:;   name=MelodySmartDelegate::melodySmart:didConnectToMelody: --><a name="//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didConnectToMelody:"></a>
+<h3><a name="melodySmart:didConnectToMelody:">melodySmart:didConnectToMelody:</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didConnectToMelody:;name=start -->- (<!-- a logicalPath="//MelodySmart/occ/cl/void //MelodySmart/occ/tdef/void //MelodySmart/occ/tag/void //MelodySmart/occ/struct/void //MelodySmart/occ/intf/void //MelodySmart/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a -->) <a machinegenerated="true" href="index.html#//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didReceiveData:" logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/melodySmart //MelodySmart/occ/clm/MelodySmartDelegate/melodySmart //MelodySmart/occ/intfcm/MelodySmartDelegate/melodySmart //MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart" target="_top"><span class="function">melodySmart</span></a>:(<a machinegenerated="true" href="../../Classes/MelodySmart/index.html#//MelodySmart/occ/cl/MelodySmart" logicalPath="//MelodySmart/occ/cl/MelodySmart" target="_top"><span class="type">MelodySmart</span></a><span class="type">*</span>)<span class="param">melody</span> <!-- a logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/didConnectToMelody //MelodySmart/occ/clm/MelodySmartDelegate/didConnectToMelody //MelodySmart/occ/intfcm/MelodySmartDelegate/didConnectToMelody //MelodySmart/occ/intfm/MelodySmartDelegate/didConnectToMelody //MelodySmart/occ/func/didConnectToMelody //MelodySmart/occ/ftmplt/MelodySmartDelegate/didConnectToMelody //MelodySmart/occ/defn/didConnectToMelody //MelodySmart/occ/macro/didConnectToMelody //MelodySmart/doc/anysymbol/didConnectToMelody" machineGenerated="true" --><span class="function">didConnectToMelody</span><!-- /a -->:(<!-- a logicalPath="//MelodySmart/occ/cl/BOOL //MelodySmart/occ/tdef/BOOL //MelodySmart/occ/tag/BOOL //MelodySmart/occ/struct/BOOL //MelodySmart/occ/intf/BOOL //MelodySmart/doc/anysymbol/BOOL" machineGenerated="true" --><span class="type">BOOL</span><!-- /a -->)<!-- a logicalPath="//MelodySmart/occ/econst/result //MelodySmart/occ/data/MelodySmartDelegate/result //MelodySmart/occ/data/result //MelodySmart/occ/clconst/MelodySmartDelegate/result " machineGenerated="true" --><span class="var">result</span><!-- /a -->; <!-- headerDoc=declaration;uid=//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didConnectToMelody:;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=methodparam;  uid=//MelodySmart/doc/methodparam/MelodySmartDelegate/melodySmart:didConnectToMelody:/melody;   name=melodySmart:didConnectToMelody:::melody -->
+<a name="//MelodySmart/doc/methodparam/MelodySmartDelegate/melodySmart:didConnectToMelody:/melody"></a>
+<code>melody</code>
+</dt>
+<dd><p>The MelodySmart instance which corresponds to the connected device.</p></dd>
+<dt>
+<!-- headerDoc=methodparam;  uid=//MelodySmart/doc/methodparam/MelodySmartDelegate/melodySmart:didConnectToMelody:/result;   name=melodySmart:didConnectToMelody:::result -->
+<a name="//MelodySmart/doc/methodparam/MelodySmartDelegate/melodySmart:didConnectToMelody:/result"></a>
+<code>result</code>
+</dt>
+<dd><p>The result of the connection. YES if connection is successful and NO
+otherwise.</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didConnectToMelody:;name=start --><p>Invoked when a connection to a melody peripheral has finished.
+</p>
+<!-- headerDoc=discussion;uid=//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didConnectToMelody:;name=end --><!-- end discussion -->
+<p><b>See Also</b></p>
+<div class="list_indent"><dl>
+<dt><p><a href="index.html#//MelodySmart/doc/title:intfm/MelodySmartDelegate/didConnectToMelody:" logicalPath="//MelodySmart/doc/title:intfm/MelodySmartDelegate/didConnectToMelody:" target="_top">didConnectToMelody:</a></p></dt>
+<dd></dd>
+</dl></div>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=intfm;  uid=//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didReceiveData:;   name=MelodySmartDelegate::melodySmart:didReceiveData: --><a name="//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didReceiveData:"></a>
+<h3><a name="melodySmart:didReceiveData:">melodySmart:didReceiveData:</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didReceiveData:;name=start -->- (<!-- a logicalPath="//MelodySmart/occ/cl/void //MelodySmart/occ/tdef/void //MelodySmart/occ/tag/void //MelodySmart/occ/struct/void //MelodySmart/occ/intf/void //MelodySmart/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a -->) <a machinegenerated="true" href="index.html#//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didReceiveData:" logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/melodySmart //MelodySmart/occ/clm/MelodySmartDelegate/melodySmart //MelodySmart/occ/intfcm/MelodySmartDelegate/melodySmart //MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart" target="_top"><span class="function">melodySmart</span></a>:(<a machinegenerated="true" href="../../Classes/MelodySmart/index.html#//MelodySmart/occ/cl/MelodySmart" logicalPath="//MelodySmart/occ/cl/MelodySmart" target="_top"><span class="type">MelodySmart</span></a><span class="type">*</span>)<span class="param">melody</span> <!-- a logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/didReceiveData //MelodySmart/occ/clm/MelodySmartDelegate/didReceiveData //MelodySmart/occ/intfcm/MelodySmartDelegate/didReceiveData //MelodySmart/occ/intfm/MelodySmartDelegate/didReceiveData //MelodySmart/occ/func/didReceiveData //MelodySmart/occ/ftmplt/MelodySmartDelegate/didReceiveData //MelodySmart/occ/defn/didReceiveData //MelodySmart/occ/macro/didReceiveData //MelodySmart/doc/anysymbol/didReceiveData" machineGenerated="true" --><span class="function">didReceiveData</span><!-- /a -->:(<!-- a logicalPath="//MelodySmart/occ/cl/NSData //MelodySmart/occ/tdef/NSData //MelodySmart/occ/tag/NSData //MelodySmart/occ/struct/NSData //MelodySmart/occ/intf/NSData //MelodySmart/doc/anysymbol/NSData" machineGenerated="true" --><span class="type">NSData</span><!-- /a --><span class="type">*</span>)<!-- a logicalPath="//MelodySmart/occ/econst/data //MelodySmart/occ/data/MelodySmartDelegate/data //MelodySmart/occ/data/data //MelodySmart/occ/clconst/MelodySmartDelegate/data " machineGenerated="true" --><span class="var">data</span><!-- /a -->; <!-- headerDoc=declaration;uid=//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didReceiveData:;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=methodparam;  uid=//MelodySmart/doc/methodparam/MelodySmartDelegate/melodySmart:didReceiveData:/data;   name=melodySmart:didReceiveData:::data -->
+<a name="//MelodySmart/doc/methodparam/MelodySmartDelegate/melodySmart:didReceiveData:/data"></a>
+<code>data</code>
+</dt>
+<dd><p>The data received from Melody peripheral device.</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didReceiveData:;name=start --><p>Invoked when data has arrived from the Data service from
+the peripheral
+</p>
+<!-- headerDoc=discussion;uid=//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didReceiveData:;name=end --><!-- end discussion -->
+<p><b>See Also</b></p>
+<div class="list_indent"><dl>
+<dt><p><a href="index.html#//MelodySmart/doc/title:intfm/MelodySmartDelegate/didReceiveData:_DONTLINK_1" logicalPath="//MelodySmart/doc/title:intfm/MelodySmartDelegate/didReceiveData:_DONTLINK_1" target="_top">didReceiveData:</a></p></dt>
+<dd></dd>
+</dl></div>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=intfm;  uid=//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didReceivePioChange:WithLocation:;   name=MelodySmartDelegate::melodySmart:didReceivePioChange:WithLocation: --><a name="//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didReceivePioChange:WithLocation:"></a>
+<h3><a name="melodySmart:didReceivePioChange:WithLocation:">melodySmart:didReceivePioChange:WithLocation:</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><tt>@optional</tt>
+<br>@optional - (<!-- a logicalPath="//MelodySmart/occ/cl/void //MelodySmart/occ/tdef/void //MelodySmart/occ/tag/void //MelodySmart/occ/struct/void //MelodySmart/occ/intf/void //MelodySmart/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a -->) <a machinegenerated="true" href="index.html#//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didReceiveData:" logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/melodySmart //MelodySmart/occ/clm/MelodySmartDelegate/melodySmart //MelodySmart/occ/intfcm/MelodySmartDelegate/melodySmart //MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart" target="_top"><span class="function">melodySmart</span></a>:(<a machinegenerated="true" href="../../Classes/MelodySmart/index.html#//MelodySmart/occ/cl/MelodySmart" logicalPath="//MelodySmart/occ/cl/MelodySmart" target="_top"><span class="type">MelodySmart</span></a><span class="type">*</span>)<span class="param">melody</span> 
+        <!-- a logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/didReceivePioChange //MelodySmart/occ/clm/MelodySmartDelegate/didReceivePioChange //MelodySmart/occ/intfcm/MelodySmartDelegate/didReceivePioChange //MelodySmart/occ/intfm/MelodySmartDelegate/didReceivePioChange //MelodySmart/occ/func/didReceivePioChange //MelodySmart/occ/ftmplt/MelodySmartDelegate/didReceivePioChange //MelodySmart/occ/defn/didReceivePioChange //MelodySmart/occ/macro/didReceivePioChange //MelodySmart/doc/anysymbol/didReceivePioChange" machineGenerated="true" --><span class="function">didReceivePioChange</span><!-- /a -->:(<span class="keyword">unsigned</span> <!-- a logicalPath="//MelodySmart/occ/cl/char //MelodySmart/occ/tdef/char //MelodySmart/occ/tag/char //MelodySmart/occ/struct/char //MelodySmart/occ/intf/char //MelodySmart/doc/anysymbol/char" machineGenerated="true" --><span class="type">char</span><!-- /a -->)<span class="param">state</span> <!-- a logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/WithLocation //MelodySmart/occ/clm/MelodySmartDelegate/WithLocation //MelodySmart/occ/intfcm/MelodySmartDelegate/WithLocation //MelodySmart/occ/intfm/MelodySmartDelegate/WithLocation //MelodySmart/occ/func/WithLocation //MelodySmart/occ/ftmplt/MelodySmartDelegate/WithLocation //MelodySmart/occ/defn/WithLocation //MelodySmart/occ/macro/WithLocation //MelodySmart/doc/anysymbol/WithLocation" machineGenerated="true" --><span class="function">WithLocation</span><!-- /a -->:(<a machinegenerated="true" href="../../index.html#//MelodySmart/c/tdef/BcSmartPioLocation" logicalPath="//MelodySmart/occ/cl/BcSmartPioLocation //MelodySmart/occ/tdef/BcSmartPioLocation" target="_top"><span class="type">BcSmartPioLocation</span></a>)<!-- a logicalPath="//MelodySmart/occ/econst/location //MelodySmart/occ/data/MelodySmartDelegate/location //MelodySmart/occ/data/location //MelodySmart/occ/clconst/MelodySmartDelegate/location " machineGenerated="true" --><span class="var">location</span><!-- /a -->;    @optional - (<!-- a logicalPath="//MelodySmart/occ/cl/void //MelodySmart/occ/tdef/void //MelodySmart/occ/tag/void //MelodySmart/occ/struct/void //MelodySmart/occ/intf/void //MelodySmart/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a -->) 
+        <a machinegenerated="true" href="index.html#//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didReceiveData:" logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/melodySmart //MelodySmart/occ/clm/MelodySmartDelegate/melodySmart //MelodySmart/occ/intfcm/MelodySmartDelegate/melodySmart //MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart" target="_top"><span class="function">melodySmart</span></a>:(<a machinegenerated="true" href="../../Classes/MelodySmart/index.html#//MelodySmart/occ/cl/MelodySmart" logicalPath="//MelodySmart/occ/cl/MelodySmart" target="_top"><span class="type">MelodySmart</span></a><span class="type">*</span>)<span class="param">melody</span> <!-- a logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/didReceivePioSettingChange //MelodySmart/occ/clm/MelodySmartDelegate/didReceivePioSettingChange //MelodySmart/occ/intfcm/MelodySmartDelegate/didReceivePioSettingChange //MelodySmart/occ/intfm/MelodySmartDelegate/didReceivePioSettingChange //MelodySmart/occ/func/didReceivePioSettingChange //MelodySmart/occ/ftmplt/MelodySmartDelegate/didReceivePioSettingChange //MelodySmart/occ/defn/didReceivePioSettingChange //MelodySmart/occ/macro/didReceivePioSettingChange //MelodySmart/doc/anysymbol/didReceivePioSettingChange" machineGenerated="true" --><span class="function">didReceivePioSettingChange</span><!-- /a -->:(<span class="keyword">unsigned</span> <!-- a logicalPath="//MelodySmart/occ/cl/char //MelodySmart/occ/tdef/char //MelodySmart/occ/tag/char //MelodySmart/occ/struct/char //MelodySmart/occ/intf/char //MelodySmart/doc/anysymbol/char" machineGenerated="true" --><span class="type">char</span><!-- /a -->)<span class="param">state</span> 
+        <!-- a logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/WithLocation //MelodySmart/occ/clm/MelodySmartDelegate/WithLocation //MelodySmart/occ/intfcm/MelodySmartDelegate/WithLocation //MelodySmart/occ/intfm/MelodySmartDelegate/WithLocation //MelodySmart/occ/func/WithLocation //MelodySmart/occ/ftmplt/MelodySmartDelegate/WithLocation //MelodySmart/occ/defn/WithLocation //MelodySmart/occ/macro/WithLocation //MelodySmart/doc/anysymbol/WithLocation" machineGenerated="true" --><span class="function">WithLocation</span><!-- /a -->:(<a machinegenerated="true" href="../../index.html#//MelodySmart/c/tdef/BcSmartPioLocation" logicalPath="//MelodySmart/occ/cl/BcSmartPioLocation //MelodySmart/occ/tdef/BcSmartPioLocation" target="_top"><span class="type">BcSmartPioLocation</span></a>)<!-- a logicalPath="//MelodySmart/occ/econst/location //MelodySmart/occ/data/MelodySmartDelegate/location //MelodySmart/occ/data/location //MelodySmart/occ/clconst/MelodySmartDelegate/location " machineGenerated="true" --><span class="var">location</span><!-- /a -->;     - (<!-- a logicalPath="//MelodySmart/occ/cl/void //MelodySmart/occ/tdef/void //MelodySmart/occ/tag/void //MelodySmart/occ/struct/void //MelodySmart/occ/intf/void //MelodySmart/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a -->) 
+        <!-- a logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/meldodySmart //MelodySmart/occ/clm/MelodySmartDelegate/meldodySmart //MelodySmart/occ/intfcm/MelodySmartDelegate/meldodySmart //MelodySmart/occ/intfm/MelodySmartDelegate/meldodySmart //MelodySmart/occ/func/meldodySmart //MelodySmart/occ/ftmplt/MelodySmartDelegate/meldodySmart //MelodySmart/occ/defn/meldodySmart //MelodySmart/occ/macro/meldodySmart //MelodySmart/doc/anysymbol/meldodySmart" machineGenerated="true" --><span class="function">meldodySmart</span><!-- /a -->:(<a machinegenerated="true" href="../../Classes/MelodySmart/index.html#//MelodySmart/occ/cl/MelodySmart" logicalPath="//MelodySmart/occ/cl/MelodySmart" target="_top"><span class="type">MelodySmart</span></a><span class="type">*</span>)<span class="param">melody</span> <!-- a logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/didReceiveLinkLossLevel //MelodySmart/occ/clm/MelodySmartDelegate/didReceiveLinkLossLevel //MelodySmart/occ/intfcm/MelodySmartDelegate/didReceiveLinkLossLevel //MelodySmart/occ/intfm/MelodySmartDelegate/didReceiveLinkLossLevel //MelodySmart/occ/func/didReceiveLinkLossLevel //MelodySmart/occ/ftmplt/MelodySmartDelegate/didReceiveLinkLossLevel //MelodySmart/occ/defn/didReceiveLinkLossLevel //MelodySmart/occ/macro/didReceiveLinkLossLevel //MelodySmart/doc/anysymbol/didReceiveLinkLossLevel" machineGenerated="true" --><span class="function">didReceiveLinkLossLevel</span><!-- /a -->:(<!-- a logicalPath="//MelodySmart/occ/cl/BcSmartAlertLevel //MelodySmart/occ/tdef/BcSmartAlertLevel //MelodySmart/occ/tag/BcSmartAlertLevel //MelodySmart/occ/struct/BcSmartAlertLevel //MelodySmart/occ/intf/BcSmartAlertLevel //MelodySmart/doc/anysymbol/BcSmartAlertLevel" machineGenerated="true" --><span class="type">BcSmartAlertLevel</span><!-- /a -->)<!-- a logicalPath="//MelodySmart/occ/econst/level //MelodySmart/occ/data/MelodySmartDelegate/level //MelodySmart/occ/data/level //MelodySmart/occ/clconst/MelodySmartDelegate/level " machineGenerated="true" --><span class="var">level</span><!-- /a -->;    - (<!-- a logicalPath="//MelodySmart/occ/cl/void //MelodySmart/occ/tdef/void //MelodySmart/occ/tag/void //MelodySmart/occ/struct/void //MelodySmart/occ/intf/void //MelodySmart/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a -->) 
+        <!-- a logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/meldodySmart //MelodySmart/occ/clm/MelodySmartDelegate/meldodySmart //MelodySmart/occ/intfcm/MelodySmartDelegate/meldodySmart //MelodySmart/occ/intfm/MelodySmartDelegate/meldodySmart //MelodySmart/occ/func/meldodySmart //MelodySmart/occ/ftmplt/MelodySmartDelegate/meldodySmart //MelodySmart/occ/defn/meldodySmart //MelodySmart/occ/macro/meldodySmart //MelodySmart/doc/anysymbol/meldodySmart" machineGenerated="true" --><span class="function">meldodySmart</span><!-- /a -->:(<a machinegenerated="true" href="../../Classes/MelodySmart/index.html#//MelodySmart/occ/cl/MelodySmart" logicalPath="//MelodySmart/occ/cl/MelodySmart" target="_top"><span class="type">MelodySmart</span></a><span class="type">*</span>)<span class="param">melody</span> <!-- a logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/didReceiveTxPower //MelodySmart/occ/clm/MelodySmartDelegate/didReceiveTxPower //MelodySmart/occ/intfcm/MelodySmartDelegate/didReceiveTxPower //MelodySmart/occ/intfm/MelodySmartDelegate/didReceiveTxPower //MelodySmart/occ/func/didReceiveTxPower //MelodySmart/occ/ftmplt/MelodySmartDelegate/didReceiveTxPower //MelodySmart/occ/defn/didReceiveTxPower //MelodySmart/occ/macro/didReceiveTxPower //MelodySmart/doc/anysymbol/didReceiveTxPower" machineGenerated="true" --><span class="function">didReceiveTxPower</span><!-- /a -->:(<!-- a logicalPath="//MelodySmart/occ/cl/NSInteger //MelodySmart/occ/tdef/NSInteger //MelodySmart/occ/tag/NSInteger //MelodySmart/occ/struct/NSInteger //MelodySmart/occ/intf/NSInteger //MelodySmart/doc/anysymbol/NSInteger" machineGenerated="true" --><span class="type">NSInteger</span><!-- /a -->)<!-- a logicalPath="//MelodySmart/occ/econst/power //MelodySmart/occ/data/MelodySmartDelegate/power //MelodySmart/occ/data/power //MelodySmart/occ/clconst/MelodySmartDelegate/power " machineGenerated="true" --><span class="var">power</span><!-- /a -->;   @@end</pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=methodparam;  uid=//MelodySmart/doc/methodparam/MelodySmartDelegate/melodySmart:didReceivePioChange:WithLocation:/data;   name=melodySmart:didReceivePioChange:WithLocation:::data -->
+<a name="//MelodySmart/doc/methodparam/MelodySmartDelegate/melodySmart:didReceivePioChange:WithLocation:/data"></a>
+<code>data</code>
+</dt>
+<dd>
+<p>8 bits representing the new state of 1 or more pios.
+</p>
+<p>8 bits representing the new state of 1 or more pios.</p>
+</dd>
+<dt>
+<!-- headerDoc=methodparam;  uid=//MelodySmart/doc/methodparam/MelodySmartDelegate/melodySmart:didReceivePioChange:WithLocation:/location;   name=melodySmart:didReceivePioChange:WithLocation:::location -->
+<a name="//MelodySmart/doc/methodparam/MelodySmartDelegate/melodySmart:didReceivePioChange:WithLocation:/location"></a>
+<code>location</code>
+</dt>
+<dd>
+<p>the set of PIOs the state is representing PioLocation
+</p>
+<p>the set of PIOs the state is representing PioLocation</p>
+</dd>
+<dt>
+<!-- headerDoc=methodparam;  uid=//MelodySmart/doc/methodparam/MelodySmartDelegate/melodySmart:didReceivePioChange:WithLocation:/level;   name=melodySmart:didReceivePioChange:WithLocation:::level -->
+<a name="//MelodySmart/doc/methodparam/MelodySmartDelegate/melodySmart:didReceivePioChange:WithLocation:/level"></a>
+<code>level</code>
+</dt>
+<dd>
+<p>BC Smart Alert Level.
+</p>
+<p>BC Smart Alert Level.</p>
+</dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didReceivePioChange:WithLocation:;name=start --><p>Invoked when a the remote device replies reading the TX Power level set on the remote device.
+</p>
+<!-- headerDoc=discussion;uid=//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didReceivePioChange:WithLocation:;name=end --><!-- end discussion -->
+<p><b>See Also</b></p>
+<div class="list_indent"><dl>
+<dt><p><a href="index.html#//MelodySmart/doc/title:intfm/MelodySmartDelegate/didReceivePioChange:" logicalPath="//MelodySmart/doc/title:intfm/MelodySmartDelegate/didReceivePioChange:" target="_top">didReceiveTxPower:</a></p></dt>
+<dd></dd>
+</dl></div>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=intfm;  uid=//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didSendData:;   name=MelodySmartDelegate::melodySmart:didSendData: --><a name="//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didSendData:"></a>
+<h3><a name="melodySmart:didSendData:">melodySmart:didSendData:</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didSendData:;name=start -->- (<!-- a logicalPath="//MelodySmart/occ/cl/void //MelodySmart/occ/tdef/void //MelodySmart/occ/tag/void //MelodySmart/occ/struct/void //MelodySmart/occ/intf/void //MelodySmart/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a -->) <a machinegenerated="true" href="index.html#//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didReceiveData:" logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/melodySmart //MelodySmart/occ/clm/MelodySmartDelegate/melodySmart //MelodySmart/occ/intfcm/MelodySmartDelegate/melodySmart //MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart" target="_top"><span class="function">melodySmart</span></a>:(<a machinegenerated="true" href="../../Classes/MelodySmart/index.html#//MelodySmart/occ/cl/MelodySmart" logicalPath="//MelodySmart/occ/cl/MelodySmart" target="_top"><span class="type">MelodySmart</span></a><span class="type">*</span>)<span class="param">melody</span> <!-- a logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/didSendData //MelodySmart/occ/clm/MelodySmartDelegate/didSendData //MelodySmart/occ/intfcm/MelodySmartDelegate/didSendData //MelodySmart/occ/intfm/MelodySmartDelegate/didSendData //MelodySmart/occ/func/didSendData //MelodySmart/occ/ftmplt/MelodySmartDelegate/didSendData //MelodySmart/occ/defn/didSendData //MelodySmart/occ/macro/didSendData //MelodySmart/doc/anysymbol/didSendData" machineGenerated="true" --><span class="function">didSendData</span><!-- /a -->:(<!-- a logicalPath="//MelodySmart/occ/cl/NSError //MelodySmart/occ/tdef/NSError //MelodySmart/occ/tag/NSError //MelodySmart/occ/struct/NSError //MelodySmart/occ/intf/NSError //MelodySmart/doc/anysymbol/NSError" machineGenerated="true" --><span class="type">NSError</span><!-- /a --><span class="type">*</span>)<!-- a logicalPath="//MelodySmart/occ/econst/error //MelodySmart/occ/data/MelodySmartDelegate/error //MelodySmart/occ/data/error //MelodySmart/occ/clconst/MelodySmartDelegate/error " machineGenerated="true" --><span class="var">error</span><!-- /a -->; <!-- headerDoc=declaration;uid=//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didSendData:;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=methodparam;  uid=//MelodySmart/doc/methodparam/MelodySmartDelegate/melodySmart:didSendData:/data;   name=melodySmart:didSendData:::data -->
+<a name="//MelodySmart/doc/methodparam/MelodySmartDelegate/melodySmart:didSendData:/data"></a>
+<code>data</code>
+</dt>
+<dd><p>The data received from Melody peripheral device.</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didSendData:;name=start --><p>Invoked when data has arrived from the Data service from
+the peripheral
+</p>
+<!-- headerDoc=discussion;uid=//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmart:didSendData:;name=end --><!-- end discussion -->
+<p><b>See Also</b></p>
+<div class="list_indent"><dl>
+<dt><p><a href="index.html#//MelodySmart/doc/title:intfm/MelodySmartDelegate/didReceiveData:" logicalPath="//MelodySmart/doc/title:intfm/MelodySmartDelegate/didReceiveData:" target="_top">didReceiveData:</a></p></dt>
+<dd></dd>
+</dl></div>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=intfm;  uid=//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmartDidPopulateMelodyService:;   name=MelodySmartDelegate::melodySmartDidPopulateMelodyService: --><a name="//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmartDidPopulateMelodyService:"></a>
+<h3><a name="melodySmartDidPopulateMelodyService:">melodySmartDidPopulateMelodyService:</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmartDidPopulateMelodyService:;name=start -->-(<!-- a logicalPath="//MelodySmart/occ/cl/void //MelodySmart/occ/tdef/void //MelodySmart/occ/tag/void //MelodySmart/occ/struct/void //MelodySmart/occ/intf/void //MelodySmart/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a -->) <a machinegenerated="true" href="index.html#//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmartDidPopulateMelodyService:" logicalPath="//MelodySmart/occ/instm/MelodySmartDelegate/melodySmartDidPopulateMelodyService //MelodySmart/occ/clm/MelodySmartDelegate/melodySmartDidPopulateMelodyService //MelodySmart/occ/intfcm/MelodySmartDelegate/melodySmartDidPopulateMelodyService //MelodySmart/occ/intfm/MelodySmartDelegate/melodySmartDidPopulateMelodyService" target="_top"><span class="function">melodySmartDidPopulateMelodyService</span></a>:(<a machinegenerated="true" href="../../Classes/MelodySmart/index.html#//MelodySmart/occ/cl/MelodySmart" logicalPath="//MelodySmart/occ/cl/MelodySmart" target="_top"><span class="type">MelodySmart</span></a><span class="type">*</span>)<!-- a logicalPath="//MelodySmart/occ/econst/melody //MelodySmart/occ/data/MelodySmartDelegate/melody //MelodySmart/occ/data/melody //MelodySmart/occ/clconst/MelodySmartDelegate/melody " machineGenerated="true" --><span class="var">melody</span><!-- /a -->; <!-- headerDoc=declaration;uid=//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmartDidPopulateMelodyService:;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=methodparam;  uid=//MelodySmart/doc/methodparam/MelodySmartDelegate/melodySmartDidPopulateMelodyService:/melody;   name=melodySmartDidPopulateMelodyService:::melody -->
+<a name="//MelodySmart/doc/methodparam/MelodySmartDelegate/melodySmartDidPopulateMelodyService:/melody"></a>
+<code>melody</code>
+</dt>
+<dd><p>The MelodySmart instance which corresponds to the connected device.</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmartDidPopulateMelodyService:;name=start --><p>Invoked when the melody service has been populated after a connection
+</p>
+<!-- headerDoc=discussion;uid=//MelodySmart/occ/intfm/MelodySmartDelegate/melodySmartDidPopulateMelodyService:;name=end --><!-- end discussion -->
+<p><b>See Also</b></p>
+<div class="list_indent"><dl>
+<dt><p><a href="index.html#//MelodySmart/doc/title:intfm/MelodySmartDelegate/didPopulateMelodyService:" logicalPath="//MelodySmart/doc/title:intfm/MelodySmartDelegate/didPopulateMelodyService:" target="_top">didPopulateMelodyService:</a></p></dt>
+<dd></dd>
+</dl></div>
+<p class="gapBeforeFooter">&nbsp;</p>
+<!-- start of footer -->
+
+<!-- end of footer -->
+<hr class="afterFooter">
+<div class="hd_copyright_and_timestamp">
+<p class="hd_copyright">&copy; Cambridge Executive Limited (BlueCreation) </p>
+<p class="hd_timestamp">Last Updated: 02/10/2014
+</p>
+</div>
+</td>
+</tr></table>
+</body>
+</html>
