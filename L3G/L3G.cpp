@@ -252,6 +252,7 @@ void L3G::readFIFO()
 
 void L3G::convertReadings()
 {
+  //returns readings in DPS
   float DEG_2_RAD = 3.14159265358979323846/180.0;
   float LSB_2_DPS = 70/1000.0;
   g.x = g.x*LSB_2_DPS*DEG_2_RAD;

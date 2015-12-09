@@ -251,6 +251,7 @@ void LSM303::readFIFO(void)
 
 void LSM303::convertReadings(void)
 {
+  //returns readings in Gs
   float LSB_2_G = .061/1000.0;
   a.x = a.x*LSB_2_G;
   a.y = a.y*LSB_2_G;

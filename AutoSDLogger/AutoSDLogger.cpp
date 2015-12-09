@@ -2,7 +2,7 @@
 
 AutoSDLogger::AutoSDLogger(){
     sprintf(index_path,"%s","/sd/index.txt");
-    sprintf(filename,"%s","wowData");
+    sprintf(filename,"%s","data");
 }
 
 int AutoSDLogger::ready_datalogger(){
@@ -16,7 +16,7 @@ int AutoSDLogger::ready_datalogger(){
             tries += 1;
             wait(0.20);
         }
-        if (tries == 25){ //If tried opening many times, just create the file
+        if (tries == 30){ //If tried opening many times, just create the file
             fp = fopen(index_path,"w");
             fprintf(fp,"%d",0);
             fclose(fp);
