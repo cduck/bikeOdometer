@@ -43,6 +43,10 @@ float tot_dist = 0.0;
 float speed = 0.0;
 float tot_dist_prev = 0.0; //placeholder
 float speed_prev = 0.0;
+int r_altitude = 0;
+int r_incline = 0;
+int r_dist = 0;
+int r_speed = 0;
 
 // Helper Variables
 int timeLastPoll = 0;
@@ -60,6 +64,7 @@ void setupSensor(); //Sensor set up
 void setupBLE(); //BLE set up
 void calcMotionData(); //computes motion data
 int roundData(float data); //rounds data to prepare for sending over BLE
+String packageData2String(int data, char* datastring);
 void saveLastData(); //saves t-1 data
 uint32_t millis(); //millis implementation on mbed
 void setupPeripheralExample(); //BLE set up for peripheral
@@ -85,21 +90,22 @@ int main() {
 
         calcMotionData();
 
-        pc.printf("%f \t%d\r\n",speed,roundData(speed));
+        r_altitude = roundData(altitude);
+        r_incline = roundData(incline);
+        r_dist = roundData(tot_dist);
+        r_speed = roundData(speed);
+
+        pc.printf("%d \t%d \t%d \t%d\r\n",r_altitude,r_incline,r_dist,r_speed);
 
         fprintf(fp, "%d, %f, %f, %f, %f, %f, %f, %f, %d, %d, %d \r\n",
             (t.read_ms() - timeLastPoll),
             altitude,
             gyr.g.x,gyr.g.y,gyr.g.z,
             acc.a.x,acc.a.y,acc.a.z,
-            roundData(incline),
-            roundData(tot_dist),
-            roundData(speed));
+            r_incline,
+            r_dist,
+            r_speed);
 
-        // speed = 12;
-        // altitude = 20;
-        // incline = 15;
-        // tot_dist = 120;
         // static String fullBuffer = "";
         // static String saveBuffer = "";
         static unsigned long lastSendTime = millis();
@@ -113,14 +119,19 @@ int main() {
         // }
         // else {
             if (lastSendTime + 250 < millis()) {
-                static int iii = 0;
-                static char iiistring[20];
-                BTModu.sendData(String(", i=") + itoa(iii, iiistring, 10));
+                // static int iii = 0;
+                // static char iiistring[20];
+                static char datastring[20];
+                // BTModu.sendData(String(", i=") + itoa(iii, iiistring, 10));
+                // iii++;
                 // BTModu.sendData(String("x") + itoa(roundData(speed), iiistring, 10) +
                 // itoa(roundData(altitude), iiistring, 16) +
                 // itoa(roundData(incline), iiistring, 10) +
-                // itoa(roundData(tot_dist), iiistring, 16) );
-                iii++;
+                // itoa(roundData(tot_dist), iiistring, 16) );                
+                BTModu.sendData(String("x")+packageData2String(r_altitude,datastring)+
+                    packageData2String(r_incline,datastring)+
+                    packageData2String(r_dist,datastring)+
+                    packageData2String(r_speed,datastring) );
                 lastSendTime += 250;
             }
         // }
@@ -182,10 +193,31 @@ void saveLastData(){
     speed_prev = speed;
 }
 
+String packageData2String(int datum, char* datastring){
+    itoa(datum,datastring,16);
+    int dataLength = strlen(datastring);
+    if (datum >= 0){
+        String padded = "x000";
+        if (dataLength < 4){ // not a length 4 string, gotta pad it with zeros
+            padded.concat(datastring);
+            padded.remove(0,dataLength);
+        }
+        return padded;
+    }
+    else{ 
+        //by default, it appends many 0xFF to the datastring, gotta remove them
+        String trimmed = String(datastring);
+        if (dataLength > 4){        
+            trimmed.remove(0,dataLength-4);
+        }
+        return trimmed;
+    }
+}
+
 void setup(){
     setupBLE();
     setupSensor();
-    //start up LED successful sequence
+    //successful start up LED sequence
     gled = 1; bled = 0;
     wait(0.5);
     gled = 0; bled = 1;
