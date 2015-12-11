@@ -8,5 +8,7 @@
 *.d
 *.swp
 *.swo
+*.pyc
+*.ipynb_checkpoints
 .DS_*
 !mbed/TARGET_K64F/TOOLCHAIN_GCC_ARM/*
