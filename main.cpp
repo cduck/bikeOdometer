@@ -8,6 +8,7 @@
 #include "WString.h"
 #include "itoas.h"
 #include "MTSSerialFlowControl.h"
+#include "math.h"
 
 // Helpful Things
 Serial pc(USBTX, USBRX);
@@ -21,7 +22,7 @@ DigitalIn button(PTC6); //SW2
 // SD Card
 SDFileSystem sd(PTE3, PTE1, PTE2, PTE4, "sd"); // MOSI, MISO, SCK, CS
 AutoSDLogger autoSD;
-FILE *fp; //SD card file writing
+FILE *fp; //Reference to file SD card is writing
 
 // BLE
 #ifdef USE_FLOW_CONTROL
@@ -36,12 +37,14 @@ I2C i2c(PTC11, PTC10); //SDA (PTC11), SCL (PTC10)
 LPS ps(&i2c);
 L3G gyr(&i2c, &pc);
 LSM303 acc(&i2c, &pc);
+float startingAltitude = 0.0;
 float altitude = 0.0;
 float altitude_prev = 0.0;
 float incline = 0.0;
+float incline_prev = 0.0;
 float tot_dist = 0.0;
 float speed = 0.0;
-float tot_dist_prev = 0.0; //placeholder
+float tot_dist_prev = 0.0; 
 float speed_prev = 0.0;
 int r_altitude = 0;
 int r_incline = 0;
@@ -53,10 +56,10 @@ int timeLastPoll = 0;
 int iter = 0;
 
 // Constants
-float MBED_POLLING_PERIOD_MS =  1/25.0*1000; // units of ms 
 float MBED_POLLING_PERIOD_S =  1/25.0; // units of s 
+float MBED_POLLING_PERIOD_MS =  MBED_POLLING_PERIOD_S*1000; // units of ms 
 float R = 0.2794; //11 inches in meters
-
+float a = .5; //Weight for old measurement 
 
 // Helper Functions
 void setup(); //device hardware set up
@@ -64,7 +67,7 @@ void setupSensor(); //Sensor set up
 void setupBLE(); //BLE set up
 void calcMotionData(); //computes motion data
 int roundData(float data); //rounds data to prepare for sending over BLE
-String packageData2String(int data, char* datastring);
+String packageData2String(int data); //converts data to 4 character strings to send over BLE
 void saveLastData(); //saves t-1 data
 uint32_t millis(); //millis implementation on mbed
 void setupPeripheralExample(); //BLE set up for peripheral
@@ -72,7 +75,7 @@ void setupPeripheralExample(); //BLE set up for peripheral
 int main() {
     pc.printf("Starting \r\n");
 
-    setup(); //initializes sensors
+    setup(); //initializes all hardware sensors
 
     t.start();
     while(button){
@@ -88,8 +91,12 @@ int main() {
         //     acc.a.x,acc.a.y,acc.a.z,
         //     t.read_ms()-timeLastPoll);
 
-        calcMotionData();
-
+        if (iter != 0){
+            calcMotionData(a);
+        }
+        else{ 
+            calcMotionData(1.0);
+        }
         r_altitude = roundData(altitude);
         r_incline = roundData(incline);
         r_dist = roundData(tot_dist);
@@ -106,124 +113,87 @@ int main() {
             r_dist,
             r_speed);
 
-        // static String fullBuffer = "";
-        // static String saveBuffer = "";
         static unsigned long lastSendTime = millis();
-        // // Send Stuff over BLE
-        // if (fullBuffer != ""){
-        //     pc.printf("sending \r\n");
-        //     pc.printf("%s\r\n", fullBuffer.c_str());
-        //     BTModu.sendData(fullBuffer);
-        //     saveBuffer = String(fullBuffer);
-        //     fullBuffer = "";
-        // }
-        // else {
-            if (lastSendTime + 250 < millis()) {
-                // static int iii = 0;
-                // static char iiistring[20];
-                static char datastring[20];
-                // BTModu.sendData(String(", i=") + itoa(iii, iiistring, 10));
-                // iii++;
-                // BTModu.sendData(String("x") + itoa(roundData(speed), iiistring, 10) +
-                // itoa(roundData(altitude), iiistring, 16) +
-                // itoa(roundData(incline), iiistring, 10) +
-                // itoa(roundData(tot_dist), iiistring, 16) );                
-                BTModu.sendData(String("x")+packageData2String(r_altitude,datastring)+
-                    packageData2String(r_incline,datastring)+
-                    packageData2String(r_dist,datastring)+
-                    packageData2String(r_speed,datastring) );
-                lastSendTime += 250;
-            }
-        // }
-        // static String inputBuffer;
-        // while (bleUart.readable() > 0)
-        // {
-        //   pc.printf("bytes: %d\r\n",bleUart.readable());
-        //   inputBuffer.concat((char)bleUart.getc());
-        // }
-
-        // // Lines that end with \n\r- but also start with "RCV=" are the ones we keep
-        // if (inputBuffer.endsWith("\n\r"))
-        // {
-        //   if (inputBuffer.startsWith("RCV="))
-        //   {
-        //     inputBuffer.trim(); // Remove \n\r from end.
-        //     inputBuffer.remove(0,4); // Remove RCV= from front.
-        //     fullBuffer += inputBuffer;
-        //     inputBuffer = "";
-        //     pc.printf("processed read bytes \r\n");
-        //   }
-        //   else
-        //   {
-        //     inputBuffer = "";
-        //   }
-        // }
+        if (lastSendTime + 250 < millis()) {
+            BTModu.sendData(String("x")+packageData2String(r_altitude)+
+                packageData2String(r_incline)+
+                packageData2String(r_dist)+
+                packageData2String(r_speed) );
+            lastSendTime += 250;
+        }        
 
         saveLastData();            
         while( (t.read_ms() - timeLastPoll) < MBED_POLLING_PERIOD_MS){
             gled = 0;
         }
         // pc.printf("LT: %d\r\n",t.read_ms()-timeLastPoll);
-        gled = 1; // iter++; 
+        gled = 1; iter++;
     }
     fclose(fp);
     pc.printf("File successfully written! \r\n");
     printf("End of Program. \r\n");
 }
 
-void calcMotionData(){
+void calcMotionData(float aa){
     // Computes the relevant motion data that we are interested in
-    incline = asin((altitude-altitude_prev)/(speed_prev*MBED_POLLING_PERIOD_S));
-    if isnan(incline){ // if incline is indeterminate
-        incline = 0.0;
+    float delta = speed_prev*MBED_POLLING_PERIOD_S;
+    float temp = 0.0; // Placeholder for current time step calculations
+    
+    if (delta > 1/25*.1){ // Makes sure that increase in distance is significant before computing
+        //Distance
+        temp = tot_dist_prev + delta;
+        tot_dist = aa*temp + (1-aa)*tot_dist_prev;
+
+        //Incline
+        temp = asin((altitude-altitude_prev)/(fabs(delta)));
+        if isnan(temp){ // if incline is indeterminate
+            incline = incline_prev;
+        }
+        else{
+            incline = aa*temp + (1-aa)*incline_prev;
+        }        
     }
-    tot_dist = tot_dist_prev + speed_prev*MBED_POLLING_PERIOD_S;
-    speed = gyr.g.z*R;
+    else{
+        tot_dist = tot_dist_prev;
+        incline = incline_prev;
+    }
+
+    //Wheel Speed
+    temp = gyr.g.z*R;
+    speed = aa*temp + (1-aa)*speed_prev;
 }
 
 int roundData(float data){
-    int roundedData = round(data*10);
+    int roundedData = round(data*100);
     return roundedData;
 }
 
 void saveLastData(){
     // Saves the last time step worth of data for Motion Data Calculation
+    incline_prev = incline;
     altitude_prev = altitude;
     tot_dist_prev = tot_dist;
     speed_prev = speed;
 }
 
-String packageData2String(int datum, char* datastring){
-    itoa(datum,datastring,16);
-    int dataLength = strlen(datastring);
-    if (datum >= 0){
-        String padded = "x000";
-        if (dataLength < 4){ // not a length 4 string, gotta pad it with zeros
-            padded.concat(datastring);
-            padded.remove(0,dataLength);
-        }
-        return padded;
-    }
-    else{ 
-        //by default, it appends many 0xFF to the datastring, gotta remove them
-        String trimmed = String(datastring);
-        if (dataLength > 4){        
-            trimmed.remove(0,dataLength-4);
-        }
-        return trimmed;
-    }
+String packageData2String(int datum){
+    char output[20];
+    sprintf(output,"%04x",(uint16_t) datum);
+    return output;
 }
 
 void setup(){
     setupBLE();
     setupSensor();
+    startingAltitude = ps.pressureToAltitudeMeters(ps.readPressureMillibars());
+    //consider calibrating sensor
     //successful start up LED sequence
     gled = 1; bled = 0;
-    wait(0.5);
+    wait(0.4);
     gled = 0; bled = 1;
-    wait(0.5);
+    wait(0.4);
     gled = 1; bled = 0;
-    wait(0.5);
+    wait(0.4);
     gled = 1; bled = 1;
 }
 
@@ -285,39 +255,39 @@ void setupBLE(){
 
     bleUart.baud(9600);
 
-      bool inCentralMode = false;
-  // A word here on amCentral: amCentral's parameter is passed by reference, so
-  //  the answer to the question "am I in central mode" is handed back as the
-  //  value in the boolean passed to it when it is called. The reason for this
-  //  is the allow the user to check the return value and determine if a module
-  //  error occurred: should I trust the answer or is there something larger
-  //  wrong than merely being in the wrong mode?
-  BTModu.amCentral(inCentralMode); 
-  if (inCentralMode)
-  {
+    bool inCentralMode = false;
+    // A word here on amCentral: amCentral's parameter is passed by reference, so
+    //  the answer to the question "am I in central mode" is handed back as the
+    //  value in the boolean passed to it when it is called. The reason for this
+    //  is the allow the user to check the return value and determine if a module
+    //  error occurred: should I trust the answer or is there something larger
+    //  wrong than merely being in the wrong mode?
+    BTModu.amCentral(inCentralMode); 
+    if (inCentralMode)
+    {
     BTModu.BLEPeripheral();
     BTModu.BLEAdvertise();
-  }
+    }
 
-  // There are a few more advance settings we'll probably, but not definitely,
-  //  want to tweak before we reset the device.
+    // There are a few more advance settings we'll probably, but not definitely,
+    //  want to tweak before we reset the device.
 
-  // The CCON parameter will enable advertising immediately after a disconnect.
-  BTModu.stdSetParam("CCON", "ON");
-  // The ADVP parameter controls the advertising rate. Can be FAST or SLOW.
-  BTModu.stdSetParam("ADVP", "FAST");
-  // The ADVT parameter controls the timeout before advertising stops. Can be
-  //  0 (for never) to 4260 (71min); integer value, in seconds.
-  BTModu.stdSetParam("ADVT", "0");
-  // The ADDR parameter controls the devices we'll allow to connect to us.
-  //  All zeroes is "anyone".
-  BTModu.stdSetParam("ADDR", "000000000000");
+    // The CCON parameter will enable advertising immediately after a disconnect.
+    BTModu.stdSetParam("CCON", "ON");
+    // The ADVP parameter controls the advertising rate. Can be FAST or SLOW.
+    BTModu.stdSetParam("ADVP", "FAST");
+    // The ADVT parameter controls the timeout before advertising stops. Can be
+    //  0 (for never) to 4260 (71min); integer value, in seconds.
+    BTModu.stdSetParam("ADVT", "0");
+    // The ADDR parameter controls the devices we'll allow to connect to us.
+    //  All zeroes is "anyone".
+    BTModu.stdSetParam("ADDR", "000000000000");
 
-  BTModu.writeConfig();
-  BTModu.reset();
+    BTModu.writeConfig();
+    BTModu.reset();
 
-  pc.printf("BLE ready to receive connections\r\n");
-  // We're set up to allow anything to connect to us now.
+    pc.printf("BLE ready to receive connections\r\n");
+    // We're set up to allow anything to connect to us now.
 
 }
 
