@@ -19,6 +19,10 @@
 		48B766401A7161E2008AE21B /* DeviceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B7663F1A7161E2008AE21B /* DeviceViewController.swift */; };
 		48B766421A7161FE008AE21B /* DeviceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B766411A7161FE008AE21B /* DeviceListViewController.swift */; };
 		48B766481A716221008AE21B /* libMelodySmart.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 48B766441A716221008AE21B /* libMelodySmart.a */; };
+		511ADA1A1C1B9A0D00F520A2 /* titlePage.png in Resources */ = {isa = PBXBuildFile; fileRef = 511ADA191C1B9A0D00F520A2 /* titlePage.png */; };
+		511ADA1C1C1B9CE900F520A2 /* lanceArmstrongIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 511ADA1B1C1B9CE900F520A2 /* lanceArmstrongIcon.png */; };
+		511ADA361C1BA6AF00F520A2 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 511ADA351C1BA6AF00F520A2 /* Alamofire.framework */; };
+		511ADA371C1BA6AF00F520A2 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 511ADA351C1BA6AF00F520A2 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,6 +34,20 @@
 			remoteInfo = "MelodySmart Example Swift";
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		511ADA381C1BA6AF00F520A2 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				511ADA371C1BA6AF00F520A2 /* Alamofire.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		48B766081A716161008AE21B /* MelodySmart Example Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MelodySmart Example Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,6 +70,10 @@
 		48B766461A716221008AE21B /* MelodySmart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MelodySmart.h; sourceTree = "<group>"; };
 		48B766471A716221008AE21B /* OtaStructs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OtaStructs.h; sourceTree = "<group>"; };
 		48B766491A716356008AE21B /* MelodySmart Example Swift-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MelodySmart Example Swift-Header.h"; sourceTree = "<group>"; };
+		511ADA191C1B9A0D00F520A2 /* titlePage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = titlePage.png; sourceTree = "<group>"; };
+		511ADA1B1C1B9CE900F520A2 /* lanceArmstrongIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lanceArmstrongIcon.png; sourceTree = "<group>"; };
+		511ADA1D1C1BA4AB00F520A2 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Alamofire/Alamofire.xcodeproj; sourceTree = SOURCE_ROOT; };
+		511ADA351C1BA6AF00F520A2 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = Alamofire.framework; path = "/Users/bduckering/Library/Developer/Xcode/DerivedData/MelodySmart_Example_Swift-bylbfqurvoymdybpdfsuspxhthpk/Build/Products/Debug-iphoneos/Alamofire.framework"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +82,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				48B766481A716221008AE21B /* libMelodySmart.a in Frameworks */,
+				511ADA361C1BA6AF00F520A2 /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,6 +99,8 @@
 		48B765FF1A716160008AE21B = {
 			isa = PBXGroup;
 			children = (
+				511ADA351C1BA6AF00F520A2 /* Alamofire.framework */,
+				511ADA1D1C1BA4AB00F520A2 /* Alamofire.xcodeproj */,
 				48B766491A716356008AE21B /* MelodySmart Example Swift-Header.h */,
 				48B766431A716221008AE21B /* libMelodySmart */,
 				48B7660A1A716161008AE21B /* MelodySmart Example Swift */,
@@ -114,6 +139,8 @@
 		48B7660B1A716161008AE21B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				511ADA1B1C1B9CE900F520A2 /* lanceArmstrongIcon.png */,
+				511ADA191C1B9A0D00F520A2 /* titlePage.png */,
 				48B7660C1A716161008AE21B /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -157,6 +184,7 @@
 				48B766041A716161008AE21B /* Sources */,
 				48B766051A716161008AE21B /* Frameworks */,
 				48B766061A716161008AE21B /* Resources */,
+				511ADA381C1BA6AF00F520A2 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -229,9 +257,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				511ADA1C1C1B9CE900F520A2 /* lanceArmstrongIcon.png in Resources */,
 				48B7663E1A7161AA008AE21B /* Main.storyboard in Resources */,
 				48B7661A1A716161008AE21B /* LaunchScreen.xib in Resources */,
 				48B766171A716161008AE21B /* Images.xcassets in Resources */,
+				511ADA1A1C1B9A0D00F520A2 /* titlePage.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,10 +400,9 @@
 		48B7662A1A716161008AE21B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = "MelodySmart Example Swift/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -389,10 +418,9 @@
 		48B7662B1A716161008AE21B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = "MelodySmart Example Swift/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

@@ -70,7 +70,13 @@
                             <outlet property="delegate" destination="pGg-6v-bdr" id="Y6K-Cp-Qkv"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Found Devices" id="tQt-TN-PWz"/>
+                    <navigationItem key="navigationItem" title="Found Devices" id="tQt-TN-PWz">
+                        <barButtonItem key="rightBarButtonItem" title="Skip" id="qDb-1u-LXc">
+                            <connections>
+                                <segue destination="Ah7-4n-0Wa" kind="push" identifier="skipToDetail" id="UEn-Zw-Rwq"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Cn-md-YlS" sceneMemberID="firstResponder"/>
             </objects>
@@ -99,38 +105,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ls2-Wj-Rsl">
-                                <rect key="frame" x="16" y="148" width="288" height="30"/>
-                                <animations/>
-                                <state key="normal" title="I2C Control">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="DxU-HM-Q0T" kind="push" identifier="i2c" id="Qpq-uH-5GD"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xnj-TF-h8T">
-                                <rect key="frame" x="16" y="186" width="288" height="30"/>
-                                <animations/>
-                                <state key="normal" title="Remote Commands">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="VO5-Ri-ToH" kind="push" identifier="commands" id="W0r-8o-nVR"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P2i-e8-PPN">
-                                <rect key="frame" x="16" y="224" width="288" height="30"/>
-                                <animations/>
-                                <state key="normal" title="Over-the-air Update">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="I4i-tM-kNe" kind="push" identifier="otau" id="n2T-kC-HvU"/>
-                                </connections>
-                            </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Outgoing Data" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eei-rl-6si">
-                                <rect key="frame" x="16" y="72" width="288" height="30"/>
+                                <rect key="frame" x="16" y="72" width="154" height="30"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="send" enablesReturnKeyAutomatically="YES"/>
@@ -138,16 +114,6 @@
                                     <outlet property="delegate" destination="Ah7-4n-0Wa" id="aQ5-rM-hW0"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Ow-Nm-YTH">
-                                <rect key="frame" x="109" y="262" width="102" height="30"/>
-                                <animations/>
-                                <state key="normal" title="Connect Audio">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="btnSwitchAudio_TouchUpInside:" destination="Ah7-4n-0Wa" eventType="touchUpInside" id="IwP-Zh-m4O"/>
-                                </connections>
-                            </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3FD-s7-oO2">
                                 <rect key="frame" x="134" y="328" width="133" height="30"/>
                                 <animations/>
@@ -200,11 +166,82 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nLT-m5-3cY">
+                                <rect key="frame" x="40" y="561" width="240" height="198"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ls2-Wj-Rsl">
+                                        <rect key="frame" x="-24" y="21" width="288" height="30"/>
+                                        <animations/>
+                                        <state key="normal" title="I2C Control">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="DxU-HM-Q0T" kind="push" identifier="i2c" id="Qpq-uH-5GD"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xnj-TF-h8T">
+                                        <rect key="frame" x="-24" y="59" width="288" height="30"/>
+                                        <animations/>
+                                        <state key="normal" title="Remote Commands">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="VO5-Ri-ToH" kind="push" identifier="commands" id="W0r-8o-nVR"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P2i-e8-PPN">
+                                        <rect key="frame" x="-24" y="97" width="288" height="30"/>
+                                        <animations/>
+                                        <state key="normal" title="Over-the-air Update">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="I4i-tM-kNe" kind="push" identifier="otau" id="n2T-kC-HvU"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Ow-Nm-YTH">
+                                        <rect key="frame" x="69" y="135" width="102" height="30"/>
+                                        <animations/>
+                                        <state key="normal" title="Connect Audio">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="btnSwitchAudio_TouchUpInside:" destination="Ah7-4n-0Wa" eventType="touchUpInside" id="IwP-Zh-m4O"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Outgoing Data" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oOT-ob-EkW">
+                                <rect key="frame" x="16" y="181" width="288" height="30"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="send" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="Ah7-4n-0Wa" id="EQG-Rk-XLJ"/>
+                                </connections>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Incoming data" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9wM-8F-h3e">
+                                <rect key="frame" x="16" y="219" width="288" height="30"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Server" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Sdu-iI-HJq">
+                                <rect key="frame" x="178" y="72" width="126" height="30"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="send" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="Ah7-4n-0Wa" id="p2r-4j-woW"/>
+                                </connections>
+                            </textField>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="MelodySmart" id="cra-N8-TIN"/>
+                    <navigationItem key="navigationItem" title="Tellaride" id="cra-N8-TIN"/>
                     <connections>
                         <outlet property="altField" destination="3FD-s7-oO2" id="aeA-6U-G6L"/>
                         <outlet property="distField" destination="Yx8-rf-gSG" id="YxA-zQ-AS9"/>
@@ -212,6 +249,9 @@
                         <outlet property="speedField" destination="9pN-Fs-RUf" id="zAd-DR-Fdi"/>
                         <outlet property="tfIncomingData" destination="GSU-yQ-zoV" id="KJ2-k3-FcU"/>
                         <outlet property="tfOutgoingData" destination="eei-rl-6si" id="cIk-96-AqG"/>
+                        <outlet property="webAddressField" destination="Sdu-iI-HJq" id="s9u-px-Suc"/>
+                        <outlet property="webIncomingData" destination="9wM-8F-h3e" id="ILq-P2-nlB"/>
+                        <outlet property="webOutgoingData" destination="oOT-ob-EkW" id="Mpa-TV-xgQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lrm-kH-fPn" sceneMemberID="firstResponder"/>
@@ -526,4 +566,7 @@
             <point key="canvasLocation" x="1733" y="-252"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="UEn-Zw-Rwq"/>
+    </inferredMetricsTieBreakers>
 </document>

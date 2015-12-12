@@ -95,6 +95,9 @@ class DeviceListViewController: UITableViewController, MelodyManagerDelegate {
         case "showDetail":
             let destination = segue.destinationViewController as! DeviceViewController
             destination.melodySmart = objects[tableView.indexPathForSelectedRow!.row]
+        case "skipToDetail":
+            let destination = segue.destinationViewController as! DeviceViewController
+            //destination.melodySmart = nil
             
         default:
             break

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Alamofire
 
 extension String {
     subscript (r: Range<Int>) -> String {
@@ -16,6 +17,36 @@ extension String {
             
             return self[Range(start: startIndex, end: endIndex)]
         }
+    }
+    
+    
+    func URLEncodedString() -> String? {
+        let customAllowedSet =  NSCharacterSet.URLQueryAllowedCharacterSet()
+        let escapedString = self.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet)
+        return escapedString
+    }
+    static func queryStringFromParameters(parameters: Dictionary<String,String>) -> String? {
+        if (parameters.count == 0)
+        {
+            return nil
+        }
+        var queryString : String? = nil
+        for (key, value) in parameters {
+            if let encodedKey = key.URLEncodedString() {
+                if let encodedValue = value.URLEncodedString() {
+                    if queryString == nil
+                    {
+                        queryString = "?"
+                    }
+                    else
+                    {
+                        queryString! += "&"
+                    }
+                    queryString! += encodedKey + "=" + encodedValue
+                }
+            }
+        }
+        return queryString
     }
 }
 
@@ -48,6 +79,10 @@ class DeviceViewController: UIViewController, MelodySmartDelegate, UITextFieldDe
     @IBOutlet var tfIncomingData: UITextField!
     @IBOutlet var tfOutgoingData: UITextField!
     
+    @IBOutlet var webAddressField: UITextField!
+    @IBOutlet var webIncomingData: UITextField!
+    @IBOutlet var webOutgoingData: UITextField!
+    
     @IBOutlet var altField: UITextField!
     @IBOutlet var inclineField: UITextField!
     @IBOutlet var distField: UITextField!
@@ -56,18 +91,24 @@ class DeviceViewController: UIViewController, MelodySmartDelegate, UITextFieldDe
     private weak var i2cController: I2cCommandsViewController?
     private weak var commandsController: RemoteCommandsViewController?
     private weak var otauController: OtauViewController?
+    
+    private var queryNumber = 0;
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let _ = melodySmart {
+            self.title = melodySmart.name()
+            self.melodySmart.delegate = self
 
-        self.title = melodySmart.name()
-        self.melodySmart.delegate = self
-
-        melodySmart.connect()
+            melodySmart.connect()
+        }
     }
 
     deinit {
-        melodySmart.disconnect()
+        if let _ = melodySmart {
+            melodySmart.disconnect()
+        }
     }
 
     // MARK: - MelodySmart delegate
@@ -113,6 +154,69 @@ class DeviceViewController: UIViewController, MelodySmartDelegate, UITextFieldDe
             }
         }
     }
+    
+    
+    
+    func sendWebRequest(path: Array<String>, query: Dictionary<String, String>) -> Int {
+        if let addr = webAddressField.text where addr.characters.count >= 8 {
+            self.queryNumber += 1
+            
+            var url = "http://" + addr + ":8080/"
+            url += path.joinWithSeparator("/")
+            url += "?"
+            for (k, v) in query {
+                // Make query strings URL safe
+                let convertChars = "!*'();:@&=+$,/?%#[]"
+                let kk = CFURLCreateStringByAddingPercentEscapes(
+                    nil,
+                    k,
+                    nil,
+                    convertChars,
+                    CFStringBuiltInEncodings.UTF8.rawValue
+                )
+                let vv = CFURLCreateStringByAddingPercentEscapes(
+                    nil,
+                    v,
+                    nil,
+                    convertChars,
+                    CFStringBuiltInEncodings.UTF8.rawValue
+                )
+                url += "\(kk)=\(vv)&"
+            }
+            url += "i=\(self.queryNumber)"
+            Alamofire.request(.GET, url)
+                .responseJSON { response in
+                    let result = response.result
+                    if result.isFailure {
+                        print("Response result failure: \(result.debugDescription), \(result)")
+                    } else if let resp = result.value as? Dictionary<String, AnyObject> {
+                        if let path = resp["path"] as? Array<String>,
+                               query = resp["query"] as? Dictionary<String, String>,
+                               result = resp["result"] as? Dictionary<String, AnyObject> {
+                            self.handleWebResponse(path, query: query, result: result)
+                        } else {
+                            print("Malformed response: \(resp)");
+                        }
+                    }else {
+                        print("Response is not a dictionary: \(response)")
+                    }
+            }
+            return self.queryNumber
+        }
+        return -1
+    }
+    func handleWebResponse(path: Array<String>, query: Dictionary<String, String>,
+                           result: Dictionary<String, AnyObject>) {
+        print("Response success: path=\(path), query=\(query), result=\(result)")
+        if let resStr = result["result"] {
+            webIncomingData.text = "\(resStr)"
+        }else {
+            webIncomingData.text = "Error 123"
+        }
+    }
+    
+    
+    
 
     func melodySmart(melody: MelodySmart!, didReceivePioChange state: UInt8, withLocation location: BcSmartPioLocation) {
     }
@@ -139,19 +243,31 @@ class DeviceViewController: UIViewController, MelodySmartDelegate, UITextFieldDe
     // MARK: - UITextField delegate
 
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        if !melodySmart.sendData(textField.text!.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)) {
-            print("Send error")
+        if textField == self.tfOutgoingData {
+            if let _ = melodySmart {
+                if !melodySmart.sendData(textField.text!.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)) {
+                    print("Send error")
+                }
+            }
+        }else if textField == self.webOutgoingData {
+            // Send request
+            sendWebRequest(["textInput"], query:["q":textField.text!])
+        }else if textField == self.webAddressField {
+            // Do nothing
+        }else {
+            print("Unknown text field")
         }
 
         textField.resignFirstResponder()
-
         return true
     }
 
     // MARK: - Navigation
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        (segue.destinationViewController as! MelodyController).melodySmart = melodySmart
+        if let _ = melodySmart {
+            (segue.destinationViewController as! MelodyController).melodySmart = melodySmart
+        }
 
         switch segue.identifier! {
         case "i2c":         i2cController = segue.destinationViewController as? I2cCommandsViewController
