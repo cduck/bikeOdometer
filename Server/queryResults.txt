@@ -1,0 +1,3 @@
+Result: -2
+
+Number of positive STL tests: 0/1

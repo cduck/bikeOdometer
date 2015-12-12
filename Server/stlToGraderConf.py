@@ -15,7 +15,7 @@ param tmax = %s
 # Define the test
 test formula_check: "%s"
 {
-  Result()
+  Result(tmax=%s)
   {
     varTop,
     "THE_FORMULA_IS_TRUE",
@@ -31,7 +31,7 @@ variables = ['alt', 'inc', 'spe', 'dis']  # first 3 letters of variables
 def stlToGraderConf(stl, traceFileName):
   tmax = 60*60*24  # One day max trace length
   formulas = stlFormula(stl)
-  return template % (tmax, formulas, traceFileName)
+  return template % (tmax, formulas, traceFileName, tmax)
 
 def stlFormula(stl):
   output, varName, nextVarIndex = stlFormulaHelp(stl, 0, 'varTop')

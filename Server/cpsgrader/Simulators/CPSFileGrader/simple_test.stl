@@ -1,0 +1,26 @@
+# signals measured by CyberSim
+signal x,y,z,pitch,roll,yaw,dist,angle,ax,ay,az,bump_l,bump_r,drop_l,drop_r,drop_f,cliff_l,cliff_fl,cliff_fr,cliff_r,lws,rws,state
+
+# Time horizon for formula
+param Tmax= 40
+
+# Defines the goal region
+param y_min= 3., x_max = 5. 
+#in_region_to_leave := (y[t]<y_min) or (x[t]> x_max)
+in_region_to_leave := x[t]> x_max
+
+# Fault property  
+phi_goal_south_left := alw_[0, Tmax] in_region_to_leave
+
+# Defining the test 
+test nav_obstacle_south_left: "./cpsgrader/Simulators/CPSFileGrader/traces/0001/nav_obstacle_south_left_raw_trace.txt"
+
+{	
+    Result(Tmax=40)
+    {phi_goal_south_left,
+     "PROBLEM: Couldn't avoid obstacle on time",
+     "Requirement PASSED: Avoid obstacle on time",
+     false
+    }
+}
+

@@ -1,0 +1,34 @@
+# signals measured by Tellaride
+signal speed
+#altitude,incline,speed,dist
+
+# Time horizon
+param Twindow = 11
+
+# Define goal
+param max_speed = 7, min_dist = 0
+
+max_speed_reached :=  (speed[t] > max_speed)
+
+# Fault property
+speed_goal := ev_[0, Twindow] max_speed_reached
+
+forever := ev_[0, Twindow] speed_goal
+
+# Define the test
+test bike_goes_fast: "traces/testing/super_gab.txt"
+{
+	fault_goal_bike_fast(Twindow=5, max_speed=7)
+	{speed_goal,
+	"I think we went faster than speed",
+	"This isn't going as planned",
+	true
+	}
+
+	testing2(Twindow=5)
+	{forever,
+	"did it",
+	"didnt do it",
+	false
+	}
+}

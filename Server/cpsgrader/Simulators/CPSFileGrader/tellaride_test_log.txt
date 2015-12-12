@@ -1,0 +1,4 @@
+fault_goal_bike_fast: 1
+testing2: 1
+
+Number of positive STL tests: 2/2
