@@ -65,7 +65,7 @@ float a = .5; //Weight for old measurement
 void setup(); //device hardware set up
 void setupSensor(); //Sensor set up
 void setupBLE(); //BLE set up
-void calcMotionData(); //computes motion data
+void calcMotionData(float aa); //computes motion data
 int roundData(float data); //rounds data to prepare for sending over BLE
 String packageData2String(int data); //converts data to 4 character strings to send over BLE
 void saveLastData(); //saves t-1 data
@@ -102,7 +102,7 @@ int main() {
         r_dist = roundData(tot_dist);
         r_speed = roundData(speed);
 
-        pc.printf("%d \t%d \t%d \t%d\r\n",r_altitude,r_incline,r_dist,r_speed);
+        // pc.printf("%d \t%d \t%d \t%d\r\n",r_altitude,r_incline,r_dist,r_speed);
 
         fprintf(fp, "%d, %f, %f, %f, %f, %f, %f, %f, %d, %d, %d \r\n",
             (t.read_ms() - timeLastPoll),
