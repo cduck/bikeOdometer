@@ -25,6 +25,7 @@ class MyHttpHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     response = json.dumps({'path': parsedPathComponents,
                            'query': parsedQueries,
                            'result': message})
+    print ' * RESPONSE:', response
     self.send_response(200)
     self.end_headers()
     self.wfile.write(response)

@@ -10,5 +10,5 @@ def handleRequest(path="", params={}):
   # Do things
   counter += 1
 
-  return {'result': 'string #%d', 'info': 'abc', 'count': counter}
+  return {'result': 'string #%d'%counter, 'info': 'abc', 'count': counter}
 
