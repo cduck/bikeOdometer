@@ -73,7 +73,7 @@ class MelodyController: UIViewController {
     var melodySmart: MelodySmart!
 }
 
-class DeviceViewController: UIViewController, MelodySmartDelegate, UITextFieldDelegate {
+class DeviceViewController: UIViewController, MelodySmartDelegate, UITableViewDelegate, UITableViewDataSource {
     var melodySmart: MelodySmart!
 
     @IBOutlet var tfIncomingData: UITextField!
@@ -92,7 +92,16 @@ class DeviceViewController: UIViewController, MelodySmartDelegate, UITextFieldDe
     private weak var commandsController: RemoteCommandsViewController?
     private weak var otauController: OtauViewController?
     
-    private var queryNumber = 0;
+    private var queryNumber = 0
+    private var dataIndex = 0
+    private let dataAccumLimit = 4
+    private var dataAccum: Array<(String, Double)> = []
+    private var presetQueries = [
+        "Did I bike 500 meters this week?",
+        "Did my average speed exceed 10 m/s",
+        "Did I stay above an altitude of 50 meters",
+        "Did my speed ever exceed 10 m/s",
+        "Was I always faster than 10 m/s",]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -123,34 +132,43 @@ class DeviceViewController: UIViewController, MelodySmartDelegate, UITextFieldDe
     }
 
     func melodySmart(melody: MelodySmart!, didReceiveData data: NSData!) {
+        UIApplication.sharedApplication().idleTimerDisabled = true
+        
         let str = NSString(data: data, encoding: NSUTF8StringEncoding)
         tfIncomingData.text = str as? String
         let trimmed = str!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         let len = trimmed.characters.count
-        print("Trimmed length: \(trimmed.characters.count)")
         if len == 17 && trimmed.hasPrefix("x") {
             let altStr = trimmed[1..<5]
             let incStr = trimmed[5..<9]
             let distStr = trimmed[9..<13]
             let speedStr = trimmed[13..<17]
+            var alt2: Double = Double.NaN, inc2: Double = Double.NaN, dist2: Double = Double.NaN, speed2: Double = Double.NaN
             if let altVal = hexStrToInt(altStr) {
                 let alt = Double(altVal) / 100.0
+                alt2 = alt
                 self.altField.text = "\(alt) meters"
-                print("Success, \(altStr), \("\(alt) meters")");
-            } else{
-                print("Fail, \(altStr)");
             }
             if let incVal = hexStrToInt(incStr) {
                 let inc = Double(incVal) / 100.0
+                inc2 = inc
                 self.inclineField.text = "\(inc) rad"
             }
             if let distVal = hexStrToInt(distStr) {
                 let dist = Double(distVal) / 100.0
+                dist2 = dist
                 self.distField.text = "\(dist) meters"
             }
             if let speedVal = hexStrToInt(speedStr) {
                 let speed = Double(speedVal) / 100.0
+                speed2 = speed
                 self.speedField.text = "\(speed) meters/sec"
+            }
+            
+            self.dataAccum.append((trimmed, NSDate().timeIntervalSince1970))
+            if self.dataAccum.count >= dataAccumLimit {
+                self.sendDataUpdate(self.dataAccum)
+                self.dataAccum.removeAll()
             }
         }
     }
@@ -192,10 +210,10 @@ class DeviceViewController: UIViewController, MelodySmartDelegate, UITextFieldDe
                     } else if let resp = result.value as? Dictionary<String, AnyObject> {
                         if let path = resp["path"] as? Array<String>,
                                query = resp["query"] as? Dictionary<String, String>,
-                               result = resp["result"] as? Dictionary<String, AnyObject> {
+                               result = resp["result"] {
                             self.handleWebResponse(path, query: query, result: result)
                         } else {
-                            print("Malformed response: \(resp)");
+                            print("Malformed response: \(resp)")
                         }
                     }else {
                         print("Response is not a dictionary: \(response)")
@@ -205,15 +223,92 @@ class DeviceViewController: UIViewController, MelodySmartDelegate, UITextFieldDe
         }
         return -1
     }
+    func sendDatumUpdate(raw: String, alt: Double, incl: Double, dist: Double, speed: Double) -> Int {
+        let ts = NSDate().timeIntervalSince1970
+        let query: Dictionary<String, String> = ["raw":raw, "ts":String(ts), "index":String(self.dataIndex),
+            "alt":String(alt), "incl":String(incl), "dist":String(dist), "speed":String(speed)]
+        self.sendWebRequest(["datum"], query: query)
+        
+        self.dataIndex += 1
+        return self.dataIndex - 1
+    }
+    func sendDataUpdate(rawTs: Array<(String, Double)>) -> Int {
+        var rawStr = "", tsStr = "", indexStr = ""
+        var first = true
+        var i = self.dataIndex
+        for (raw, ts) in rawTs {
+            if !first {
+                rawStr += ","
+                tsStr += ","
+                indexStr += ","
+            }
+            first = false
+            rawStr += raw
+            tsStr += String(ts)
+            indexStr += String(i)
+            i += 1
+        }
+        
+        let query: Dictionary<String, String> = ["raw":rawStr, "ts":tsStr, "index":indexStr]
+        self.sendWebRequest(["data"], query: query)
+        
+        self.dataIndex += rawTs.count
+        return self.dataIndex - rawTs.count
+    }
+    func sendStlQuery(question: String) {
+        let query: Dictionary<String, String> = ["question":question]
+        self.sendWebRequest(["stl"], query: query)
+    }
+    
     func handleWebResponse(path: Array<String>, query: Dictionary<String, String>,
-                           result: Dictionary<String, AnyObject>) {
-        print("Response success: path=\(path), query=\(query), result=\(result)")
-        if let resStr = result["result"] {
-            webIncomingData.text = "\(resStr)"
+                           result: AnyObject) {
+        //print("Response success: path=\(path), query=\(query), result=\(result)")
+        if path.count >= 1 {
+            switch path[0] {
+            case "datum":
+                handleDatumUpdateResponse(query, result: result)
+            case "data":
+                handleDataUpdateResponse(query, result: result)
+            case "stl":
+                handleStlQueryResponse(query, result: result)
+            default:
+                print("Unknown response path: \(path)")
+            }
         }else {
-            webIncomingData.text = "Error 123"
+            print("No response path: \(path)")
         }
     }
+    func handleDatumUpdateResponse(query: Dictionary<String, String>, result: AnyObject) {
+        if let response = result as? String {
+            print("Data update: \(response)")
+        }else {
+            print("Data update response invalid: \(query) -> \(result)")
+        }
+    }
+    func handleDataUpdateResponse(query: Dictionary<String, String>, result: AnyObject) {
+        if let response = result as? String {
+            print("Data update: \(response)")
+        }else {
+            print("Data update response invalid: \(query) -> \(result)")
+        }
+    }
+    func handleStlQueryResponse(query: Dictionary<String, String>, result: AnyObject) {
+        if let result2 = result as? Dictionary<String, AnyObject> {
+            if let answer = result2["answer"] as? String,
+                   error = result2["error"] as? Int,
+                   errorDesc = result2["errorDesc"] as? String {
+                if error != 0 {
+                    webIncomingData.text = "Error \(error): \(errorDesc)"
+                } else {
+                    webIncomingData.text = "Answer: \(answer)"
+                }
+            }else {
+                print("STL query response invalid: \(query) -> \(result2)")
+                webIncomingData.text = "Server error"
+            }
+        }
+    }
+
     
     
     
@@ -251,7 +346,7 @@ class DeviceViewController: UIViewController, MelodySmartDelegate, UITextFieldDe
             }
         }else if textField == self.webOutgoingData {
             // Send request
-            sendWebRequest(["textInput"], query:["q":textField.text!])
+            sendStlQuery(textField.text!)
         }else if textField == self.webAddressField {
             // Do nothing
         }else {
@@ -275,5 +370,42 @@ class DeviceViewController: UIViewController, MelodySmartDelegate, UITextFieldDe
         case "otau":        otauController = segue.destinationViewController as? OtauViewController
         default: break;
         }
+    }
+    
+    
+    // MARK: - Table view data source
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return presetQueries.count
+        }
+        return 0;
+    }
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
+        
+        if let label = cell.viewWithTag(99) as? UILabel {
+            label.text = self.presetQueries[indexPath.row]
+        }
+        
+        return cell
+    }
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "Preset queries"
+        }
+        return nil;
+    }
+    
+    // MARK: - Table view delegate
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let query = self.presetQueries[indexPath.row]
+        self.webOutgoingData.text = query;
+        sendStlQuery(query)
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
 }
