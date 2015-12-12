@@ -26,8 +26,14 @@ def respondToQuery(stlFile):
 
 if __name__ == '__main__':
 	import stlToGraderConf
-	stl = ('F', ('>', 'speed', 8))
-	stlFileContents = stlToGraderConf.stlToGraderConf(stl, "super_gab.txt")
+	import tokenizer
+	import sys
+
+
+	tokens = tokenizer.tokenizeQuery("Did my distance exceed 7 meters?")
+	stl = tokenizer.tokenToSTL(tokens)
+	print 'stl=',stl
+	stlFileContents = stlToGraderConf.stlToGraderConf(stl, sys.argv[1])
 	stlFile = "stlFileTemp.stl"
 	with open(stlFile,"w") as FILE:
 		FILE.write(stlFileContents)

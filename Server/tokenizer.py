@@ -14,7 +14,7 @@ queries = [
     'Did I always stay above an altitude of 50 meters?', #G(attitude > 50)
     'Did my speed ever exceed 10 m/s?', #F(attitude > 50)
     'Was I always faster than 10 m/s?' #G(speed > 10)
-    'Did my speed exceed 5 m/s and my altitude stayed above 
+    'Did my speed exceed 5 m/s and my altitude stayed above' 
 ]
 
 
@@ -43,7 +43,7 @@ synonyms = [
     ['second'],
     ['minute'],
     ['hour'],
-    ['meter'],
+    ['meter','m'],
     ['foot'],
     ['of'],
     ['average','mean'],
@@ -309,11 +309,11 @@ def tokenToSTL(tokens):
     splitToks = splitTokensByType(tokens)
     numOperators = len(splitToks['OPERATOR'])
     for i in xrange(numOperators):        
-        print 'i: %d'%i
+        #print 'i: %d'%i
         min_power = 100
         min_operator = ''
         variable = determineVariable(splitToks)
-        print 'var: %s'%variable
+        #print 'var: %s'%variable
         #Choose the most bad ass operator
         for j in xrange(len(splitToks['OPERATOR'])):            
             print len(splitToks['OPERATOR'])
@@ -352,16 +352,10 @@ def tokenToSTL(tokens):
             else:
                 rem_tokens.append(token)
         splitToks = splitTokensByType(rem_tokens)
-        print splitToks
+        #print splitToks
     return STL
 
 
 # In[468]:
 
-ind = 3
-print queries[ind]
-tokens = tokenizeQuery(queries[ind])
-splitToks = splitTokensByType(tokens)
-print splitToks
-tokenToSTL(tokens)
 

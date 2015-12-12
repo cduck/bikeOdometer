@@ -4,7 +4,7 @@
 
 
 template = """# signals measured by Tellaride
-signal alt,inc,spe,dis
+signal alt,inc,dis,spe
 
 # Time horizon
 param tmax = %s
