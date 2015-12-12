@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import sys, BaseHTTPServer, urlparse, socket, posixpath, urllib
+import sys, BaseHTTPServer, urlparse, socket, posixpath, urllib, json
 import serverLogic
 
 
@@ -16,10 +16,18 @@ class MyHttpHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     parsedQueries = {k:v[-1] for k,v in parsedQueries.iteritems()}
     print ' * REQUEST:', parsedPathComponents, parsedQueries
 
+    if len(parsedPathComponents) == 1 and parsedPathComponents[0] == 'favicon.ico':
+      self.send_response(404)
+      self.end_headers()
+      return
+
     message = serverLogic.handleRequest(path=parsedPathComponents, params=parsedQueries)
+    response = json.dumps({'path': parsedPathComponents,
+                           'query': parsedQueries,
+                           'result': message})
     self.send_response(200)
     self.end_headers()
-    self.wfile.write(message)
+    self.wfile.write(response)
     return
   def pathParse(self, rawPathStr, normalize=True, module=posixpath):
     result = []
