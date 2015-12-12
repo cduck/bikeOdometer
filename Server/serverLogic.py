@@ -1,5 +1,5 @@
 from tokenizer import *
-import datetime
+import datetime, sys, stlToGraderConf, respondToQuery
 
 # Global state variables
 numRequests = 0
@@ -12,7 +12,7 @@ f = open(filename,'w')
 
 def handleRequest(path=[], params={}):
 	# Declare globals
-	global numRequests
+	global numRequests, f
 
 	numRequests += 1
 	print
@@ -30,16 +30,22 @@ def handleRequest(path=[], params={}):
 			return 'OK-data'
 
 		elif (path[0] == 'stl'):  #this is a query request
-			print
-			print tokenizeQuery(params['question'])
-			print
-			#TODO: Form STL proposition to be evaluated
-			#TODO: Form response after evaluating STL query
-			return {'answer': 'T', 'error': 0, 'errorDesc': 'poopy'}
+			f.close()
+			stl = tokenToSTL(params['question'])
+			conf = stlToGraderConf.stlToGraderConf(stl,filename)
+			response = respondToQuery.respondToQueryContents(conf)
+			f = open(filename, 'a')
+
+			return {'answer': str(stl) + str(response), 'error': 0, 'errorDesc': 'peachy'}
 
 		else: #this is not something we support
 			print 'I see neither stl or data'
 			return "<('')<"
+	
+	except KeyboardInterrupt: # If path is empty
+		print 'Received CTRL+C'
+		return "<{''}>"
+		sys.exit()
 
 	except BaseException as e: # If path is empty
 		print 'Error: Bad Request', e
@@ -78,8 +84,12 @@ def recordDatum(dataString,timeString,indexString):
 	speed = twoByteHexToInt(dataString[13:17])/100.0
 	
 	data_tuple = (timeStamp,attitude,incline,tot_dist,speed)
+	i = len(data)-1
+	#while i >= 0 and timeStamp < data[i][0]:
+	#	i += 1
+	#data.insert(i, data_tuple)
 	data.append(data_tuple)
-	f.write('%2.3f %2.3f %2.3f %2.3f %2.3f\r\n'%data_tuple)
+	f.write('%2.8f %2.3f %2.3f %2.3f %2.3f\n'%data_tuple)
 
 def twoByteHexToInt(s):
 	v = int(s, 16)

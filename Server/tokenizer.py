@@ -14,7 +14,7 @@ queries = [
     'Did I always stay above an altitude of 50 meters?', #G(attitude > 50)
     'Did my speed ever exceed 10 m/s?', #F(attitude > 50)
     'Was I always faster than 10 m/s?' #G(speed > 10)
-    'Did my speed exceed 5 m/s and my altitude stayed above' 
+    'Did my speed exceed 5 m/s and my altitude stayed above 50 m?' 
 ]
 
 
@@ -226,13 +226,6 @@ def splitQuery(query):
             tokens.append(standard)
     return tokens
 
-
-# In[460]:
-
-print splitQuery(queries[0])
-Token('until')
-
-
 # In[461]:
 
 # This will tell you what type each splitted query is
@@ -302,10 +295,9 @@ def determineVariable(splitToks):
         return variable
 
 
-# In[463]:
-
-def tokenToSTL(tokens):
+def tokenToSTL(query):
     #Assume only one variable
+    tokens = tokenizeQuery(query)
     splitToks = splitTokensByType(tokens)
     numOperators = len(splitToks['OPERATOR'])
     for i in xrange(numOperators):        
@@ -355,7 +347,5 @@ def tokenToSTL(tokens):
         #print splitToks
     return STL
 
-
-# In[468]:
 
 

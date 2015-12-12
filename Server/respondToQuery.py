@@ -6,7 +6,7 @@ def runSTL(stlFile):
 	#results_file = open("./queryResults.txt")
 	#query_results = results_file.read()
 	#results_file.close()
-
+	print 'QUERY RESULTS:', repr(query_results)
 	return query_results
 
 def parseForAnswer(query):
@@ -16,7 +16,12 @@ def parseForAnswer(query):
 	else: 
 		result = query[iStart+len("THE_FORMULA_IS_")]
 		return result=='T'
-	
+
+def respondToQueryContents(stlFileContents):
+	stlFile = "stlFileTemp.stl"
+	with open(stlFile,"w") as FILE:
+		FILE.write(stlFileContents)
+	return respondToQuery(stlFile)
 
 def respondToQuery(stlFile):
 	response = runSTL(stlFile)
