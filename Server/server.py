@@ -46,6 +46,7 @@ def runServer(port, verbose=False):
   ip = socket.gethostbyname(socket.getfqdn())
   print 'Serving at IP {}, port {}'.format(ip, port)
   print 'Communicate with this server by entering "http://{}:{}/some/path?a=query1&xyz=789" in a browser.'.format(ip, port)
+  print 'Communicate with this server by entering "http://{}:{}/stl?question=Did%20my%20average%20speed%20exceed%2010%20m%2Fs&i=45" in a browser.'.format(ip, port)
   sys.stdout.flush()
 
   server_address = ('', port)
