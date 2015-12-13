@@ -8,7 +8,7 @@ queries = [
     'Did my speed ever exceed 10 m/s?', #F(attitude > 50)
     'Was I always faster than 10 m/s?', #G(speed > 10)
     'Did my speed exceed 5 m/s and my altitude always stayed above 50 m?', # F(speed > 5) && G(altitude > 50)
-    'Did I bike more than 250 meters and go faster than 5 m/s?', # F(speed > 5) && F(distance > 50)
+    'Did I bike more than 250 meters and go faster than 5 m/s on average?', # F(speed > 5) && F(distance > 50)
     'Did I go slower than 5 m/s or bike more than 251 m?' # F(speed > 5) && G(altitude > 50)
 ]
 
@@ -48,7 +48,7 @@ unitWords = [  # Omit s if can be plural
     'degree', 'mph', 'second', 'minute', 'hour', 'meter', 'foot', 'meters per second'
 ]
 modifierWords = [  # Words that modify units
-    'average','attitude','bike'
+    'average','altitude','bike'
 ]
 connectingWords = [
     'of','and','or'
@@ -258,12 +258,15 @@ def splitTokensByType(tokens):
 # Determine from tokens which variable you are interested in
 def determineVariable(splitToks):
     if 'VARIABLE' in splitToks: #easy way out
+        if 'MODIFIER' in splitToks:
+            if splitToks['MODIFIER'] == ['average']:
+                return 'average ' + splitToks['VARIABLE']
         return splitToks['VARIABLE']
     else:
         variable = ''
         if 'MODIFIER' in splitToks:
-            if splitToks['MODIFIER'] == 'average':
-                variable = 'average'
+            if splitToks['MODIFIER'] == ['average']:
+                variable = variable + 'average '
         if 'UNIT' in splitToks:
             if splitToks['UNIT'] == 'meters per second':
                 variable = variable + ' speed'
@@ -300,6 +303,7 @@ def divideQueries(queries):
     else:
         print 'Improperly formatted string'
         return ''  
+
 def queryToSTL(query):
     #Assume only one variable per query        
     tokens = tokenizeQuery(query)
@@ -330,7 +334,7 @@ def queryToSTL(query):
         rem_tokens = []
         if variable != '':            
             for token in tokens:
-                if token.word == variable:
+                if token.word in variable.split():
                     pass
                 elif token.word == splitToks['NUMBER']:
                     pass
@@ -359,7 +363,6 @@ def queriesToSTL(queries):
             extraTok = token_word
             for j in xrange(1,numQueries):
                 result[2][j] = token_word + ' ' + result[2][j]
-    print result[2]
     STL = '' 
     for i in xrange(numQueries):
         partialSTL = queryToSTL(result[2][i])
