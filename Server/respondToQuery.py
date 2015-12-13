@@ -1,5 +1,6 @@
 import subprocess
 
+# Runs the STL simulation on provided trace
 def runSTL(stlFile):
 	query_results = subprocess.check_output(["./cpsgrader/Simulators/CPSFileGrader/CPSFileGrader", stlFile], shell=False)
 
@@ -35,10 +36,10 @@ if __name__ == '__main__':
 	import sys
 
 
-	tokens = tokenizer.tokenizeQuery("Did my distance exceed 7 meters?")
-	stl = tokenizer.tokenToSTL(tokens)
-	print 'stl=',stl
-	stlFileContents = stlToGraderConf.stlToGraderConf(stl, sys.argv[1])
+	#tokens = tokenizer.tokenizeQuery(sys.argv[2])
+	#stl = tokenizer.tokenToSTL(tokens)
+	#print 'stl=',stl
+	stlFileContents = stlToGraderConf.stlToGraderConf(('F',('G_(0,6)', ('>','spe',9))), 'testRun_After.txt')
 	stlFile = "stlFileTemp.stl"
 	with open(stlFile,"w") as FILE:
 		FILE.write(stlFileContents)

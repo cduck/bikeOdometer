@@ -70,12 +70,23 @@ def formatOperator(op, args):
   args = [a[:3]+'[t]' if a[:3] in variables else a for a in args]
 
   # Format string based on the operator
+
+  #Jons Code: modify to accept temporal parameters
+  if ( op.find('_') > 0 ):
+    t1 = op[op.find('(')+1: op.find(',')]
+    t2 = op[op.find(',')+1: op.find(')')]
+    op = op[0]
+  else:
+    t1 = '0'
+    t2 = 'tmax'
+  #
+
   if op == 'G':
     assert len(args) == 1, 'Bad args for {0} operator'.format(op)
-    return 'alw_[0, tmax] {0}'.format(args[0])
+    return 'alw_[{0}, {1}] {2}'.format(t1,t2,args[0])
   elif op == 'F':
     assert len(args) == 1, 'Bad args for {0} operator'.format(op)
-    return 'ev_[0, tmax] {0}'.format(args[0])
+    return 'ev_[{0},{1}] {2}'.format(t1,t2,args[0])
   elif op == '>' or op == '<' or op == '<=' or op == '>=':
     assert len(args) == 2, 'Bad args for {0} operator'.format(op)
     return '{0} {1} {2}'.format(args[0], op, args[1])
