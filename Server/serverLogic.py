@@ -5,8 +5,8 @@ import datetime, sys, stlToGraderConf, respondToQuery
 numRequests = 0
 data = []
 firstTime = 0.0 # Keeps track of the first time 
-min_ind = 1000000000000000000
-max_ind = -1
+# min_ind = 1000000000000000000
+# max_ind = -1
 filename = 'data%s.txt'%datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 f = open(filename,'w')
 
@@ -31,7 +31,7 @@ def handleRequest(path=[], params={}):
 
 		elif (path[0] == 'stl'):  #this is a query request
 			f.close()
-			stl = tokenToSTL(params['question'])
+			stl = queriesToSTL(params['question'])
 			conf = stlToGraderConf.stlToGraderConf(stl,filename)
 			response = respondToQuery.respondToQueryContents(conf)
 			f = open(filename, 'a')
@@ -42,13 +42,13 @@ def handleRequest(path=[], params={}):
 			print 'I see neither stl or data'
 			return "<('')<"
 	
-	except KeyboardInterrupt: # If path is empty
+	except KeyboardInterrupt: # If ctrl-c received
 		print 'Received CTRL+C'
 		return "<{''}>"
 		sys.exit()
 
 	except BaseException as e: # If path is empty
-		print 'Error: Bad Request', e
+		print 'Error: BAD REQUEST   ', e
 		return "{>''}>"
 
 def recordData(dataStrings,timeStrings,indexStrings):
@@ -66,11 +66,11 @@ def recordData(dataStrings,timeStrings,indexStrings):
 def recordDatum(dataString,timeString,indexString):
 	global data, min_ind, max_ind
 	
-	index = int(indexString,10)
-	if min_ind > index:
-		min_ind = index
-	if max_ind < index:
-		max_ind = index
+	# index = int(indexString,10)
+	# if min_ind > index:
+	# 	min_ind = index
+	# if max_ind < index:
+	# 	max_ind = index
 	
 	if (numRequests == 1):
 		global firstTime
@@ -84,10 +84,6 @@ def recordDatum(dataString,timeString,indexString):
 	speed = twoByteHexToInt(dataString[13:17])/100.0
 	
 	data_tuple = (timeStamp,attitude,incline,tot_dist,speed)
-	i = len(data)-1
-	#while i >= 0 and timeStamp < data[i][0]:
-	#	i += 1
-	#data.insert(i, data_tuple)
 	data.append(data_tuple)
 	f.write('%2.8f %2.3f %2.3f %2.3f %2.3f\n'%data_tuple)
 

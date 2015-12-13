@@ -1,24 +1,17 @@
-
 # coding: utf-8
-
-# In[451]:
-
 import string
-
-
-# In[452]:
 
 queries = [
     'Did my average speed exceed 5 m/s?', #F(average > 5)
     'Did I bike more than 500 meters this week?', #F(tot_dist > 500)
     'Did I always stay above an altitude of 50 meters?', #G(attitude > 50)
     'Did my speed ever exceed 10 m/s?', #F(attitude > 50)
-    'Was I always faster than 10 m/s?' #G(speed > 10)
-    'Did my speed exceed 5 m/s and my altitude stayed above 50 m?' 
+    'Was I always faster than 10 m/s?', #G(speed > 10)
+    'Did my speed exceed 5 m/s and my altitude always stayed above 50 m?', # F(speed > 5) && G(altitude > 50)
+    'Did I bike more than 250 meters and go faster than 5 m/s?', # F(speed > 5) && F(distance > 50)
+    'Did I go slower than 5 m/s or bike more than 251 m?' # F(speed > 5) && G(altitude > 50)
 ]
 
-
-# In[453]:
 
 triggerPhrases = [
     ['did i', 'do i'],
@@ -47,7 +40,9 @@ synonyms = [
     ['foot'],
     ['of'],
     ['average','mean'],
-    ['bike','travel']
+    ['bike','travel'],
+    ['and','both'],
+    ['or']
 ]
 unitWords = [  # Omit s if can be plural
     'degree', 'mph', 'second', 'minute', 'hour', 'meter', 'foot', 'meters per second'
@@ -56,7 +51,7 @@ modifierWords = [  # Words that modify units
     'average','attitude','bike'
 ]
 connectingWords = [
-    'of'
+    'of','and','or'
 ]
 operatorWords = [ # Order matters in this array
     'maintain', 'after', 'until', 'greater', 'less', 'did','stay'
@@ -82,18 +77,12 @@ operatorForms = {
     # ...
 }
 
-
-# In[454]:
-
 # Create synonymDict mapping all synonyms to their canonical word
 synonymDict = {}
 for group in synonyms:
     standardWord = group[0]
     for word in group:
         synonymDict[word] = standardWord
-
-
-# In[455]:
 
 all = string.maketrans('','')
 noDigs = all.translate(all, string.digits)
@@ -103,8 +92,6 @@ notAllowed = all.translate(all, allowedLetters)
 def cleanQuery(query):
     return query.lower().translate(all, notAllowed)
 
-
-# In[456]:
 
 # Attempts to return the canonical words in your query
 def wordToStandard(word):
@@ -131,8 +118,6 @@ def wordToStandard(word):
             return synonymDict[word]
     return None
 
-
-# In[457]:
 
 class Token:
     '''A word associated with its meaning'''
@@ -173,9 +158,6 @@ class Token:
     def __repr__(self):
         return self.__str__()
 
-
-# In[458]:
-
 class TokenGroup:
     '''A group of tokens that mean somthing as a group'''
     # Group types
@@ -212,9 +194,6 @@ class TokenGroup:
     def __repr__(self):
         return self.__str__()
 
-
-# In[459]:
-
 # This gives you the recognized canonical words
 def splitQuery(query):
     query = cleanQuery(query)
@@ -225,8 +204,6 @@ def splitQuery(query):
         if standard is not None:
             tokens.append(standard)
     return tokens
-
-# In[461]:
 
 # This will tell you what type each splitted query is
 def tokenizeQuery(query):
@@ -240,8 +217,6 @@ def tokenizeQuery(query):
             tokens.append(t)
     return tokens
 
-
-# In[462]:
 
 # This will take an array of tokens and then output a dictionary index by Token Types
 def splitTokensByType(tokens):
@@ -275,10 +250,12 @@ def splitTokensByType(tokens):
         elif token.type == NUMBER:
             splitToks['NUMBER'] = token.word
         else:
-            print token.type
-            print 'Error'
+            pass
+#             print token.type
+#             print 'Error'
     return splitToks
 
+# Determine from tokens which variable you are interested in
 def determineVariable(splitToks):
     if 'VARIABLE' in splitToks: #easy way out
         return splitToks['VARIABLE']
@@ -294,21 +271,46 @@ def determineVariable(splitToks):
                 variable = variable + 'distance'
         return variable
 
-
-def tokenToSTL(query):
-    #Assume only one variable
+# Determine if query has a F or G operator and returns them if they exist
+def determineFGOperator(query):
+    tokens = tokenizeQuery(query)
+    splitToks = splitTokensByType(tokens)
+    if 'OPERATOR' in splitToks:
+        if 'did' in splitToks['OPERATOR']:
+            return 'did'
+        elif 'stay' in splitToks['OPERATOR']:
+            return 'stay'
+        else:
+            return ''
+    else:
+        return ''
+    
+# Splits a query based on OR and AND, assuming only one of the two is being used
+def divideQueries(queries):
+    splitAnd = queries.split(' and ')
+    splitOr = queries.split(' or ')
+    andLength = len(splitAnd)
+    orLength = len(splitOr)
+    if andLength > orLength:
+        return (andLength,'AND',splitAnd)
+    elif orLength > andLength:
+        return (orLength,'OR',splitOr)
+    elif (orLength == 1 and andLength == 1):
+        return (1,'',[queries])
+    else:
+        print 'Improperly formatted string'
+        return ''  
+def queryToSTL(query):
+    #Assume only one variable per query        
     tokens = tokenizeQuery(query)
     splitToks = splitTokensByType(tokens)
     numOperators = len(splitToks['OPERATOR'])
     for i in xrange(numOperators):        
-        #print 'i: %d'%i
         min_power = 100
         min_operator = ''
         variable = determineVariable(splitToks)
-        #print 'var: %s'%variable
         #Choose the most bad ass operator
         for j in xrange(len(splitToks['OPERATOR'])):            
-            print len(splitToks['OPERATOR'])
             operator = splitToks['OPERATOR'][j]
             power = operatorWords.index(operator)
             if power < min_power:
@@ -344,8 +346,26 @@ def tokenToSTL(query):
             else:
                 rem_tokens.append(token)
         splitToks = splitTokensByType(rem_tokens)
-        #print splitToks
     return STL
 
-
+def queriesToSTL(queries):
+    result = divideQueries(queries)
+    numQueries = result[0]
+    operator = result[1]
+    extraTok = ''
+    for i in xrange(numQueries):
+        token_word = determineFGOperator(result[2][i])
+        if len(token_word) > 0 and not extraTok: # F or G operator found
+            extraTok = token_word
+            for j in xrange(1,numQueries):
+                result[2][j] = token_word + ' ' + result[2][j]
+    print result[2]
+    STL = '' 
+    for i in xrange(numQueries):
+        partialSTL = queryToSTL(result[2][i])
+        if i > 0:
+            STL = (operator,partialSTL,STL)
+        else:
+            STL = partialSTL       
+    return STL
 
