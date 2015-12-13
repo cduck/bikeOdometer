@@ -104,11 +104,12 @@ int main() {
 
         // pc.printf("%d \t%d \t%d \t%d\r\n",r_altitude,r_incline,r_dist,r_speed);
 
-        fprintf(fp, "%d, %f, %f, %f, %f, %f, %f, %f, %d, %d, %d \r\n",
+        fprintf(fp, "%d, %f, %f, %f, %f, %f, %f, %f, %f, %f, %f, %d, %d, %d \r\n",
             (t.read_ms() - timeLastPoll),
             altitude,
             gyr.g.x,gyr.g.y,gyr.g.z,
             acc.a.x,acc.a.y,acc.a.z,
+            incline,tot_dist,speed,
             r_incline,
             r_dist,
             r_speed);
