@@ -12,3 +12,4 @@
 *.ipynb_checkpoints
 .DS_*
 !mbed/TARGET_K64F/TOOLCHAIN_GCC_ARM/*
+data2015*.txt
