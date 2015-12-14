@@ -133,16 +133,18 @@ def recordDatum(dataString,timeString,indexString):
     global firstTime
     firstTime = float(timeString)
     timeStamp = 0.0
+    avg_speed = speed
   else:
     timeStamp = float(timeString)-firstTime
+    avg_speed = speed+data[-1][5]
   attitude = twoByteHexToInt(dataString[1:5])/100.0
   incline = twoByteHexToInt(dataString[5:9])/100.0
   tot_dist = twoByteHexToInt(dataString[9:13])/100.0
   speed = twoByteHexToInt(dataString[13:17])/100.0
-  
-  data_tuple = (timeStamp,attitude,incline,tot_dist,speed)
+
+  data_tuple = (timeStamp,attitude,incline,tot_dist,speed,avg_speed)
   data.append(data_tuple)
-  f.write('%2.8f %2.3f %2.3f %2.3f %2.3f\n'%data_tuple)
+  f.write('%2.8f %2.3f %2.3f %2.3f %2.3f %2.3f\n'%data_tuple)
 
 def twoByteHexToInt(s):
   v = int(s, 16)
