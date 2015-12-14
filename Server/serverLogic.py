@@ -1,5 +1,5 @@
 from tokenizer import *
-import datetime, sys, stlToGraderConf, respondToQuery
+import datetime, sys, stlToGraderConf, respondToQuery, streamData.py
 
 # Global state variables
 numRequests = 0
@@ -9,6 +9,13 @@ firstTime = 0.0 # Keeps track of the first time
 # max_ind = -1
 filename = 'data%s.txt'%datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 f = open(filename,'w')
+
+# global graph variables
+sp = []
+dis = []
+t = []
+fig = []
+flag = 0
 
 def handleRequest(path=[], params={}):
   # Declare globals
@@ -109,6 +116,8 @@ def strForStl(stl):
   return output
 
 def recordData(dataStrings,timeStrings,indexStrings):
+  global sp, dis, t, fig, flag
+
   # Assuming data comes like 'data1,data2,data3,data4'
   splittedDataStrings = dataStrings.split(',')
   splittedTimeStrings = timeStrings.split(',')
@@ -119,6 +128,8 @@ def recordData(dataStrings,timeStrings,indexStrings):
     timeString = splittedTimeStrings[i]
     indexString = splittedIndexStrings[i]
     recordDatum(dataString,timeString,indexString)    
+
+  sp, dis, t, fig, flag = regraphData(sp,dis,t,fig,flag)
 
 def recordDatum(dataString,timeString,indexString):
   global data, min_ind, max_ind
