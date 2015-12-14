@@ -56,6 +56,8 @@ def handleRequest(path=[], params={}):
     return "{>''}>"
 
 def handleQuestion(params, recheck=False):
+  if len(data) == 0:
+    return {'answer': '', 'stl': '', 'error': 2, 'errorDesc': 'No data'}
   global f
   if recheck and lastQuestionGlobal is None:
     return "No last question"
@@ -140,18 +142,18 @@ def recordDatum(dataString,timeString,indexString):
   # if max_ind < index:
   #   max_ind = index
   
-  if (numRequests == 1):
+  attitude = twoByteHexToInt(dataString[1:5])/100.0
+  incline = twoByteHexToInt(dataString[5:9])/100.0
+  tot_dist = twoByteHexToInt(dataString[9:13])/100.0
+  speed = twoByteHexToInt(dataString[13:17])/100.0
+  if (len(data) < 1):
     global firstTime
     firstTime = float(timeString)
     timeStamp = 0.0
     avg_speed = speed
   else:
     timeStamp = float(timeString)-firstTime
-    avg_speed = speed+data[-1][5]
-  attitude = twoByteHexToInt(dataString[1:5])/100.0
-  incline = twoByteHexToInt(dataString[5:9])/100.0
-  tot_dist = twoByteHexToInt(dataString[9:13])/100.0
-  speed = twoByteHexToInt(dataString[13:17])/100.0
+    avg_speed = (speed+data[-1][5]*len(data))/(len(data)+1.0)
 
   data_tuple = (timeStamp,attitude,incline,tot_dist,speed,avg_speed)
   data.append(data_tuple)
