@@ -68,7 +68,7 @@ def handleQuestion(params, recheck=False):
     ret = {'answer': str(response), 'stl': strForStl(stl), 'error': 0, 'errorDesc': 'peachy'}
   except BaseException as e:
     print 'CRASH PROCESSING QUESTION', e
-    ret = {'answer': '', 'stl': '', 'error': 1, 'errorDesc': 'Failed to process'}
+    ret = {'answer': '', 'stl': '', 'error': 1, 'errorDesc': 'Ambiguous query'}
   try:
     f = open(filename, 'a')
   except BaseException as e:
