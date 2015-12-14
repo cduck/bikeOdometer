@@ -1,3 +1,0 @@
-Result: -7.34
-
-Number of positive STL tests: 0/1
