@@ -158,26 +158,26 @@ class DeviceViewController: UIViewController, MelodySmartDelegate, UITableViewDe
             let incStr = trimmed[5..<9]
             let distStr = trimmed[9..<13]
             let speedStr = trimmed[13..<17]
-            var alt2: Double = Double.NaN, inc2: Double = Double.NaN, dist2: Double = Double.NaN, speed2: Double = Double.NaN
+            //var alt2: Double = Double.NaN, inc2: Double = Double.NaN, dist2: Double = Double.NaN, speed2: Double = Double.NaN
             if let altVal = hexStrToInt(altStr) {
                 let alt = Double(altVal) / 100.0
-                alt2 = alt
-                self.altField.text = "\(alt) meters"
+            //    alt2 = alt
+                self.altField.text = "\(alt) m"
             }
             if let incVal = hexStrToInt(incStr) {
-                let inc = Double(incVal) / 100.0
-                inc2 = inc
-                self.inclineField.text = "\(inc) rad"
+                let inc = Double(incVal) / 100.0 //* 180.0 / M_PI) / 100.0
+            //    inc2 = inc
+                self.inclineField.text = "\(inc)°" //°
             }
             if let distVal = hexStrToInt(distStr) {
                 let dist = Double(distVal) / 100.0
-                dist2 = dist
-                self.distField.text = "\(dist) meters"
+            //    dist2 = dist
+                self.distField.text = "\(dist) m"
             }
             if let speedVal = hexStrToInt(speedStr) {
                 let speed = Double(speedVal) / 100.0
-                speed2 = speed
-                self.speedField.text = "\(speed) meters/sec"
+            //    speed2 = speed
+                self.speedField.text = "\(speed) m/s"
             }
             
             self.dataAccum.append((trimmed, NSDate().timeIntervalSince1970))
@@ -278,6 +278,7 @@ class DeviceViewController: UIViewController, MelodySmartDelegate, UITableViewDe
         self.webIncomingData.text = ""
         self.webStlData.text = ""
         self.webStlDataBackground.text = ""
+        self.webStlDataBackground.hidden = false
     }
     
     func handleWebResponse(path: Array<String>, query: Dictionary<String, String>,
@@ -324,9 +325,11 @@ class DeviceViewController: UIViewController, MelodySmartDelegate, UITableViewDe
                     webIncomingData.text = "Error \(error): \(errorDesc)"
                     webStlData.text = ""
                     webStlDataBackground.text = ""
+                    self.webStlDataBackground.hidden = false
                 } else {
                     webIncomingData.text = "Answer: \(answer)"
                     webStlData.text = "STL: \(stl)"
+                    self.webStlDataBackground.hidden = true
                     print("STL Query response: \(query)")
                     if let check = query["check"] where check == "y" {
                         if answer != self.lastQueryResponse {
@@ -342,11 +345,13 @@ class DeviceViewController: UIViewController, MelodySmartDelegate, UITableViewDe
                 print("STL query response invalid: \(query) -> \(result2)")
                 webIncomingData.text = "Server error"
                 webStlData.text = ""
+                self.webStlDataBackground.hidden = false
             }
         }else if let result2 = result as? String {
             print("STL query server crash: \(result2)")
             webIncomingData.text = "Error 99: Unknown error"
             webStlData.text = ""
+            self.webStlDataBackground.hidden = false
         }
     }
 
