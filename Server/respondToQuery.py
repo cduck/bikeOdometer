@@ -22,7 +22,7 @@ def respondToQueryContents(stlFileContents):
 	stlFile = "stlFileTemp.stl"
 	with open(stlFile,"w") as FILE:
 		FILE.write(stlFileContents)
-	return respondToQuery(stlFile)
+	return respondToQuery(stlFile), stlFile
 
 def respondToQuery(stlFile):
 	response = runSTL(stlFile)

@@ -1,0 +1,22 @@
+# signals measured by Tellaride
+signal alt,inc,dis,spe
+
+# Time horizon
+param tmax = 86400
+
+# Formulas
+var0 := spe[t] > 10
+varTop := ev_[0,tmax] var0
+
+
+# Define the test
+test formula_check: "data2015-12-13_16-48-35.txt"
+{
+  Result(tmax=86400)
+  {
+    varTop,
+    "THE_FORMULA_IS_TRUE",
+    "THE_FORMULA_IS_FALSE",
+    false
+  }
+}

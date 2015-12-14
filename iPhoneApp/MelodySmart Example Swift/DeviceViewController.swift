@@ -81,7 +81,9 @@ class DeviceViewController: UIViewController, MelodySmartDelegate, UITableViewDe
     
     @IBOutlet var webAddressField: UITextField!
     @IBOutlet var webIncomingData: UITextField!
+    @IBOutlet var webStlData: UITextField!
     @IBOutlet var webOutgoingData: UITextField!
+    @IBOutlet var liveQuerySwitch: UISwitch!
     
     @IBOutlet var altField: UITextField!
     @IBOutlet var inclineField: UITextField!
@@ -96,6 +98,7 @@ class DeviceViewController: UIViewController, MelodySmartDelegate, UITableViewDe
     private var dataIndex = 0
     private let dataAccumLimit = 4
     private var dataAccum: Array<(String, Double)> = []
+    private var lastQueryResponse = ""
     private var presetQueries = [
         "Did I bike 500 meters this week?",
         "Did my average speed exceed 10 m/s",
@@ -225,8 +228,9 @@ class DeviceViewController: UIViewController, MelodySmartDelegate, UITableViewDe
     }
     func sendDatumUpdate(raw: String, alt: Double, incl: Double, dist: Double, speed: Double) -> Int {
         let ts = NSDate().timeIntervalSince1970
+        let check = liveQuerySwitch.on ? "y" : "n"
         let query: Dictionary<String, String> = ["raw":raw, "ts":String(ts), "index":String(self.dataIndex),
-            "alt":String(alt), "incl":String(incl), "dist":String(dist), "speed":String(speed)]
+            "alt":String(alt), "incl":String(incl), "dist":String(dist), "speed":String(speed), "check":check]
         self.sendWebRequest(["datum"], query: query)
         
         self.dataIndex += 1
@@ -249,7 +253,8 @@ class DeviceViewController: UIViewController, MelodySmartDelegate, UITableViewDe
             i += 1
         }
         
-        let query: Dictionary<String, String> = ["raw":rawStr, "ts":tsStr, "index":indexStr]
+        let check = liveQuerySwitch.on ? "y" : "n"
+        let query: Dictionary<String, String> = ["raw":rawStr, "ts":tsStr, "index":indexStr, "check":check]
         self.sendWebRequest(["data"], query: query)
         
         self.dataIndex += rawTs.count
@@ -288,6 +293,8 @@ class DeviceViewController: UIViewController, MelodySmartDelegate, UITableViewDe
     func handleDataUpdateResponse(query: Dictionary<String, String>, result: AnyObject) {
         if let response = result as? String {
             print("Data update: \(response)")
+        }else if let response = result as? Dictionary<String, AnyObject>, check = query["check"] where check == "y" {
+            self.handleStlQueryResponse(query, result: response)
         }else {
             print("Data update response invalid: \(query) -> \(result)")
         }
@@ -295,17 +302,35 @@ class DeviceViewController: UIViewController, MelodySmartDelegate, UITableViewDe
     func handleStlQueryResponse(query: Dictionary<String, String>, result: AnyObject) {
         if let result2 = result as? Dictionary<String, AnyObject> {
             if let answer = result2["answer"] as? String,
+                   stl = result2["stl"] as? String,
                    error = result2["error"] as? Int,
                    errorDesc = result2["errorDesc"] as? String {
                 if error != 0 {
                     webIncomingData.text = "Error \(error): \(errorDesc)"
+                    webStlData.text = ""
                 } else {
                     webIncomingData.text = "Answer: \(answer)"
+                    webStlData.text = "STL: \(stl)"
+                    print("STL Query response: \(query)")
+                    if let check = query["check"] where check == "y" {
+                        if answer != self.lastQueryResponse {
+                            let alertController = UIAlertController(title: "Congrats", message:
+                                "The result of your query has changed from \(self.lastQueryResponse) to \(answer).", preferredStyle: UIAlertControllerStyle.Alert)
+                            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+                            self.presentViewController(alertController, animated: true, completion: nil)
+                        }
+                    }
+                    self.lastQueryResponse = answer
                 }
             }else {
                 print("STL query response invalid: \(query) -> \(result2)")
                 webIncomingData.text = "Server error"
+                webStlData.text = ""
             }
+        }else if let result2 = result as? String {
+            print("STL query server crash: \(result2)")
+            webIncomingData.text = "Error 99: Unknown error"
+            webStlData.text = ""
         }
     }
 

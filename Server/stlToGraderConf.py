@@ -66,7 +66,7 @@ def formatLine(varName, op, argsFlat):
 def formatOperator(op, args):
   # Normalize variable names and add [t] index
   op = op.strip().upper()
-  args = map(lambda a: str(a).lower(), args)
+  args = map(lambda a: str(a).strip().lower(), args)
   args = [a[:3]+'[t]' if a[:3] in variables else a for a in args]
 
   # Format string based on the operator
