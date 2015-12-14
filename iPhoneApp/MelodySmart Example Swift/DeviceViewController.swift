@@ -81,7 +81,8 @@ class DeviceViewController: UIViewController, MelodySmartDelegate, UITableViewDe
     
     @IBOutlet var webAddressField: UITextField!
     @IBOutlet var webIncomingData: UITextField!
-    @IBOutlet var webStlData: UITextField!
+    @IBOutlet var webStlData: UITextView!
+    @IBOutlet var webStlDataBackground: UITextField!
     @IBOutlet var webOutgoingData: UITextField!
     @IBOutlet var liveQuerySwitch: UISwitch!
     
@@ -100,11 +101,22 @@ class DeviceViewController: UIViewController, MelodySmartDelegate, UITableViewDe
     private var dataAccum: Array<(String, Double)> = []
     private var lastQueryResponse = ""
     private var presetQueries = [
-        "Did I bike 500 meters this week?",
-        "Did my average speed exceed 10 m/s",
-        "Did I stay above an altitude of 50 meters",
-        "Did my speed ever exceed 10 m/s",
-        "Was I always faster than 10 m/s",]
+        //"Did I bike 500 meters this week?",
+        //"Did my average speed exceed 10 m/s",
+        //"Did I stay above an altitude of 50 meters",
+        //"Did my speed ever exceed 10 m/s",
+        //"Was I always faster than 10 m/s",
+        "Did my average speed exceed 0.01 m/s?", //F(average > 5)
+        "Did I bike more than 500 foot this week?", //F(tot_dist > 500)
+        "Did I always stay below an altitude of 50 meters?", //G(attitude > 50)
+        "Did my speed ever exceed 10 m/s?", //F(attitude > 50)
+        "Did my altitude ever exceed 10 foot?", //F(attitude > 50)
+        "Was I always faster than 10 m/s?", //G(speed > 10)
+        "Did my speed exceed 5 m/s and my altitude always stayed above 50 m?", //F(speed > 5) && G(altitude > 50)
+        "Did I bike more than 250 meters and go faster than 5 m/s on average?", //F(speed > 5) && F(distance > 50)
+        "Did I go slower than 5 m/s or bike more than 251 m?", //F(speed > 5) && G(altitude > 50)
+        "Did I maintain a speed of greater than 5 m/s over 1 minute?", //G_(0,1) (speed > 5)
+        "Did I keep an altitude of less than 50 meters for 2 minute?"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -263,6 +275,9 @@ class DeviceViewController: UIViewController, MelodySmartDelegate, UITableViewDe
     func sendStlQuery(question: String) {
         let query: Dictionary<String, String> = ["question":question]
         self.sendWebRequest(["stl"], query: query)
+        self.webIncomingData.text = ""
+        self.webStlData.text = ""
+        self.webStlDataBackground.text = ""
     }
     
     func handleWebResponse(path: Array<String>, query: Dictionary<String, String>,
@@ -308,6 +323,7 @@ class DeviceViewController: UIViewController, MelodySmartDelegate, UITableViewDe
                 if error != 0 {
                     webIncomingData.text = "Error \(error): \(errorDesc)"
                     webStlData.text = ""
+                    webStlDataBackground.text = ""
                 } else {
                     webIncomingData.text = "Answer: \(answer)"
                     webStlData.text = "STL: \(stl)"
