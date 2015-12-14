@@ -4,7 +4,7 @@
 
 
 template = """# signals measured by Tellaride
-signal alt,inc,dis,spe
+signal alt,inc,dis,spe,ave
 
 # Time horizon
 param tmax = %s
@@ -25,7 +25,7 @@ test formula_check: "%s"
 }
 """
 
-variables = ['alt', 'inc', 'spe', 'dis']  # first 3 letters of variables
+variables = ['alt', 'inc', 'spe', 'dis', 'ave']  # first 3 letters of variables
 
 
 def stlToGraderConf(stl, traceFileName):
