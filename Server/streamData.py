@@ -55,52 +55,82 @@ def streamData ():
             plt.xlim([0, t[i-1]])
             
         i+= 1
-            
 
-def regraphData(spe,dist,t,fig,flag):
+flag = 0
+lines = [None]*4
+axs = []
+allGraphs = False
+
+def regraphData(data):
+    if len(data) <= 0:
+        return
+    global flag, lines, axs
+
+    timewindow = 30
+    pps = 4
+    alt = [0] * timewindow*pps # x-array
+    inc = [0] * timewindow*pps
+    dis = [0] * timewindow*pps
+    spe = [0] * timewindow*pps
+    t = [0] * timewindow*pps
+    minI = len(data) - len(t)
+    minJ = 0
+    if minI < 0:
+      minJ = -minI
+    for i in xrange(minJ, len(t)):
+      t[i] = data[minI + i][0]
+      alt[i] = data[minI + i][1]
+      inc[i] = data[minI + i][2]
+      dis[i] = data[minI + i][3]
+      spe[i] = data[minI + i][4]
+
     if flag == 0:
+        flag = 1
         ion()
         fig = figure()
 
-        data = [[float(token) for token in line.split()] for line in f.readlines()[::]]
+        axs = [plt.axes()]
+        axs[0].set_xlabel('Time (s)')
+        for i in xrange(3 if allGraphs else 1):
+          axs.append(axs[0].twinx())
 
-        timewindow = 30
-        x = [0] * 50 # x-array
-        z = [0] * 50
+        axs[0].set_ylabel('Inst. Speed (m/s)', color='b')
+        axs[1].set_ylabel('Total Dist (m)', color='r')
+        if allGraphs:
+          axs[2].set_ylabel('Altitude (m)', color='k')
+          axs[3].set_ylabel('Incline (deg)', color='g')
 
+        lines[0], = axs[0].plot(spe, t, 'b')
+        lines[1], = axs[1].plot(dis, t, 'r')
+        if allGraphs:
+          lines[2], = axs[2].plot(alt, t, 'k')
+          lines[3], = axs[3].plot(inc, t, 'g')
 
-        ax1 = plt.axes()
-        ax1.set_xlabel('Time (s)')
-        ax2 = ax1.twinx()
-
-        ax1.set_ylabel('Inst. Speed (m/s)', color='b')
-        ax2.set_ylabel('Total Dist (m)', color='r')
-
-        lineS,  = ax1.plot(x,z, 'b')
-        lineD, = ax2.plot(x,z, 'r')
-        i = 0
-        t= []
-        spe= []
-        dist= []
-        flag = 1
-
-    lineS.set_xdata(t)
-    lineS.set_ydata(spe)  
-    lineD.set_xdata(t)
-    lineD.set_ydata(dist)
-    
-    #update data array
-    spe.append(data[4])
-    t.append(data[0])
-    dist.append(data[3])
-    
-    draw()                         # redraw the canvas
+    lines[0].set_xdata(t)
+    lines[0].set_ydata(spe)  
+    lines[1].set_xdata(t)
+    lines[1].set_ydata(dis)  
+    if allGraphs:
+      lines[2].set_xdata(t)
+      lines[2].set_ydata(alt)  
+      lines[3].set_xdata(t)
+      lines[3].set_ydata(inc)  
     
     #scale axes to fit
-    ax1.set_ylim([min(spe)-1, max(spe)+1])
-    ax2.set_ylim([min(dist)-1, max(dist)+1])
+    axs[0].set_ylim([min(spe)-1, max(spe)+1])
+    axs[1].set_ylim([min(dis)-1, max(dis)+1])
+    if allGraphs:
+      axs[2].set_ylim([min(alt)-1, max(alt)+1])
+      axs[3].set_ylim([min(inc)-1, max(inc)+1])
+    xlim = [max(t)-timewindow, max(t)]
+    axs[0].set_xlim(xlim)
+    axs[1].set_xlim(xlim)
+    if allGraphs:
+      axs[2].set_xlim(xlim)
+      axs[3].set_xlim(xlim)
 
-    return spe, dist, t, fig, flag
-
-
+    print dis
+    
+    show()
+    pause(0.0001)                         # redraw the canvas
 
