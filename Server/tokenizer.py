@@ -2,16 +2,17 @@
 import string
 
 queries = [
-    'Did my average speed exceed 5 m/s?', #F(average > 5)
-    'Did I bike more than 500 meters this week?', #F(tot_dist > 500)
+    'Did my average speed exceed 0.01 m/s?', #F(average > 5)
+    'Did I bike more than 500 foot this week?', #F(tot_dist > 500)
     'Did I always stay below an altitude of 50 meters?', #G(attitude > 50)
     'Did my speed ever exceed 10 m/s?', #F(attitude > 50)
+    'Did my altitude ever exceed 10 foot?', #F(attitude > 50)
     'Was I always faster than 10 m/s?', #G(speed > 10)
     'Did my speed exceed 5 m/s and my altitude always stayed above 50 m?', # F(speed > 5) && G(altitude > 50)
     'Did I bike more than 250 meters and go faster than 5 m/s on average?', # F(speed > 5) && F(distance > 50)
     'Did I go slower than 5 m/s or bike more than 251 m?', # F(speed > 5) && G(altitude > 50)
     'Did I maintain a speed of greater than 5 m/s over 1 minute?', # G_(0,1) (speed > 5)
-    'Did I keep an altitude of less than 50 meters over 2 minute?'
+    'Did I keep an altitude of less than 50 meters for 2 minute?'
 #     'After biking 500 meters, did I exceed speed of 15 m/s?'
 #     'Did I exceed speed of 15 m/s after biking 500 meters?'
 ]
@@ -35,8 +36,7 @@ synonyms = [
     ['incline', 'hill'],
     ['altitude', 'elevation', 'height'],
     ['degree', 'º', '°', 'deg'],
-    ['mph', 'miles per hour'],
-    ['meters per second','m/s','ms'],
+    ['meters per second','m/s','ms','mph', 'miles per hour'],
     ['minute', 'second', 'hour'],
     ['meter','m'],
     ['foot'],
@@ -61,6 +61,16 @@ operatorWords = [ # Order matters in this array
 variableWords = [
     'speed', 'altitude', 'distance', 'incline'
 ]
+distanceUnits = [  # First unit is default supported
+    'meter', 'foot'
+]
+timeUnits = [  
+    'second', 'minute', 'hour'
+]
+speedUnits = [  
+    'meters per second', 'mph'
+]
+
 operatorForms = {
     'maintain': [
         ['maintain', 'BOOL_EXPR', 'VALUE']
@@ -159,44 +169,7 @@ class Token:
         return '<%s, %s>' % (self.word, typeStr)
     def __repr__(self):
         return self.__str__()
-
-class TokenGroup:
-    '''A group of tokens that mean somthing as a group'''
-    # Group types
-    UNKNOWN = 100
-    VALUE = 101  # Number with unit
-    BOOL_EXPR = 102  # Logical or temporal
-    REAL_EXPR = 103
-    tokenPatterns = {
-        VALUE: [
-            [Token.NUMBER, Token.UNIT],
-            [Token.NUMBER]
-        ],
-        BOOL_EXPR: [
-            # Equality operator
-            [Token.VARIABLE, Token.CONNECTOR, VALUE],
-            [VALUE, Token.VARIABLE],
-            []
-        ]
-    }
-    def __init__(self, type, tokens):
-        self.type = type
-        self.tokens = tokens
-        self.word = '%s %s'%(self.tokens[0].origWord,self.tokens[1].origWord) 
-    def __str__(self):
-        typeStr = ['UNKNOWN', 'VAL', 'EXPRESSION'][self.type-100]
-        if self.type == TokenGroup.UNKNOWN:
-            return '<TokenGroup UNKNOWN>'
-        if self.type == TokenGroup.VALUE:
-            return '<%s %s, VALUE>'%(self.tokens[0].origWord,self.tokens[1].origWord) 
-        if self.type == TokenGroup.BOOL_EXPR:
-            return '<EXPR>'
-        if self.type == TokenGroup.REAL_EXPR:
-            return '<EXPR>'
-            #return '<%s, %s>' % (repr(self.word), typeStr)
-    def __repr__(self):
-        return self.__str__()
-
+    
 # This gives you the recognized canonical words
 def splitQuery(query):
     query = cleanQuery(query)
@@ -405,4 +378,64 @@ def determineVariable(splitToks):
             if variable != ('',''):
                 break
     return variable
+
+
+class TokenGroup:
+    '''A group of tokens that mean somthing as a group'''
+    # Group types
+    UNKNOWN = 100
+    VALUE = 101  # Number with unit
+    BOOL_EXPR = 102  # Logical or temporal
+    REAL_EXPR = 103
+    tokenPatterns = {
+        VALUE: [
+            [Token.NUMBER, Token.UNIT],
+            [Token.NUMBER]
+        ],
+        BOOL_EXPR: [
+            # Equality operator
+            [Token.VARIABLE, Token.CONNECTOR, VALUE],
+            [VALUE, Token.VARIABLE],
+            []
+        ]
+    }
+    def __init__(self, type, tokens):
+        self.type = type
+        self.tokens = tokens
+        if tokens[1].origWord not in [distanceUnits[0], speedUnits[0], timeUnits[0]]:
+            notSupportedUnit = tokens[1].origWord
+            if notSupportedUnit in speedUnits:
+                number = 'unsupported unit'
+                unit = speedUnits[0]
+                if notSupportedUnit == 'mph':
+                    number = str(float(tokens[0].word)*0.44704)                                    
+            elif notSupportedUnit in timeUnits:
+                number = 'unsupported unit'
+                unit = timeUnits[0]
+                if notSupportedUnit == 'minute':
+                    number = str(float(tokens[0].word)*60)
+                if notSupportedUnit == 'hour':                    
+                    number = str(float(tokens[0].word)*60*60)
+            elif notSupportedUnit in distanceUnits:
+                number = 'unsupported unit'
+                unit = distanceUnits[0]
+                if notSupportedUnit == 'foot':
+                    number = str(float(tokens[0].word)*0.3048)                
+            self.word = '%s %s'%(number,unit) 
+        else:
+            self.word = '%s %s'%(self.tokens[0].origWord,self.tokens[1].origWord) 
+    def __str__(self):
+        typeStr = ['UNKNOWN', 'VAL', 'EXPRESSION'][self.type-100]
+        if self.type == TokenGroup.UNKNOWN:
+            return '<TokenGroup UNKNOWN>'
+        if self.type == TokenGroup.VALUE:
+            return '<%s, VALUE>'%self.word 
+        if self.type == TokenGroup.BOOL_EXPR:
+            return '<EXPR>'
+        if self.type == TokenGroup.REAL_EXPR:
+            return '<EXPR>'
+            #return '<%s, %s>' % (repr(self.word), typeStr)
+    def __repr__(self):
+        return self.__str__()
+
 
