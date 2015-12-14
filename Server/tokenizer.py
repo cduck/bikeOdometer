@@ -34,7 +34,7 @@ synonyms = [
     ['distance'],
     ['incline', 'hill'],
     ['altitude', 'elevation', 'height'],
-    ['degree', 'º', '°', 'deg'],
+    ['degree', 'º', '°', 'deg', 'rad', 'radian'],
     ['meters per second','m/s','ms','mph', 'miles per hour'],
     ['minute'],
     ['second'],
@@ -70,6 +70,9 @@ timeUnits = [
 ]
 speedUnits = [  
     'meters per second', 'mph'
+]
+angleUnits = [
+    'degree', 'º', '°', 'deg', 'rad', 'radian'
 ]
 
 operatorForms = {
@@ -403,7 +406,7 @@ class TokenGroup:
     def __init__(self, type, tokens):
         self.type = type
         self.tokens = tokens
-        if tokens[1].origWord not in [distanceUnits[0], speedUnits[0], timeUnits[0]]:
+        if tokens[1].origWord not in [distanceUnits[0], speedUnits[0], timeUnits[0], angleUnits[0]]:
             notSupportedUnit = tokens[1].origWord
             if notSupportedUnit in speedUnits:
                 number = 'unsupported unit'
@@ -422,6 +425,11 @@ class TokenGroup:
                 unit = distanceUnits[0]
                 if notSupportedUnit == 'foot':
                     number = str(float(tokens[0].word)*0.3048)                
+            elif notSupportedUnit in angleUnits:
+                number = 'unsupported unit'
+                unit = angleUnits[0]
+                if notSupportedUnit[:3] == 'rad':
+                    number = str(float(tokens[0].word)*3.141592653589793/180.0)                
             self.word = '%s %s'%(number,unit) 
         else:
             self.word = '%s %s'%(self.tokens[0].origWord,self.tokens[1].origWord) 
