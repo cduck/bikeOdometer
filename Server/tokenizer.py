@@ -2,17 +2,16 @@
 import string
 
 queries = [
-    'Did my average speed exceed 0.01 m/s?', #F(average > 5)
-    'Did I bike more than 500 foot this week?', #F(tot_dist > 500)
-    'Did I always stay below an altitude of 50 meters?', #G(attitude > 50)
-    'Did my speed ever exceed 10 m/s?', #F(attitude > 50)
-    'Did my altitude ever exceed 10 foot?', #F(attitude > 50)
+    'Did my average speed exceed 2 m/s?', #F(average > 5)
+    'Did I bike greater than 100 feet this week?', #F(tot_dist > 100)
+    'Did I stay above an altitude of 50 meters?', #G(attitude > 50)
+    'Did my altitude ever exceed 200 foot?', #F(attitude > 200)
     'Was I always faster than 10 m/s?', #G(speed > 10)
     'Did my speed exceed 5 m/s and my altitude always stayed above 50 m?', # F(speed > 5) && G(altitude > 50)
-    'Did I bike more than 250 meters and go faster than 5 m/s on average?', # F(speed > 5) && F(distance > 50)
-    'Did I go slower than 5 m/s or bike more than 251 m?', # F(speed > 5) && G(altitude > 50)
-    'Did I maintain a speed of greater than 5 m/s over 1 minute?', # G_(0,1) (speed > 5)
-    'Did I keep an altitude of less than 50 meters for 2 minute?'
+    'Did I bike more than 250 meters and go faster than 5 m/s on average?', # F(average > 5) && F(distance > 50)
+    'Did I go slower than 5 m/s or bike more than 251 m?', # F(speed < 5) || F(distance > 251)
+    'Did I maintain a speed of greater than 5 m/s over 1 minute?', # FG_(0,60) (speed > 5)
+    'Did I keep an altitude of less than 20 meters for 1 hour?' # FG_(0,3600) (altitude > 20)
 #     'After biking 500 meters, did I exceed speed of 15 m/s?'
 #     'Did I exceed speed of 15 m/s after biking 500 meters?'
 ]
@@ -37,9 +36,11 @@ synonyms = [
     ['altitude', 'elevation', 'height'],
     ['degree', 'º', '°', 'deg'],
     ['meters per second','m/s','ms','mph', 'miles per hour'],
-    ['minute', 'second', 'hour'],
+    ['minute'],
+    ['second'],
+    ['hour'],
     ['meter','m'],
-    ['foot'],
+    ['foot','feet'],
     ['of'],
     ['average','mean'],
     ['bike','travel'],
@@ -56,7 +57,7 @@ connectingWords = [
     'of','and','or'
 ]
 operatorWords = [ # Order matters in this array
-    'after', 'until', 'greater', 'less', 'maintain', 'did','stay'
+    'after', 'until', 'greater', 'less', 'maintain', 'stay','did'
 ]
 variableWords = [
     'speed', 'altitude', 'distance', 'incline'
@@ -350,13 +351,13 @@ def determineInterval(splitToks):
     if 'VALUE' in splitToks:
         for val in splitToks['VALUE']:
             num, unit = parseValue(val)
-            if unit == 'minute':
+            if unit == timeUnits[0]:
                 return num
             else:
                 continue
-        return 'tMax'
+        return 'tmax'
     else:
-        return 'tMax'
+        return 'tmax'
     
 # Determine from tokens which variable you are interested in and how much of it
 def determineVariable(splitToks):
