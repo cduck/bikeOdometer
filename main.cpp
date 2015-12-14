@@ -137,10 +137,10 @@ int main() {
 
 void calcMotionData(float aa){
     // Computes the relevant motion data that we are interested in
-    float delta = speed_prev*MBED_POLLING_PERIOD_S;
+    /*float delta = speed_prev*MBED_POLLING_PERIOD_S;
     float temp = 0.0; // Placeholder for current time step calculations
     
-    if (delta > 1/25*.1){ // Makes sure that increase in distance is significant before computing
+    if (delta > 1/25.0*.1){ // Makes sure that increase in distance is significant before computing
         //Distance
         temp = tot_dist_prev + delta;
         tot_dist = aa*temp + (1-aa)*tot_dist_prev;
@@ -157,11 +157,33 @@ void calcMotionData(float aa){
     else{
         tot_dist = tot_dist_prev;
         incline = incline_prev;
-    }
+    }*/
+
+    float temp = 0.0;
 
     //Wheel Speed
     temp = gyr.g.z*R;
     speed = aa*temp + (1-aa)*speed_prev;
+
+    //Distance
+    float deltaDist = speed * MBED_POLLING_PERIOD_S;
+    tot_dist += deltaDist;
+
+    //Incline
+    static float lastUpdateDist = NAN, lastUpdateAlt = NAN;
+    if (isnan(lastUpdateDist) || isnan(lastUpdateAlt)) {
+      lastUpdateDist = tot_dist;
+      lastUpdateAlt = altitude;
+    }
+    static const float distanceInterval = 10.0;
+    float distDiff = tot_dist - lastUpdateDist;
+    if (distDiff > distanceInterval || distDiff < -distanceInterval) {
+      temp = asin((altitude - lastUpdateAlt)/distDiff) * 180.0 / M_PI;
+      incline = temp;  // No smoothing
+      
+      lastUpdateDist = tot_dist;
+      lastUpdateAlt = altitude;
+    }
 }
 
 int roundData(float data){
