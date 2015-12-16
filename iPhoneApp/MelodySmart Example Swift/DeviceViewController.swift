@@ -119,7 +119,12 @@ class DeviceViewController: UIViewController, MelodySmartDelegate, UITableViewDe
         "Did I maintain a speed of greater than 5 m/s over 10 seconds?", //G_(0,1) (speed > 5)
         "Did I keep an altitude of less than 50 meters for 2 minute?"]
         */
-        "Did my speed exceed 2 m/s?", //F(average > 5)
+        "Did my speed exceed 6 m/s?",
+        "Did I maintain a speed greater than 5 m/s for over 10 seconds?",
+        "Did I bike more than 250 meters and go faster than 3 m/s on average?",
+        "Did I bike greater than 2000 feet?",
+        
+        //"Did my speed exceed 2 m/s?", //F(average > 5)
         "Did I bike greater than 100 feet?", //F(tot_dist > 100)
         "Did I stay above an altitude of 50 meters?", //G(attitude > 50)
         "Did my altitude ever exceed 200 foot?", //F(attitude > 200)
@@ -177,12 +182,12 @@ class DeviceViewController: UIViewController, MelodySmartDelegate, UITableViewDe
                 self.altField.text = "\(alt) m"
             }
             if let incVal = hexStrToInt(incStr) {
-                let inc = Double(incVal) / 100.0 //* 180.0 / M_PI) / 100.0
+                let inc = Double(incVal) / 100.0
             //    inc2 = inc
                 self.inclineField.text = "\(inc)°" //°
             }
             if let distVal = hexStrToInt(distStr) {
-                let dist = Double(distVal) / 100.0
+                let dist = Double(distVal) / 2.0
             //    dist2 = dist
                 self.distField.text = "\(dist) m"
             }

@@ -135,7 +135,7 @@ def recordDatum(dataString,timeString,indexString):
   
   attitude = twoByteHexToInt(dataString[1:5])/100.0
   incline = twoByteHexToInt(dataString[5:9])/100.0
-  tot_dist = twoByteHexToInt(dataString[9:13])/100.0
+  tot_dist = twoByteHexToInt(dataString[9:13])/2.0
   speed = twoByteHexToInt(dataString[13:17])/100.0
   if (len(data) < 1):
     global firstTime

@@ -99,7 +99,7 @@ int main() {
         }
         r_altitude = roundData(altitude);
         r_incline = roundData(incline);
-        r_dist = roundData(tot_dist);
+        r_dist = roundData(tot_dist/50.0);
         r_speed = roundData(speed);
 
         // pc.printf("%d \t%d \t%d \t%d\r\n",r_altitude,r_incline,r_dist,r_speed);
